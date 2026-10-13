@@ -1,0 +1,37 @@
+[
+  { "id": 1,  "category": "speak",   "level": "pebble",   "text": "Ask one question you were going to keep to yourself." },
+  { "id": 2,  "category": "speak",   "level": "pebble",   "text": "Say \"I'm not sure\" out loud instead of pretending you know." },
+  { "id": 3,  "category": "speak",   "level": "hill",     "text": "Disagree politely with something instead of nodding along." },
+  { "id": 4,  "category": "speak",   "level": "hill",     "text": "Ask one question even if your voice does the tiny wobble thing." },
+  { "id": 5,  "category": "speak",   "level": "mountain", "text": "Say what you need clearly, without apologizing for needing it." },
+
+  { "id": 6,  "category": "begin",   "level": "pebble",   "text": "Start the assignment for five minutes. You may complain during all five." },
+  { "id": 7,  "category": "begin",   "level": "pebble",   "text": "Open the thing you've been avoiding. Just open it." },
+  { "id": 8,  "category": "begin",   "level": "hill",     "text": "Try something you're bad at, on purpose, for ten minutes." },
+  { "id": 9,  "category": "begin",   "level": "hill",     "text": "Sign up for something before you feel ready." },
+  { "id": 10, "category": "begin",   "level": "mountain", "text": "Start the big project today with one ugly first draft." },
+
+  { "id": 11, "category": "connect", "level": "pebble",   "text": "Say hi to someone you usually walk past." },
+  { "id": 12, "category": "connect", "level": "pebble",   "text": "Give someone a specific compliment. Not \"nice shirt.\" Tell them exactly what you noticed." },
+  { "id": 13, "category": "connect", "level": "hill",     "text": "Invite someone into a conversation instead of waiting." },
+  { "id": 14, "category": "connect", "level": "hill",     "text": "Ask someone how they're actually doing, then listen to the whole answer." },
+  { "id": 15, "category": "connect", "level": "mountain", "text": "Sit with someone you don't know well and stay the whole time." },
+
+  { "id": 16, "category": "repair",  "level": "pebble",   "text": "Say \"sorry about that\" the moment you know it's true." },
+  { "id": 17, "category": "repair",  "level": "pebble",   "text": "Retry something that went badly yesterday." },
+  { "id": 18, "category": "repair",  "level": "hill",     "text": "Correct a misunderstanding instead of quietly letting it become your new personality." },
+  { "id": 19, "category": "repair",  "level": "hill",     "text": "Apologize for something small, without adding \"but.\"" },
+  { "id": 20, "category": "repair",  "level": "mountain", "text": "Reach out to someone after an awkward moment and clear the air." },
+
+  { "id": 21, "category": "beSeen",  "level": "pebble",   "text": "Tell someone your honest opinion about a movie, song, or snack." },
+  { "id": 22, "category": "beSeen",  "level": "pebble",   "text": "Wear or bring something you like that's a little bit \"you.\"" },
+  { "id": 23, "category": "beSeen",  "level": "hill",     "text": "Show someone something you made before you decide whether it is good." },
+  { "id": 24, "category": "beSeen",  "level": "hill",     "text": "Share an idea in class or a group, even half-formed." },
+  { "id": 25, "category": "beSeen",  "level": "mountain", "text": "Share something you made or wrote with a small group." },
+
+  { "id": 26, "category": "protect", "level": "pebble",   "text": "Say \"no thanks\" to something you don't want, with no long explanation." },
+  { "id": 27, "category": "protect", "level": "pebble",   "text": "Say \"I need a minute\" when you need one." },
+  { "id": 28, "category": "protect", "level": "hill",     "text": "Ask for help before you're completely stuck." },
+  { "id": 29, "category": "protect", "level": "hill",     "text": "Check in with someone who seems left out." },
+  { "id": 30, "category": "protect", "level": "mountain", "text": "Tell a trusted person when you need backup." }
+]

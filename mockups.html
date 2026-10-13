@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiny Brave – Mockups</title>
+<style>
+  :root {
+    --sky: #8ecae6;
+    --cream: #fff8e7;
+    --sun: #ffc93c;
+    --navy: #14213d;
+    --sky-soft: #d6ecf7;
+    --sun-soft: #ffe9a8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 24px 64px;
+    background: #e9e4d6;
+    color: var(--navy);
+    font-family: "Marker Felt", "Chalkboard SE", "Bradley Hand", "Comic Sans MS", system-ui, sans-serif;
+  }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  .sub { margin: 0 0 32px; opacity: .7; font-family: system-ui, sans-serif; font-size: 14px; }
+  .board { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+  figure { margin: 0; }
+  figcaption {
+    margin-top: 12px; text-align: center; font-size: 14px;
+    font-family: system-ui, sans-serif; opacity: .75;
+  }
+
+  /* phone shell */
+  .phone {
+    width: 340px; height: 690px;
+    background: var(--cream);
+    border: 6px solid var(--navy);
+    border-radius: 38px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 8px 10px 0 rgba(20,33,61,.18);
+    position: relative;
+  }
+  .status {
+    display: flex; justify-content: space-between;
+    padding: 10px 22px 0; font: 600 12px system-ui, sans-serif;
+  }
+  .screen { flex: 1; padding: 14px 20px 20px; display: flex; flex-direction: column; min-height: 0; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-size: 20px; font-weight: 700; letter-spacing: .5px; }
+  .pill {
+    background: var(--sun); border: 2.5px solid var(--navy);
+    border-radius: 18px 14px 20px 12px; padding: 3px 10px; font-size: 13px;
+  }
+  .back { font-size: 22px; line-height: 1; }
+
+  /* rough handmade boxes */
+  .rough { border: 3px solid var(--navy); border-radius: 16px 20px 14px 22px / 20px 14px 22px 16px; }
+  .btn {
+    display: block; width: 100%; text-align: center; cursor: pointer;
+    font: inherit; font-size: 20px; padding: 16px 12px; color: var(--navy);
+    background: var(--sun); box-shadow: 3px 4px 0 var(--navy);
+  }
+  .btn.ghost { background: transparent; box-shadow: none; font-size: 16px; padding: 10px; border-style: dashed; }
+  .btn:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 var(--navy); }
+
+  .balloon-wrap { display: flex; flex-direction: column; align-items: center; }
+  .caption { font-size: 22px; margin: 4px 0 0; text-align: center; }
+  .hint { font-size: 14px; opacity: .7; margin: 2px 0 0; text-align: center; }
+
+  /* Screen 1: home */
+  .cards { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; cursor: pointer; }
+  .card .dot {
+    width: 44px; height: 44px; flex: none; display: grid; place-items: center;
+    border: 3px solid var(--navy); border-radius: 50%; font-size: 20px;
+  }
+  .card.pebble .dot { background: var(--sky-soft); }
+  .card.hill .dot { background: var(--sky); }
+  .card.mountain .dot { background: var(--sun); }
+  .card b { font-size: 18px; display: block; }
+  .card span { font-size: 13px; font-family: system-ui, sans-serif; opacity: .75; }
+  .row { display: flex; gap: 10px; margin-top: 12px; }
+  .row .btn { font-size: 15px; padding: 10px 6px; box-shadow: 2px 3px 0 var(--navy); background: var(--sky-soft); }
+  .row .btn.ghost { background: transparent; box-shadow: none; }
+
+  /* Screen 2: challenge */
+  .tag {
+    align-self: flex-start; background: var(--sky); border: 2.5px solid var(--navy);
+    border-radius: 14px 18px 12px 16px; padding: 2px 10px; font-size: 13px; letter-spacing: 1px;
+  }
+  .challenge-card { background: #fff; padding: 22px 18px; margin: 14px 0; text-align: center; }
+  .challenge-card .level { font-size: 13px; letter-spacing: 2px; opacity: .6; }
+  .challenge-card p { font-size: 24px; line-height: 1.25; margin: 10px 0 0; }
+  .spacer { flex: 1; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+
+  /* Screen 3: reward */
+  .confetti span { position: absolute; width: 10px; height: 10px; border: 2px solid var(--navy); }
+  .debris { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
+  .debris .item {
+    width: 60px; height: 60px; background: #fff; display: grid; place-items: center; font-size: 26px;
+    transform: rotate(-4deg);
+  }
+  .debris .item:nth-child(2) { transform: rotate(3deg); }
+  .found { text-align: center; font-size: 14px; font-family: system-ui, sans-serif; opacity: .75; margin: 6px 0 0; }
+  .check { background: #fff; padding: 10px 12px; margin: 10px 0; }
+  .check small { display: block; text-align: center; font: 12px system-ui, sans-serif; opacity: .65; margin-bottom: 6px; }
+  .faces { display: flex; justify-content: space-around; font-size: 26px; }
+  .faces button { background: none; border: 2px solid transparent; font-size: 26px; cursor: pointer; border-radius: 12px; padding: 2px 6px; }
+  .faces button:hover, .faces button.on { border-color: var(--navy); background: var(--sun-soft); }
+
+  /* Screen 4: library */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px; }
+  .chip {
+    font: inherit; font-size: 13px; padding: 4px 10px; cursor: pointer; background: #fff; color: var(--navy);
+    border: 2.5px solid var(--navy); border-radius: 14px 18px 12px 16px;
+  }
+  .chip.on { background: var(--sun); }
+  .list { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; }
+  .item-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; }
+  .item-row .lvl {
+    width: 28px; height: 28px; flex: none; border: 2.5px solid var(--navy); border-radius: 50%;
+    display: grid; place-items: center; font-size: 13px;
+  }
+  .lvl.p { background: var(--sky-soft); } .lvl.h { background: var(--sky); } .lvl.m { background: var(--sun); }
+  .item-row .txt { font-size: 15px; line-height: 1.2; flex: 1; }
+  .item-row .txt i { display: block; font: 11px system-ui, sans-serif; letter-spacing: 1px; opacity: .55; font-style: normal; margin-bottom: 2px; }
+  .item-row.done { background: var(--sun-soft); }
+  .item-row .tick { font-size: 18px; }
+
+  /* Screen 5: progress */
+  .meter { margin: 12px 0 4px; }
+  .meter .bar { height: 26px; background: #fff; overflow: hidden; }
+  .meter .fill { height: 100%; width: 40%; background: repeating-linear-gradient(45deg, var(--sun), var(--sun) 10px, #ffd95e 10px, #ffd95e 20px); border-right: 3px solid var(--navy); }
+  .meter .lbl { display: flex; justify-content: space-between; font-size: 14px; margin-top: 4px; }
+  .section { font-size: 15px; letter-spacing: 1px; margin: 12px 0 6px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .grid .cell { aspect-ratio: 1; background: #fff; display: grid; place-items: center; font-size: 26px; }
+  .grid .cell.locked { background: transparent; border-style: dashed; opacity: .4; font-size: 18px; }
+  .cert { background: var(--sun-soft); padding: 8px 12px; margin-bottom: 6px; font-size: 15px; display: flex; gap: 8px; align-items: center; }
+  .muscles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 13px; margin-top: 4px; }
+  .muscles div { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .muscles .mini { flex: 1; height: 8px; background: #fff; border: 2px solid var(--navy); border-radius: 6px; overflow: hidden; }
+  .muscles .mini i { display: block; height: 100%; background: var(--sun); }
+
+  /* balloon wobble */
+  @keyframes wobble { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .wobble { transform-origin: 50% 100%; animation: wobble 3s ease-in-out infinite; }
+  .float { animation: float 2.6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .wobble, .float { animation: none; } }
+</style>
+</head>
+<body>
+
+<h1>Tiny Brave – UI mockups</h1>
+<p class="sub">Static review mockups. Five core screens, mobile-first. Palette: sky, cream, sunflower, navy. Chips and face buttons are clickable.</p>
+
+<!-- Reusable balloon shapes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- deflated: small, droopy, wrinkled -->
+    <symbol id="b-low" viewBox="0 0 200 240">
+      <path d="M100 216 C96 200 104 190 98 176" fill="none" stroke="#14213d" stroke-width="3" stroke-linecap="round"/>
+      <path d="M100 176 L90 186 L110 186 Z" fill="#ffc93c" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100 178 C62 176 44 146 48 118 C52 92 76 78 100 80 C126 80 152 96 152 124 C154 152 132 176 100 178 Z"
+            fill="#ffc93c" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M62 110 q8 -6 14 0 M128 108 q8 -6 14 0" fill="none" stroke="#14213d" stroke-width="2" opacity=".35"/>
+      <circle cx="82" cy="128" r="5" fill="#14213d"/><circle cx="118" cy="128" r="5" fill="#14213d"/>
+      <path d="M86 150 q14 -8 28 0" fill="none" stroke="#14213d" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M150 120 q6 8 0 14" fill="none" stroke="#8ecae6" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <!-- medium -->
+    <symbol id="b-mid" viewBox="0 0 200 260">
+      <path d="M100 232 C96 216 104 206 98 192" fill="none" stroke="#14213d" stroke-width="3" stroke-linecap="round"/>
+      <path d="M100 190 L89 202 L111 202 Z" fill="#ffc93c" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100 192 C50 184 30 140 36 100 C42 56 74 24 100 24 C130 24 160 56 164 100 C168 140 148 184 100 192 Z"
+            fill="#ffc93c" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M64 60 q-14 16 -14 38" fill="none" stroke="#fff8e7" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+      <circle cx="80" cy="112" r="6" fill="#14213d"/><circle cx="120" cy="112" r="6" fill="#14213d"/>
+      <path d="M84 140 q16 10 32 0" fill="none" stroke="#14213d" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <!-- full with crown -->
+    <symbol id="b-full" viewBox="0 0 220 300">
+      <path d="M110 268 C104 250 116 238 108 222" fill="none" stroke="#14213d" stroke-width="3" stroke-linecap="round"/>
+      <path d="M110 220 L98 233 L122 233 Z" fill="#ffc93c" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M110 222 C44 214 14 160 22 106 C30 52 70 16 110 16 C152 16 192 52 198 106 C206 160 176 214 110 222 Z"
+            fill="#ffc93c" stroke="#14213d" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M62 56 q-20 22 -22 52" fill="none" stroke="#fff8e7" stroke-width="9" stroke-linecap="round" opacity=".85"/>
+      <circle cx="84" cy="118" r="7" fill="#14213d"/><circle cx="136" cy="118" r="7" fill="#14213d"/>
+      <path d="M84 152 q26 24 52 0" fill="#fff8e7" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M78 22 L86 -2 L100 14 L110 -6 L120 14 L134 -2 L142 22 Z" fill="#8ecae6" stroke="#14213d" stroke-width="3.5" stroke-linejoin="round" transform="translate(0 6)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="board">
+
+  <!-- 1. HOME -->
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="screen">
+        <div class="top">
+          <div class="logo">tiny brave</div>
+          <div class="pill">🎈 12 / 30</div>
+        </div>
+
+        <div class="balloon-wrap" style="margin-top:8px">
+          <svg class="wobble" width="150" height="170"><use href="#b-low"/></svg>
+          <p class="caption">brave-ish.</p>
+          <p class="hint">Pick today's tiny thing.</p>
+        </div>
+
+        <div class="cards">
+          <div class="card pebble rough"><div class="dot">•</div><div><b>Pebble</b><span>Low-stakes courage</span></div></div>
+          <div class="card hill rough"><div class="dot">▲</div><div><b>Hill</b><span>Noticeably uncomfortable</span></div></div>
+          <div class="card mountain rough"><div class="dot">⛰</div><div><b>Mountain</b><span>A meaningful stretch</span></div></div>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="row">
+          <button class="btn rough">🎲 Surprise me</button>
+          <button class="btn ghost rough">All 30</button>
+        </div>
+      </div>
+    </div>
+    <figcaption>1 · Home / challenge picker</figcaption>
+  </figure>
+
+  <!-- 2. CHALLENGE -->
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="screen">
+        <div class="top">
+          <div class="back">‹</div>
+          <div class="pill">Hill</div>
+        </div>
+
+        <div class="balloon-wrap" style="margin-top:6px">
+          <svg class="wobble" width="110" height="126"><use href="#b-low"/></svg>
+        </div>
+
+        <span class="tag">SPEAK</span>
+        <div class="challenge-card rough">
+          <div class="level">TODAY'S HILL</div>
+          <p>Ask one question even if your voice does the tiny wobble thing.</p>
+        </div>
+        <p class="hint">Do it out in the world. Then come back.</p>
+
+        <div class="spacer"></div>
+        <div class="stack">
+          <button class="btn rough">I did the brave thing</button>
+          <button class="btn ghost rough">Not this one</button>
+        </div>
+      </div>
+    </div>
+    <figcaption>2 · Challenge / commit</figcaption>
+  </figure>
+
+  <!-- 3. REWARD -->
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="screen" style="position:relative">
+        <div class="confetti" aria-hidden="true">
+          <span style="top:60px;left:34px;background:#8ecae6;transform:rotate(20deg)"></span>
+          <span style="top:110px;left:270px;background:#ffc93c;transform:rotate(-15deg)"></span>
+          <span style="top:190px;left:22px;background:#ffc93c;border-radius:50%"></span>
+          <span style="top:80px;left:240px;background:#fff;border-radius:50%"></span>
+          <span style="top:230px;left:284px;background:#8ecae6;transform:rotate(40deg)"></span>
+        </div>
+        <div class="top">
+          <div class="logo">tiny brave</div>
+          <div class="pill">🎈 13 / 30</div>
+        </div>
+
+        <div class="balloon-wrap" style="margin-top:2px">
+          <svg class="float" width="170" height="232"><use href="#b-full"/></svg>
+          <p class="caption">Tiny brave acquired.</p>
+          <p class="hint">Nobody exploded.</p>
+        </div>
+
+        <div class="debris">
+          <div class="item rough">📎</div>
+          <div class="item rough">⭐</div>
+        </div>
+        <p class="found">You found: a bent paperclip.</p>
+
+        <div class="check rough">
+          <small>Optional · private · one tap</small>
+          <div class="faces">
+            <button title="Less awkward than expected">😌</button>
+            <button title="About as expected" class="on">😬</button>
+            <button title="More awkward than expected">🫠</button>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="row">
+          <button class="btn rough">Another one</button>
+          <button class="btn ghost rough">Done</button>
+        </div>
+      </div>
+    </div>
+    <figcaption>3 · Reward / balloon reaction</figcaption>
+  </figure>
+
+  <!-- 4. LIBRARY -->
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="screen">
+        <div class="top">
+          <div class="back">‹</div>
+          <div class="logo">All 30</div>
+          <div class="pill">12 done</div>
+        </div>
+
+        <div class="chips" id="chips">
+          <button class="chip on">All</button>
+          <button class="chip">Speak</button>
+          <button class="chip">Begin</button>
+          <button class="chip">Connect</button>
+          <button class="chip">Repair</button>
+          <button class="chip">Be Seen</button>
+          <button class="chip">Protect</button>
+        </div>
+
+        <div class="list">
+          <div class="item-row rough done">
+            <div class="lvl p">•</div>
+            <div class="txt"><i>SPEAK</i>Ask one question you were going to keep to yourself.</div>
+            <div class="tick">✓</div>
+          </div>
+          <div class="item-row rough">
+            <div class="lvl h">▲</div>
+            <div class="txt"><i>SPEAK</i>Correct a misunderstanding instead of letting it become your personality.</div>
+          </div>
+          <div class="item-row rough done">
+            <div class="lvl p">•</div>
+            <div class="txt"><i>BEGIN</i>Start the assignment for five minutes. Complaining allowed.</div>
+            <div class="tick">✓</div>
+          </div>
+          <div class="item-row rough">
+            <div class="lvl h">▲</div>
+            <div class="txt"><i>CONNECT</i>Give someone a specific compliment. Not "nice shirt."</div>
+          </div>
+          <div class="item-row rough">
+            <div class="lvl m">⛰</div>
+            <div class="txt"><i>PROTECT</i>Tell a trusted person when you need backup.</div>
+          </div>
+          <div class="item-row rough">
+            <div class="lvl h">▲</div>
+            <div class="txt"><i>BE SEEN</i>Show someone something you made before deciding if it's good.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <figcaption>4 · Challenge library / filters</figcaption>
+  </figure>
+
+  <!-- 5. PROGRESS -->
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="screen">
+        <div class="top">
+          <div class="back">‹</div>
+          <div class="logo">Brave-o-Meter</div>
+          <div style="width:14px"></div>
+        </div>
+
+        <div class="balloon-wrap" style="margin-top:4px">
+          <svg class="wobble" width="110" height="140"><use href="#b-mid"/></svg>
+          <p class="caption">suspiciously buoyant.</p>
+        </div>
+
+        <div class="meter">
+          <div class="bar rough"><div class="fill"></div></div>
+          <div class="lbl"><span>12 of 30</span><span>18 to go</span></div>
+        </div>
+
+        <div class="section">BRAVERY MUSCLES</div>
+        <div class="muscles">
+          <div>Speak <span class="mini"><i style="width:60%"></i></span></div>
+          <div>Begin <span class="mini"><i style="width:80%"></i></span></div>
+          <div>Connect <span class="mini"><i style="width:40%"></i></span></div>
+          <div>Repair <span class="mini"><i style="width:20%"></i></span></div>
+          <div>Be Seen <span class="mini"><i style="width:40%"></i></span></div>
+          <div>Protect <span class="mini"><i style="width:20%"></i></span></div>
+        </div>
+
+        <div class="section">BRAVE DEBRIS</div>
+        <div class="grid">
+          <div class="cell rough">📎</div>
+          <div class="cell rough">⭐</div>
+          <div class="cell rough">🧾</div>
+          <div class="cell rough locked">?</div>
+          <div class="cell rough locked">?</div>
+          <div class="cell rough locked">?</div>
+        </div>
+
+        <div class="section">CERTIFICATES</div>
+        <div class="cert rough">🏅 Asked Anyway</div>
+      </div>
+    </div>
+    <figcaption>5 · Progress / Brave-o-Meter</figcaption>
+  </figure>
+
+</div>
+
+<script>
+  document.querySelectorAll('#chips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#chips .chip').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+    });
+  });
+  document.querySelectorAll('.faces button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.faces button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+</script>
+</body>
+</html>

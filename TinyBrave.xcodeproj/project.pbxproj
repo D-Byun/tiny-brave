@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5163541750D7B0C746363 /* challenges.json */; };
+		1238BC7230FC06FB31811148 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0992C05E83B8804F73B62 /* Theme.swift */; };
+		3A2D3EA86703DE292A33113D /* DailyGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E299955EB971965B0B555CE /* DailyGoal.swift */; };
+		44BE6F673A280845AC23A73A /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC0FB48678900DC334EDEFF /* Challenge.swift */; };
+		4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE187F6D1F02F821C50ABF6A /* BalloonView.swift */; };
+		4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */; };
+		56C54403799969BE7DE61DA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6300817D6B87F6606CD59B45 /* SettingsView.swift */; };
+		66F6F3728453DDAAF79772DF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B3FD011C8497AA86F7B205 /* CalendarView.swift */; };
+		85430B1F46FEE7F9B38FF09F /* RewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC59FD779B5CE203584FA97 /* RewardView.swift */; };
+		85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */; };
+		8A007D563069A1F43BC444E1 /* Username.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3863F65BFC6700345758E2 /* Username.swift */; };
+		8D64B3E8FAE7249837E9A15F /* TinyBraveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */; };
+		91B5F82D8E2BB9A6EBC8CC1B /* ProgressScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF97EB353D562536F237077 /* ProgressScreen.swift */; };
+		A8C8DA2EA10E006A114FCAA4 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1781C8B4441CF36FD930D31 /* LibraryView.swift */; };
+		AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */; };
+		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
+		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
+		E333948A113D327F9F0F80D7 /* FlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */; };
+		EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B96B67CC3715075E4D897B0 /* Completion.swift */; };
+		F585DC22989C0A8244BF5E37 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1FCF2CE6FDC7DF99B6B90D /* Greeting.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		09BE7C3791FF36B7A759A8BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22C872DB403243D795E8A9F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BCE0839F51E84DB565B8472;
+			remoteInfo = TinyBrave;
+		};
+		C04B53E4420DE3B6644558F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22C872DB403243D795E8A9F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BCE0839F51E84DB565B8472;
+			remoteInfo = TinyBrave;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01B3FD011C8497AA86F7B205 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		0B96B67CC3715075E4D897B0 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
+		1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
+		59D0992C05E83B8804F73B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TinyBrave.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6300817D6B87F6606CD59B45 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreTests.swift; sourceTree = "<group>"; };
+		6CC59FD779B5CE203584FA97 /* RewardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardView.swift; sourceTree = "<group>"; };
+		6FF97EB353D562536F237077 /* ProgressScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreen.swift; sourceTree = "<group>"; };
+		72A17FD556399EB6B99059B0 /* TinyBraveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E299955EB971965B0B555CE /* DailyGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoal.swift; sourceTree = "<group>"; };
+		9AB5163541750D7B0C746363 /* challenges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = challenges.json; sourceTree = "<group>"; };
+		A1781C8B4441CF36FD930D31 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		B49991146C4F067FB02166EE /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
+		BB1FCF2CE6FDC7DF99B6B90D /* Greeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Greeting.swift; sourceTree = "<group>"; };
+		BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowUITests.swift; sourceTree = "<group>"; };
+		C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC3863F65BFC6700345758E2 /* Username.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Username.swift; sourceTree = "<group>"; };
+		DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyBraveApp.swift; sourceTree = "<group>"; };
+		E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
+		EE187F6D1F02F821C50ABF6A /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
+		EEC0FB48678900DC334EDEFF /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
+		F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		040F4A02C32C9CDD8D844AED /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9AB5163541750D7B0C746363 /* challenges.json */,
+				E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3460DFC57AF048CCD8A0B50E /* TinyBraveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */,
+			);
+			path = TinyBraveUITests;
+			sourceTree = "<group>";
+		};
+		386028893EDF9B289DE34434 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */,
+				72A17FD556399EB6B99059B0 /* TinyBraveTests.xctest */,
+				C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		390A8EBC35952B7FB51A7942 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				01B3FD011C8497AA86F7B205 /* CalendarView.swift */,
+				1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */,
+				F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */,
+				A1781C8B4441CF36FD930D31 /* LibraryView.swift */,
+				6FF97EB353D562536F237077 /* ProgressScreen.swift */,
+				6CC59FD779B5CE203584FA97 /* RewardView.swift */,
+				6300817D6B87F6606CD59B45 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		468BB348B4943D95BF1B519F /* TinyBraveTests */ = {
+			isa = PBXGroup;
+			children = (
+				63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */,
+			);
+			path = TinyBraveTests;
+			sourceTree = "<group>";
+		};
+		6B209F52CE18FF50A5CAAD2F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EEC0FB48678900DC334EDEFF /* Challenge.swift */,
+				0B96B67CC3715075E4D897B0 /* Completion.swift */,
+				8E299955EB971965B0B555CE /* DailyGoal.swift */,
+				BB1FCF2CE6FDC7DF99B6B90D /* Greeting.swift */,
+				B49991146C4F067FB02166EE /* Rewards.swift */,
+				CC3863F65BFC6700345758E2 /* Username.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		850AA5A0911AA3F61D8D8AFA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EE187F6D1F02F821C50ABF6A /* BalloonView.swift */,
+				59D0992C05E83B8804F73B62 /* Theme.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		86206FDF7840C9BE87323E59 = {
+			isa = PBXGroup;
+			children = (
+				CFBA98ACF827BC613195858A /* TinyBrave */,
+				468BB348B4943D95BF1B519F /* TinyBraveTests */,
+				3460DFC57AF048CCD8A0B50E /* TinyBraveUITests */,
+				386028893EDF9B289DE34434 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CFBA98ACF827BC613195858A /* TinyBrave */ = {
+			isa = PBXGroup;
+			children = (
+				DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */,
+				850AA5A0911AA3F61D8D8AFA /* Components */,
+				040F4A02C32C9CDD8D844AED /* Data */,
+				6B209F52CE18FF50A5CAAD2F /* Models */,
+				390A8EBC35952B7FB51A7942 /* Views */,
+			);
+			path = TinyBrave;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F3A81D30460653CB5A6D87 /* TinyBraveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CABC75673EF0350CD375ECC /* Build configuration list for PBXNativeTarget "TinyBraveTests" */;
+			buildPhases = (
+				EFE18D4EBA6F65215FD0B020 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B254C3807A83EC45E6308858 /* PBXTargetDependency */,
+			);
+			name = TinyBraveTests;
+			packageProductDependencies = (
+			);
+			productName = TinyBraveTests;
+			productReference = 72A17FD556399EB6B99059B0 /* TinyBraveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3F1245F88AEB8DEAD4EE1239 /* TinyBraveUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EB1604913D5FC28DC4A4AF5 /* Build configuration list for PBXNativeTarget "TinyBraveUITests" */;
+			buildPhases = (
+				492FFEA57D308F0C980C1989 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C429FABD4450136B28E63F1 /* PBXTargetDependency */,
+			);
+			name = TinyBraveUITests;
+			packageProductDependencies = (
+			);
+			productName = TinyBraveUITests;
+			productReference = C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		7BCE0839F51E84DB565B8472 /* TinyBrave */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72CC6BF40E96CB84481DB45E /* Build configuration list for PBXNativeTarget "TinyBrave" */;
+			buildPhases = (
+				D6325F34B68645E47C4849F8 /* Sources */,
+				6F0560845CD268964C38BA14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TinyBrave;
+			packageProductDependencies = (
+			);
+			productName = TinyBrave;
+			productReference = 5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		22C872DB403243D795E8A9F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3F1245F88AEB8DEAD4EE1239 = {
+						TestTargetID = 7BCE0839F51E84DB565B8472;
+					};
+				};
+			};
+			buildConfigurationList = 475A73BDBFD7F85817250849 /* Build configuration list for PBXProject "TinyBrave" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 86206FDF7840C9BE87323E59;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 386028893EDF9B289DE34434 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7BCE0839F51E84DB565B8472 /* TinyBrave */,
+				17F3A81D30460653CB5A6D87 /* TinyBraveTests */,
+				3F1245F88AEB8DEAD4EE1239 /* TinyBraveUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F0560845CD268964C38BA14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		492FFEA57D308F0C980C1989 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E333948A113D327F9F0F80D7 /* FlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6325F34B68645E47C4849F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */,
+				66F6F3728453DDAAF79772DF /* CalendarView.swift in Sources */,
+				44BE6F673A280845AC23A73A /* Challenge.swift in Sources */,
+				85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */,
+				AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */,
+				EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */,
+				3A2D3EA86703DE292A33113D /* DailyGoal.swift in Sources */,
+				F585DC22989C0A8244BF5E37 /* Greeting.swift in Sources */,
+				4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */,
+				A8C8DA2EA10E006A114FCAA4 /* LibraryView.swift in Sources */,
+				91B5F82D8E2BB9A6EBC8CC1B /* ProgressScreen.swift in Sources */,
+				85430B1F46FEE7F9B38FF09F /* RewardView.swift in Sources */,
+				C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */,
+				56C54403799969BE7DE61DA3 /* SettingsView.swift in Sources */,
+				1238BC7230FC06FB31811148 /* Theme.swift in Sources */,
+				8D64B3E8FAE7249837E9A15F /* TinyBraveApp.swift in Sources */,
+				8A007D563069A1F43BC444E1 /* Username.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE18D4EBA6F65215FD0B020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C429FABD4450136B28E63F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BCE0839F51E84DB565B8472 /* TinyBrave */;
+			targetProxy = C04B53E4420DE3B6644558F7 /* PBXContainerItemProxy */;
+		};
+		B254C3807A83EC45E6308858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BCE0839F51E84DB565B8472 /* TinyBrave */;
+			targetProxy = 09BE7C3791FF36B7A759A8BF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		08653D7067AB203F7C8C83E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinyBrave.app/TinyBrave";
+			};
+			name = Release;
+		};
+		34A1AC60FC69C0CDEC4A8B3B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TinyBrave;
+			};
+			name = Debug;
+		};
+		355EA59AA9D5CD0D3A8D715A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		450FA1B5A0051018DEE7CFB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		B33208C634744660F371F706 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D20F3EA4902D2B35572A400D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinyBrave.app/TinyBrave";
+			};
+			name = Debug;
+		};
+		DAA6768F8E75878DCAECE08A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TinyBrave;
+			};
+			name = Release;
+		};
+		F999E4194B483C3149FE8123 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinybrave.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		475A73BDBFD7F85817250849 /* Build configuration list for PBXProject "TinyBrave" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				450FA1B5A0051018DEE7CFB1 /* Debug */,
+				355EA59AA9D5CD0D3A8D715A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5CABC75673EF0350CD375ECC /* Build configuration list for PBXNativeTarget "TinyBraveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D20F3EA4902D2B35572A400D /* Debug */,
+				08653D7067AB203F7C8C83E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		72CC6BF40E96CB84481DB45E /* Build configuration list for PBXNativeTarget "TinyBrave" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B33208C634744660F371F706 /* Debug */,
+				F999E4194B483C3149FE8123 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7EB1604913D5FC28DC4A4AF5 /* Build configuration list for PBXNativeTarget "TinyBraveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34A1AC60FC69C0CDEC4A8B3B /* Debug */,
+				DAA6768F8E75878DCAECE08A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 22C872DB403243D795E8A9F7 /* Project object */;
+}
