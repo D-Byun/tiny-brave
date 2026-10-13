@@ -146,35 +146,6 @@ final class FlowUITests: XCTestCase {
         XCTAssertFalse(balloon(stage: 9).exists)
     }
 
-    func testCalendarShowsCompletedDaysAndTheirTasks() {
-        app.buttons["Calendar"].tap()
-        XCTAssertTrue(app.navigationBars["Calendar"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["calendarEmpty"].exists)
-        app.navigationBars.buttons.firstMatch.tap()
-
-        pill("Pebble").tap()
-        let text = app.staticTexts["challengeText"]
-        XCTAssertTrue(text.waitForExistence(timeout: 5))
-        let task = text.label
-        app.buttons["I did the brave thing"].tap()
-        app.buttons["Done"].tap()
-
-        app.buttons["Calendar"].tap()
-        let doneDay = app.buttons.matching(NSPredicate(format: "label CONTAINS '1 brave thing done'")).firstMatch
-        XCTAssertTrue(doneDay.waitForExistence(timeout: 5))
-        doneDay.tap()
-        let row = app.descendants(matching: .any).matching(identifier: "calendarTask").firstMatch
-        XCTAssertTrue(row.waitForExistence(timeout: 5))
-        XCTAssertTrue(row.label.contains(task), "row=\(row.label) task=\(task)")
-        app.navigationBars.buttons.firstMatch.tap()
-
-        nextDay()
-        app.buttons["Calendar"].tap()
-        let doneDays = app.buttons.matching(NSPredicate(format: "label CONTAINS 'brave thing done'"))
-        XCTAssertEqual(doneDays.count, 1)
-        XCTAssertTrue(app.staticTexts["calendarEmpty"].waitForExistence(timeout: 5), "The new, empty day should be selected")
-    }
-
     func testSettingsUsernameAndTheme() {
         app.buttons["Settings"].tap()
         let field = app.textFields["usernameField"]

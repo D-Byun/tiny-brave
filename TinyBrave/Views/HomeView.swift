@@ -27,14 +27,6 @@ struct HomeView: View {
                 HStack {
                     Text("tiny brave").font(Theme.font(24, relativeTo: .title2))
                     Spacer()
-                    Button { path.append(.calendar) } label: {
-                        Image(systemName: "calendar")
-                            .font(.system(size: 20))
-                            .frame(width: 44, height: 44)
-                            .roughCard()
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Calendar")
                     Button { path.append(.settings) } label: {
                         Image(systemName: "gearshape.fill")
                             .font(.system(size: 20))

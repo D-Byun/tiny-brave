@@ -7,7 +7,6 @@ enum Route: Hashable {
     case library
     case progress
     case settings
-    case calendar
 }
 
 @main
@@ -61,8 +60,6 @@ struct RootView: View {
                         ProgressScreen()
                     case .settings:
                         SettingsView()
-                    case .calendar:
-                        CalendarView()
                     }
                 }
         }

@@ -15,7 +15,6 @@
 		4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE187F6D1F02F821C50ABF6A /* BalloonView.swift */; };
 		4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */; };
 		56C54403799969BE7DE61DA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6300817D6B87F6606CD59B45 /* SettingsView.swift */; };
-		66F6F3728453DDAAF79772DF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B3FD011C8497AA86F7B205 /* CalendarView.swift */; };
 		85430B1F46FEE7F9B38FF09F /* RewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC59FD779B5CE203584FA97 /* RewardView.swift */; };
 		85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */; };
 		8A007D563069A1F43BC444E1 /* Username.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3863F65BFC6700345758E2 /* Username.swift */; };
@@ -48,7 +47,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		01B3FD011C8497AA86F7B205 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		0B96B67CC3715075E4D897B0 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
 		1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		59D0992C05E83B8804F73B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		390A8EBC35952B7FB51A7942 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				01B3FD011C8497AA86F7B205 /* CalendarView.swift */,
 				1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */,
 				F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */,
 				A1781C8B4441CF36FD930D31 /* LibraryView.swift */,
@@ -286,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */,
-				66F6F3728453DDAAF79772DF /* CalendarView.swift in Sources */,
 				44BE6F673A280845AC23A73A /* Challenge.swift in Sources */,
 				85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */,
 				AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */,
