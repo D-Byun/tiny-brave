@@ -75,9 +75,11 @@ enum Theme {
 extension Level {
     func color(in palette: Palette) -> Color {
         switch self {
-        case .pebble: palette.skySoft
-        case .hill: palette.sky
-        case .mountain: palette.sun
+        case .warmUp: palette.skySoft
+        case .tinyStretch: palette.sky
+        case .quietBrave: palette.sunSoft
+        case .mediumBrave: palette.sun
+        case .boldish: palette.ink.opacity(0.3)
         }
     }
 }

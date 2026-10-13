@@ -39,6 +39,11 @@ struct ChallengeView: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityIdentifier("challengeText")
+                Text(challenge.why)
+                    .font(.system(.subheadline, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .opacity(0.75)
             }
             .padding(20)
             .frame(maxWidth: .infinity)

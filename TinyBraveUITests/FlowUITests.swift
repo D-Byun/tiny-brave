@@ -47,7 +47,7 @@ final class FlowUITests: XCTestCase {
 
     func testCompleteChallengeFlowUpdatesCount() {
         shot("1-home")
-        pill("Pebble").tap()
+        pill("Tiny stretch").tap()
         shot("2-challenge")
         app.buttons["I did the brave thing"].tap()
         XCTAssertTrue(app.buttons["Another one"].waitForExistence(timeout: 5))
@@ -59,7 +59,7 @@ final class FlowUITests: XCTestCase {
     }
 
     func testSwapChangesChallenge() {
-        pill("Hill").tap()
+        pill("Medium brave").tap()
         let text = app.staticTexts["challengeText"]
         XCTAssertTrue(text.waitForExistence(timeout: 5))
         let before = text.label
@@ -69,9 +69,9 @@ final class FlowUITests: XCTestCase {
     }
 
     func testMultipleCompletionsAndReset() {
-        completeOne(level: "Pebble")
-        completeOne(level: "Hill")
-        completeOne(level: "Mountain")
+        completeOne(level: "Tiny stretch")
+        completeOne(level: "Medium brave")
+        completeOne(level: "Bold-ish")
         XCTAssertTrue(pill("1 of 1").exists)
         shot("8-home-three")
 
@@ -85,23 +85,22 @@ final class FlowUITests: XCTestCase {
     func testLibraryFiltersAndReplay() {
         app.buttons["Library"].tap()
         XCTAssertTrue(app.navigationBars["Library"].waitForExistence(timeout: 5), "Library did not open")
-        app.buttons["Repair"].swipeLeft()
-        app.buttons["Protect"].tap()
-        let trusted = app.buttons.matching(NSPredicate(format: "label CONTAINS 'trusted person'")).firstMatch
+        app.buttons["Reset"].tap()
+        let trusted = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Write down one thing'")).firstMatch
         XCTAssertTrue(trusted.waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'Disagree politely'")).firstMatch.exists)
-        shot("6-library-protect")
+        XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'Ask one question in class'")).firstMatch.exists)
+        shot("6-library-reset")
 
         trusted.tap()
         XCTAssertTrue(app.buttons["I did the brave thing"].waitForExistence(timeout: 5), "Library row did not open the challenge")
     }
 
     func testExtraChallengesSameDayDoNotChangeBalloonOrStreak() {
-        completeOne(level: "Pebble")
-        completeOne(level: "Hill")
+        completeOne(level: "Tiny stretch")
+        completeOne(level: "Medium brave")
         XCTAssertTrue(pill("1 of 1").exists)
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
-        XCTAssertTrue(pill("Mountain").isEnabled)
+        XCTAssertTrue(pill("Bold-ish").isEnabled)
     }
 
     private func balloon(stage: Int) -> XCUIElement {
@@ -113,11 +112,11 @@ final class FlowUITests: XCTestCase {
     }
 
     func testNextDayAdvancesStreakAndBalloonAndGapResetsStreak() {
-        completeOne(level: "Pebble")
+        completeOne(level: "Tiny stretch")
         XCTAssertTrue(pill("1 of 1").exists)
         nextDay()
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
-        completeOne(level: "Pebble")
+        completeOne(level: "Tiny stretch")
         XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 2 day streak")
         XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 5))
@@ -126,7 +125,7 @@ final class FlowUITests: XCTestCase {
         nextDay()
         XCTAssertEqual(app.staticTexts["streak"].label, "Start a streak today")
         XCTAssertTrue(balloon(stage: 0).waitForExistence(timeout: 8), "Broken streak should deflate the balloon")
-        completeOne(level: "Hill")
+        completeOne(level: "Medium brave")
         XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
         XCTAssertTrue(balloon(stage: 1).waitForExistence(timeout: 8))
@@ -138,7 +137,7 @@ final class FlowUITests: XCTestCase {
 
     func testBalloonWearsCrownOnDayTen() {
         for day in 1...10 {
-            completeOne(level: "Pebble")
+            completeOne(level: "Tiny stretch")
             if day < 10 { nextDay() }
         }
         let crowned = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Yellow balloon, stage 10 of 10, wearing a crown")).firstMatch
@@ -161,7 +160,7 @@ final class FlowUITests: XCTestCase {
     }
 
     func testResetAllDataClearsProgressNameAndTheme() {
-        completeOne(level: "Pebble")
+        completeOne(level: "Tiny stretch")
         app.buttons["Settings"].tap()
         let field = app.textFields["usernameField"]
         field.tap()

@@ -2,11 +2,18 @@ import XCTest
 @testable import TinyBrave
 
 final class ChallengeStoreTests: XCTestCase {
-    func testThirtyChallengesFiveInEachCategory() {
+    func testThirtyChallengesAcrossFourCategories() {
         let all = ChallengeStore.shared.all
         XCTAssertEqual(all.count, 30)
-        for category in BraveCategory.allCases {
-            XCTAssertEqual(all.filter { $0.category == category }.count, 5, "\(category)")
+        XCTAssertEqual(BraveCategory.allCases.count, 4)
+        let counts = Dictionary(grouping: all, by: \.category).mapValues(\.count)
+        XCTAssertEqual(counts, [.connect: 8, .speak: 8, .try: 7, .reset: 7])
+        XCTAssertTrue(all.allSatisfy { !$0.text.isEmpty && !$0.why.isEmpty })
+    }
+
+    func testEveryLevelHasAtLeastOneChallenge() {
+        for level in Level.allCases {
+            XCTAssertTrue(ChallengeStore.shared.all.contains { $0.level == level }, "\(level)")
         }
     }
 
@@ -17,19 +24,19 @@ final class ChallengeStoreTests: XCTestCase {
 
     func testPickPrefersUncompleted() {
         let store = ChallengeStore.shared
-        let pebbles = store.all.filter { $0.level == .pebble }.map(\.id)
+        let pebbles = store.all.filter { $0.level == .tinyStretch }.map(\.id)
         let doneExceptOne = Set(pebbles.dropFirst())
-        let picked = store.pick(level: .pebble, completed: doneExceptOne)
+        let picked = store.pick(level: .tinyStretch, completed: doneExceptOne)
         XCTAssertEqual(picked?.id, pebbles.first)
     }
 
     func testPickExcludesCurrentAndFallsBackToReplay() {
         let store = ChallengeStore.shared
         let all = Set(store.all.map(\.id))
-        let picked = store.pick(level: .hill, excluding: 3, completed: all)
+        let picked = store.pick(level: .mediumBrave, excluding: 6, completed: all)
         XCTAssertNotNil(picked)
-        XCTAssertNotEqual(picked?.id, 3)
-        XCTAssertEqual(picked?.level, .hill)
+        XCTAssertNotEqual(picked?.id, 6)
+        XCTAssertEqual(picked?.level, .mediumBrave)
     }
 
     func testCaptionProgression() {
