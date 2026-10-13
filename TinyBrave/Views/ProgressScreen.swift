@@ -11,7 +11,7 @@ struct ProgressScreen: View {
 
     private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
     private var total: Int { BraveProgress.goal }
-    private var doneCount: Int { DailyGoal.stage(completions, now: AppClock.now(offsetDays: dayOffset)) }
+    private var doneCount: Int { BraveProgress.stage(completions) }
     private var inflation: Double { BraveProgress.inflation(completed: doneCount) }
     private var streak: Int { DailyGoal.streak(completions, now: AppClock.now(offsetDays: dayOffset)) }
     private var foundDebris: Set<String> { Set(completions.map(\.debrisKey)) }
@@ -21,7 +21,7 @@ struct ProgressScreen: View {
             VStack(spacing: 14) {
                 VStack(spacing: 2) {
                     BalloonView(inflation: inflation, size: 0.5)
-                    Text(BalloonCaption.text(inflation: inflation))
+                    Text(BalloonCaption.text(puffs: doneCount))
                         .font(Theme.font(22, relativeTo: .title2))
                 }
 
@@ -89,7 +89,7 @@ struct ProgressScreen: View {
                 UserDefaults.standard.removeObject(forKey: BraveProgress.lastSeenStageKey)
             }
         } message: {
-            Text("The balloon goes back to brave-ish. This can't be undone.")
+            Text("The balloon goes back to square one. This can't be undone.")
         }
     }
 

@@ -15,13 +15,12 @@ struct RewardView: View {
     private let store = ChallengeStore.shared
 
     private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
-    /// True when this completion is the day's first, the only one that inflates the balloon and extends the streak.
+    /// True when this completion is the day's first, the only one that extends the streak.
     private var isFirstToday: Bool { DailyGoal.completedToday(completions) == 1 }
     private var activeDays: Int { DailyGoal.activeDays(completions) }
     /// The balloon stays at its previous stage here; the home screen animates the change.
     private var balloonInflation: Double {
-        let earlier = completions.filter { !Calendar.current.isDate($0.date, inSameDayAs: AppClock.now) }
-        return BraveProgress.inflation(completed: DailyGoal.stage(earlier))
+        BraveProgress.inflation(completed: BraveProgress.stage(Array(completions.dropFirst())))
     }
     private var milestone: Certificate? {
         isFirstToday ? Certificate.all.first { $0.count == activeDays } : nil

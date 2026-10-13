@@ -16,7 +16,7 @@ struct ChallengeView: View {
     }
 
     private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
-    private var inflation: Double { BraveProgress.inflation(completed: DailyGoal.stage(completions)) }
+    private var inflation: Double { BraveProgress.inflation(completed: BraveProgress.stage(completions)) }
 
     var body: some View {
         VStack(spacing: 12) {

@@ -15,7 +15,7 @@ struct HomeView: View {
     private var now: Date { AppClock.now(offsetDays: dayOffset) }
     private var doneToday: Bool { DailyGoal.isDoneToday(completions, now: now) }
     private var streak: Int { DailyGoal.streak(completions, now: now) }
-    private var stage: Int { DailyGoal.stage(completions, now: now) }
+    private var stage: Int { BraveProgress.stage(completions) }
     /// The stage currently drawn; it steps toward `stage` so changes animate.
     private var shownStage: Int { lastSeenStage >= 0 ? lastSeenStage : stage }
     private var name: String { Username.clean(username) }
@@ -51,7 +51,7 @@ struct HomeView: View {
                         .font(Theme.font(20, relativeTo: .title3))
                         .accessibilityIdentifier("greeting")
                     BalloonView(inflation: inflation, puff: puff, size: 0.6)
-                    Text(BalloonCaption.text(inflation: inflation))
+                    Text(BalloonCaption.text(puffs: shownStage))
                         .font(Theme.font(24, relativeTo: .title2))
                     Text(subtitle)
                         .font(Theme.font(15, relativeTo: .subheadline))
@@ -104,7 +104,7 @@ struct HomeView: View {
     }
 
     private var subtitle: String {
-        if doneToday { return "Today's goal is done. Extra ones are just for fun." }
+        if doneToday { return "Today's goal is done. Extra ones still add a puff." }
         return name.isEmpty ? "Pick today's tiny thing." : "Pick today's tiny thing, \(name)."
     }
 

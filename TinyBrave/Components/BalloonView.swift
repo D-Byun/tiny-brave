@@ -142,14 +142,14 @@ struct BalloonView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var stage: Int { Int((min(max(inflation, 0), 1) * Double(BraveProgress.goal)).rounded()) }
-    /// Snapped to one of the discrete stages so each completed day is a visible step.
+    /// Snapped to one of the discrete stages so each completed task is a visible step.
     private var level: Double { Double(stage) / Double(BraveProgress.goal) }
     private var fullness: CGFloat { CGFloat(level) }
     private var scale: CGFloat { (0.92 + 0.08 * fullness) * puff }
     private var bodyHeight: CGFloat { 240 * scale * BalloonShape.height(fullness) }
     /// Vertical offset from the frame's center to the center of the (bottom-anchored) body.
     private var bodyCenterY: CGFloat { (240 * scale - bodyHeight) / 2 }
-    private var wrinkleCount: Int { stage >= 8 ? 0 : stage >= 6 ? 1 : stage >= 3 ? 2 : 3 }
+    private var wrinkleCount: Int { level >= 0.8 ? 0 : level >= 0.6 ? 1 : level >= 0.3 ? 2 : 3 }
 
     var body: some View {
         VStack(spacing: 0) {

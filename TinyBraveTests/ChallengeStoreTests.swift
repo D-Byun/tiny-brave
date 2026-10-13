@@ -39,9 +39,13 @@ final class ChallengeStoreTests: XCTestCase {
         XCTAssertEqual(picked?.level, .mediumBrave)
     }
 
-    func testCaptionProgression() {
-        XCTAssertEqual(BalloonCaption.text(inflation: 0), "brave-ish.")
-        XCTAssertEqual(BalloonCaption.text(inflation: 1), "dangerously confident.")
+    func testThereIsACaptionForEveryPuff() {
+        XCTAssertEqual(BalloonCaption.all.count, BraveProgress.goal + 1)
+        XCTAssertEqual(BalloonCaption.text(puffs: 0), "still thinking about it.")
+        XCTAssertEqual(BalloonCaption.text(puffs: 5), "swaying on purpose.")
+        XCTAssertEqual(BalloonCaption.text(puffs: 30), "maximum puff. balloon has left the building.")
+        XCTAssertEqual(BalloonCaption.text(puffs: 99), BalloonCaption.text(puffs: 30))
+        XCTAssertEqual(BalloonCaption.text(puffs: -1), BalloonCaption.text(puffs: 0))
     }
 
     private func completion(daysAgo: Int, from now: Date) -> Completion {
@@ -92,24 +96,38 @@ final class ChallengeStoreTests: XCTestCase {
         XCTAssertEqual(Greeting.text(name: "  ", now: date(8)), "Good morning")
     }
 
-    func testBalloonHasTenStagesAndCapsAtGoal() {
-        XCTAssertEqual(BraveProgress.goal, 10)
+    func testBalloonHasThirtyStagesAndCapsAtGoal() {
+        XCTAssertEqual(BraveProgress.goal, 30)
         XCTAssertEqual(BraveProgress.inflation(completed: 0), 0)
-        XCTAssertEqual(BraveProgress.inflation(completed: 5), 0.5)
-        XCTAssertEqual(BraveProgress.inflation(completed: 10), 1)
-        XCTAssertEqual(BraveProgress.inflation(completed: 25), 1)
+        XCTAssertEqual(BraveProgress.inflation(completed: 15), 0.5)
+        XCTAssertEqual(BraveProgress.inflation(completed: 30), 1)
+        XCTAssertEqual(BraveProgress.inflation(completed: 45), 1)
         XCTAssertTrue(Certificate.all.allSatisfy { $0.count <= BraveProgress.goal })
     }
 
-    func testBalloonStageFollowsStreakAndDeflatesWhenBroken() {
+    func testEveryDistinctTaskIsAPuffEvenOnTheSameDay() {
+        let now = Date()
+        let sameDay = [1, 2, 3].map { Completion(challengeID: $0, debrisKey: "star", date: now) }
+        XCTAssertEqual(BraveProgress.stage(sameDay), 3)
+        XCTAssertEqual(BraveProgress.stage([]), 0)
+    }
+
+    func testReplayingATaskDoesNotAddAPuff() {
+        let now = Date()
+        let replays = [1, 1, 2].map { Completion(challengeID: $0, debrisKey: "star", date: now) }
+        XCTAssertEqual(BraveProgress.stage(replays), 2)
+    }
+
+    func testBalloonNeverDeflatesWhenDaysAreMissed() {
         let now = Date()
         let cal = Calendar.current
-        func completions(days: [Int]) -> [Completion] {
-            days.map { Completion(challengeID: 1, debrisKey: "star", date: cal.date(byAdding: .day, value: -$0, to: now)!) }
-        }
-        XCTAssertEqual(DailyGoal.stage(completions(days: [0, 1, 2, 3]), now: now), 4)
-        XCTAssertEqual(DailyGoal.stage(completions(days: [1, 2, 3, 4]), now: now), 4, "Today not done yet keeps the streak")
-        XCTAssertEqual(DailyGoal.stage(completions(days: [2, 3, 4, 5]), now: now), 0, "A missed day deflates the balloon")
-        XCTAssertEqual(DailyGoal.stage(completions(days: Array(0..<14)), now: now), BraveProgress.goal)
+        let old = (1...4).map { Completion(challengeID: $0, debrisKey: "star", date: cal.date(byAdding: .day, value: -($0 + 10), to: now)!) }
+        XCTAssertEqual(BraveProgress.stage(old), 4)
+        XCTAssertEqual(DailyGoal.streak(old, now: now), 0, "The streak still breaks")
+    }
+
+    func testBalloonStageCapsAtGoal() {
+        let many = (1...40).map { Completion(challengeID: $0, debrisKey: "star", date: Date()) }
+        XCTAssertEqual(BraveProgress.stage(many), BraveProgress.goal)
     }
 }

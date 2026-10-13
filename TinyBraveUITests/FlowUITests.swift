@@ -79,7 +79,7 @@ final class FlowUITests: XCTestCase {
         shot("7-progress-three")
         app.buttons["Reset progress"].tap()
         app.buttons["Reset"].tap()
-        XCTAssertTrue(app.staticTexts["0 of 10"].waitForExistence(timeout: 5), "Reset did not clear progress")
+        XCTAssertTrue(app.staticTexts["0 of 30"].waitForExistence(timeout: 5), "Reset did not clear progress")
     }
 
     func testLibraryFiltersAndReplay() {
@@ -95,23 +95,24 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(app.buttons["I did the brave thing"].waitForExistence(timeout: 5), "Library row did not open the challenge")
     }
 
-    func testExtraChallengesSameDayDoNotChangeBalloonOrStreak() {
+    func testExtraChallengesSameDayAddPuffsButNotStreak() {
         completeOne(level: "Tiny stretch")
         completeOne(level: "Medium brave")
         XCTAssertTrue(pill("1 of 1").exists)
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
+        XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 8), "Each task should add a puff")
         XCTAssertTrue(pill("Bold-ish").isEnabled)
     }
 
     private func balloon(stage: Int) -> XCUIElement {
-        app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Yellow balloon, stage \(stage) of 10")).firstMatch
+        app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Yellow balloon, stage \(stage) of 30")).firstMatch
     }
 
     private func nextDay() {
         app.buttons["Next day"].tap()
     }
 
-    func testNextDayAdvancesStreakAndBalloonAndGapResetsStreak() {
+    func testNextDayAdvancesStreakAndGapResetsStreakButNotBalloon() {
         completeOne(level: "Tiny stretch")
         XCTAssertTrue(pill("1 of 1").exists)
         nextDay()
@@ -124,25 +125,15 @@ final class FlowUITests: XCTestCase {
         nextDay()
         nextDay()
         XCTAssertEqual(app.staticTexts["streak"].label, "Start a streak today")
-        XCTAssertTrue(balloon(stage: 0).waitForExistence(timeout: 8), "Broken streak should deflate the balloon")
+        XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 8), "A broken streak should not deflate the balloon")
         completeOne(level: "Medium brave")
         XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
-        XCTAssertTrue(balloon(stage: 1).waitForExistence(timeout: 8))
+        XCTAssertTrue(balloon(stage: 3).waitForExistence(timeout: 8))
 
         app.buttons["Settings"].tap()
         app.buttons["Reset all data"].tap()
         app.buttons["Reset everything"].tap()
-    }
-
-    func testBalloonWearsCrownOnDayTen() {
-        for day in 1...10 {
-            completeOne(level: "Tiny stretch")
-            if day < 10 { nextDay() }
-        }
-        let crowned = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Yellow balloon, stage 10 of 10, wearing a crown")).firstMatch
-        XCTAssertTrue(crowned.waitForExistence(timeout: 10))
-        XCTAssertFalse(balloon(stage: 9).exists)
     }
 
     func testSettingsUsernameAndTheme() {

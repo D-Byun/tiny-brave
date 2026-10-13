@@ -11,8 +11,7 @@ enum AppClock {
     }
 }
 
-/// One completion a day extends the streak and pumps the balloon up a stage; missing a day deflates it.
-/// Extra completions on the same day are allowed but change neither.
+/// Day-based stats. One completion a day extends the streak; extra completions on the same day don't.
 enum DailyGoal {
     private static func days(_ completions: [Completion], calendar: Calendar) -> Set<Date> {
         Set(completions.map { calendar.startOfDay(for: $0.date) })
@@ -45,11 +44,6 @@ enum DailyGoal {
             cursor = previous
         }
         return count
-    }
-
-    /// The balloon's stage is the current streak, capped at the goal.
-    static func stage(_ completions: [Completion], now: Date = AppClock.now, calendar: Calendar = .current) -> Int {
-        BraveProgress.done(streak(completions, now: now, calendar: calendar))
     }
 
     static func streakText(_ streak: Int) -> String {
