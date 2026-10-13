@@ -23,11 +23,28 @@ struct TinyBraveApp: App {
 struct RootView: View {
     @AppStorage(AppTheme.storageKey) private var themeKey = AppTheme.sunny.rawValue
     @State private var path: [Route] = []
+    @State private var showWelcome = !ProcessInfo.processInfo.arguments.contains("-skipWelcome")
     private let store = ChallengeStore.shared
 
     private var theme: AppTheme { AppTheme(rawValue: themeKey) ?? .sunny }
 
     var body: some View {
+        ZStack {
+            mainStack
+                .accessibilityHidden(showWelcome)
+            if showWelcome {
+                WelcomeView { withAnimation(.easeInOut(duration: 0.35)) { showWelcome = false } }
+                    .transition(.opacity)
+                    .zIndex(1)
+                    .accessibilityAddTraits(.isModal)
+            }
+        }
+        .environment(\.palette, theme.palette)
+        .tint(theme.palette.ink)
+        .preferredColorScheme(theme.isDark ? .dark : .light)
+    }
+
+    private var mainStack: some View {
         NavigationStack(path: $path) {
             HomeView(path: $path)
                 .navigationDestination(for: Route.self) { route in
@@ -49,8 +66,5 @@ struct RootView: View {
                     }
                 }
         }
-        .environment(\.palette, theme.palette)
-        .tint(theme.palette.ink)
-        .preferredColorScheme(theme.isDark ? .dark : .light)
     }
 }

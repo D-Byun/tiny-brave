@@ -6,6 +6,7 @@ final class FlowUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app = XCUIApplication()
+        app.launchArguments = ["-skipWelcome"]
         app.launch()
         resetIfNeeded()
     }
@@ -225,6 +226,18 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(greeting.waitForExistence(timeout: 5))
         XCTAssertTrue(greeting.label.hasPrefix("Good "))
         XCTAssertTrue(greeting.label.hasSuffix(", Sam"))
+    }
+
+    func testWelcomeScreenOpensHome() {
+        app.terminate()
+        app.launchArguments = []
+        app.launch()
+        XCTAssertTrue(app.staticTexts["welcomeHeadline"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["Settings"].isHittable)
+        app.buttons["open carefully"].tap()
+        XCTAssertTrue(app.buttons["Settings"].waitForExistence(timeout: 5))
+        expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: app.staticTexts["welcomeHeadline"])
+        waitForExpectations(timeout: 5)
     }
 }
 
