@@ -27,11 +27,15 @@ struct ProgressScreen: View {
 
                 meter
 
-                Text(streak > 0 ? "🔥 \(DailyGoal.streakText(streak))" : "No streak yet. Do one today!")
-                    .font(Theme.font(16, relativeTo: .body))
-                    .padding(.horizontal, 12)
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .roughCard(fill: streak > 0 ? palette.sunSoft : nil)
+                // Only shown once there is one; a missing streak is never pointed out.
+                if streak > 0 {
+                    Text("🔥 \(DailyGoal.streakText(streak))")
+                        .font(Theme.font(16, relativeTo: .body))
+                        .padding(.horizontal, 12)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .roughCard(fill: palette.sunSoft)
+                        .accessibilityIdentifier("streak")
+                }
 
                 section("BRAVERY MUSCLES") {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
@@ -87,6 +91,7 @@ struct ProgressScreen: View {
             Button("Reset", role: .destructive) {
                 try? context.delete(model: Completion.self)
                 UserDefaults.standard.removeObject(forKey: BraveProgress.lastSeenStageKey)
+                TaskQueueStorage.clear()
             }
         } message: {
             Text("The balloon goes back to square one. This can't be undone.")

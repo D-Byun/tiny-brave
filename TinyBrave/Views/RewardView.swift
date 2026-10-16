@@ -12,9 +12,7 @@ struct RewardView: View {
     @State private var puff: CGFloat = 1
     @AppStorage(Username.storageKey) private var username = ""
     @State private var line = ["Tiny brave acquired.", "That counted."].randomElement()!
-    private let store = ChallengeStore.shared
 
-    private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
     /// True when this completion is the day's first, the only one that extends the streak.
     private var isFirstToday: Bool { DailyGoal.completedToday(completions) == 1 }
     private var activeDays: Int { DailyGoal.activeDays(completions) }
@@ -57,23 +55,12 @@ struct RewardView: View {
                     .roughCard(fill: palette.sunSoft)
             }
 
-            Text(isFirstToday
-                 ? "🔥 \(DailyGoal.streakText(DailyGoal.streak(completions)))"
-                 : "Bonus brave! Your balloon and streak already counted today.")
-                .font(Theme.font(15, relativeTo: .subheadline))
-                .multilineTextAlignment(.center)
-                .accessibilityIdentifier("rewardStreak")
-
             awkwardnessCheck
 
             Spacer(minLength: 0)
 
-            HStack(spacing: 10) {
-                Button("Another one", action: another)
-                    .buttonStyle(BigButtonStyle())
-                Button("Done") { path = [] }
-                    .buttonStyle(BigButtonStyle(dashed: true))
-            }
+            Button("Next brave") { path = [] }
+                .buttonStyle(BigButtonStyle())
         }
         .padding(20)
         .screenBackground()
@@ -112,14 +99,5 @@ struct RewardView: View {
         }
         .padding(10)
         .roughCard()
-    }
-
-    private func another() {
-        let level = store.challenge(id: challengeID)?.level
-        if let next = store.pick(level: level, excluding: challengeID, completed: completedIDs) {
-            path = [.challenge(next.id)]
-        } else {
-            path = []
-        }
     }
 }

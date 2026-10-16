@@ -26,6 +26,7 @@
 		A8C8DA2EA10E006A114FCAA4 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1781C8B4441CF36FD930D31 /* LibraryView.swift */; };
 		AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */; };
 		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
+		B3CFC5C9924506610FFD5990 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */; };
 		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
 		E333948A113D327F9F0F80D7 /* FlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */; };
@@ -69,6 +70,7 @@
 		8E299955EB971965B0B555CE /* DailyGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoal.swift; sourceTree = "<group>"; };
 		9AB5163541750D7B0C746363 /* challenges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = challenges.json; sourceTree = "<group>"; };
 		A1781C8B4441CF36FD930D31 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		B49991146C4F067FB02166EE /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		BB1FCF2CE6FDC7DF99B6B90D /* Greeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Greeting.swift; sourceTree = "<group>"; };
 		BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowUITests.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				6FF97EB353D562536F237077 /* ProgressScreen.swift */,
 				6CC59FD779B5CE203584FA97 /* RewardView.swift */,
 				6300817D6B87F6606CD59B45 /* SettingsView.swift */,
+				A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */,
 				CECD26160B9ECCA27949EF02 /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -315,6 +318,7 @@
 				85430B1F46FEE7F9B38FF09F /* RewardView.swift in Sources */,
 				C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */,
 				56C54403799969BE7DE61DA3 /* SettingsView.swift in Sources */,
+				B3CFC5C9924506610FFD5990 /* TaskCardView.swift in Sources */,
 				3F09ECB40290D7E27115D7F4 /* TaskQueue.swift in Sources */,
 				1238BC7230FC06FB31811148 /* Theme.swift in Sources */,
 				8D64B3E8FAE7249837E9A15F /* TinyBraveApp.swift in Sources */,

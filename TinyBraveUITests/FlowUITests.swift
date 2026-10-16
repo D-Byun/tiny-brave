@@ -20,8 +20,17 @@ final class FlowUITests: XCTestCase {
     }
 
     private func openProgress() {
-        pill("Brave-o-Meter").tap()
+        app.buttons["Track"].tap()
         XCTAssertTrue(app.navigationBars["Brave-o-Meter"].waitForExistence(timeout: 5), "Progress did not open")
+    }
+
+    private func closeScreen() {
+        app.navigationBars.buttons.firstMatch.tap()
+    }
+
+    /// The Home header count; it steps toward the real count, so callers should wait on it.
+    private func meter(_ count: Int) -> XCUIElement {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Brave-o-Meter, \(count) of 30 tiny braves")).firstMatch
     }
 
     /// Always resets through Settings so earlier days' completions and the simulated-day offset never leak between tests.
@@ -30,58 +39,67 @@ final class FlowUITests: XCTestCase {
         app.buttons["Reset all data"].tap()
         app.buttons["Reset everything"].tap()
         app.navigationBars.buttons.firstMatch.tap()
-        XCTAssertTrue(pill("0 of 1").waitForExistence(timeout: 5))
+        XCTAssertTrue(meter(0).waitForExistence(timeout: 5))
     }
 
-    private func completeOne(level: String) {
-        let card = pill(level)
-        XCTAssertTrue(card.waitForExistence(timeout: 5), "\(level) card missing")
-        card.tap()
+    /// Completes the task Home is showing and comes back to Home.
+    private func completeOne() {
         let done = app.buttons["yep. did brave thing."]
-        XCTAssertTrue(done.waitForExistence(timeout: 5), "Challenge screen did not appear")
+        XCTAssertTrue(done.waitForExistence(timeout: 5), "Home has no task to complete")
         done.tap()
-        XCTAssertTrue(app.buttons["Done"].waitForExistence(timeout: 5), "Reward screen did not appear")
-        app.buttons["Done"].tap()
+        XCTAssertTrue(app.buttons["Next brave"].waitForExistence(timeout: 5), "Reward screen did not appear")
+        app.buttons["Next brave"].tap()
         XCTAssertTrue(app.staticTexts["tiny brave"].waitForExistence(timeout: 5))
     }
 
+    private var taskText: XCUIElement { app.staticTexts["challengeText"] }
+
     func testCompleteChallengeFlowUpdatesCount() {
         shot("1-home")
-        pill("Tiny stretch").tap()
-        shot("2-challenge")
         app.buttons["yep. did brave thing."].tap()
-        XCTAssertTrue(app.buttons["Another one"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Next brave"].waitForExistence(timeout: 5))
         Thread.sleep(forTimeInterval: 1.5)
         shot("4-reward")
-        app.buttons["Done"].tap()
-        XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
+        app.buttons["Next brave"].tap()
+        XCTAssertTrue(meter(1).waitForExistence(timeout: 8))
         shot("5-home-after")
     }
 
-    func testChallengeCardShowsDayAndRoundThatAdvanceWithPuffs() {
-        pill("Tiny stretch").tap()
+    func testHomeOffersOneTaskInListOrder() {
+        XCTAssertFalse(pill("Warm-up").exists, "The level menu should be gone")
+        XCTAssertFalse(pill("Surprise me").exists)
+        XCTAssertEqual(taskText.label, "Give someone a specific compliment.")
         XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 1 · ROUND 1")
-        app.navigationBars.buttons.firstMatch.tap()
-        completeOne(level: "Tiny stretch")
-        pill("Medium brave").tap()
+        completeOne()
+        XCTAssertEqual(taskText.label, "Ask one question in class.")
         XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 2 · ROUND 1")
     }
 
-    func testSwapChangesChallenge() {
-        pill("Medium brave").tap()
-        let text = app.staticTexts["challengeText"]
-        XCTAssertTrue(text.waitForExistence(timeout: 5))
-        let before = text.label
+    func testSkippedTaskGoesToTheEndAndStaysSkippedAfterRelaunch() {
         app.buttons["not this brave. give other."].tap()
-        expectation(for: NSPredicate(format: "label != %@", before), evaluatedWith: text)
+        expectation(for: NSPredicate(format: "label == %@", "Ask one question in class."), evaluatedWith: taskText)
         waitForExpectations(timeout: 5)
+        XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 1 · ROUND 1")
+
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(taskText.waitForExistence(timeout: 5))
+        XCTAssertEqual(taskText.label, "Ask one question in class.")
+    }
+
+    func testHomeNoLongerShowsStreakOrDailyGoal() {
+        XCTAssertFalse(app.staticTexts["streak"].exists)
+        completeOne()
+        XCTAssertFalse(app.staticTexts["streak"].exists)
+        XCTAssertFalse(pill("1 of 1").exists)
+        XCTAssertFalse(app.staticTexts["Start a streak today"].exists)
     }
 
     func testMultipleCompletionsAndReset() {
-        completeOne(level: "Tiny stretch")
-        completeOne(level: "Medium brave")
-        completeOne(level: "Bold-ish")
-        XCTAssertTrue(pill("1 of 1").exists)
+        completeOne()
+        completeOne()
+        completeOne()
+        XCTAssertTrue(meter(3).waitForExistence(timeout: 8))
         shot("8-home-three")
 
         openProgress()
@@ -92,7 +110,7 @@ final class FlowUITests: XCTestCase {
     }
 
     func testLibraryFiltersAndReplay() {
-        app.buttons["Library"].tap()
+        app.buttons["All 30 braves"].tap()
         XCTAssertTrue(app.navigationBars["Library"].waitForExistence(timeout: 5), "Library did not open")
         app.buttons["Reset"].tap()
         let trusted = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Write down one thing'")).firstMatch
@@ -105,12 +123,12 @@ final class FlowUITests: XCTestCase {
     }
 
     func testExtraChallengesSameDayAddPuffsButNotStreak() {
-        completeOne(level: "Tiny stretch")
-        completeOne(level: "Medium brave")
-        XCTAssertTrue(pill("1 of 1").exists)
-        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
+        completeOne()
+        completeOne()
         XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 8), "Each task should add a puff")
-        XCTAssertTrue(pill("Bold-ish").isEnabled)
+        XCTAssertTrue(meter(2).waitForExistence(timeout: 8))
+        openProgress()
+        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
     }
 
     private func balloon(stage: Int) -> XCUIElement {
@@ -121,24 +139,27 @@ final class FlowUITests: XCTestCase {
         app.buttons["Next day"].tap()
     }
 
-    func testNextDayAdvancesStreakAndGapResetsStreakButNotBalloon() {
-        completeOne(level: "Tiny stretch")
-        XCTAssertTrue(pill("1 of 1").exists)
+    func testNextDayAdvancesStreakAndGapHidesStreakButNeverDeflatesBalloon() {
+        completeOne()
         nextDay()
-        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
-        completeOne(level: "Tiny stretch")
-        XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
+        completeOne()
+        XCTAssertTrue(meter(2).waitForExistence(timeout: 8))
+        openProgress()
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 2 day streak")
-        XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 5))
+        closeScreen()
 
         nextDay()
         nextDay()
-        XCTAssertEqual(app.staticTexts["streak"].label, "Start a streak today")
         XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 8), "A broken streak should not deflate the balloon")
-        completeOne(level: "Medium brave")
-        XCTAssertTrue(pill("1 of 1").waitForExistence(timeout: 5))
-        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
+        openProgress()
+        XCTAssertFalse(app.staticTexts["streak"].exists, "A broken streak should simply not be shown")
+        XCTAssertFalse(app.staticTexts["No streak yet. Do one today!"].exists)
+        closeScreen()
+        completeOne()
         XCTAssertTrue(balloon(stage: 3).waitForExistence(timeout: 8))
+        openProgress()
+        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
+        closeScreen()
 
         app.buttons["Settings"].tap()
         app.buttons["Reset all data"].tap()
@@ -154,13 +175,13 @@ final class FlowUITests: XCTestCase {
         app.buttons["Dark theme"].tap()
         XCTAssertTrue(app.buttons["Dark theme"].isSelected)
         app.navigationBars.buttons.firstMatch.tap()
-        XCTAssertTrue(app.staticTexts["Pick today's tiny thing, Sam."].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["greeting"].label.hasSuffix(", Sam"))
         app.buttons["Settings"].tap()
         app.buttons["Sunny theme"].tap()
     }
 
     func testResetAllDataClearsProgressNameAndTheme() {
-        completeOne(level: "Tiny stretch")
+        completeOne()
         app.buttons["Settings"].tap()
         let field = app.textFields["usernameField"]
         field.tap()
@@ -172,7 +193,8 @@ final class FlowUITests: XCTestCase {
         expectation(for: NSPredicate(format: "isSelected == true"), evaluatedWith: app.buttons["Sunny theme"])
         waitForExpectations(timeout: 3)
         app.navigationBars.buttons.firstMatch.tap()
-        XCTAssertTrue(pill("0 of 1").waitForExistence(timeout: 5))
+        XCTAssertTrue(meter(0).waitForExistence(timeout: 8))
+        XCTAssertEqual(taskText.label, "Give someone a specific compliment.", "Reset should restore the original task order")
         XCTAssertEqual(app.staticTexts["greeting"].label.contains(","), false)
     }
 

@@ -8,17 +8,22 @@ struct HomeView: View {
     @AppStorage(AppClock.offsetKey) private var dayOffset = 0
     @AppStorage(BraveProgress.lastSeenStageKey) private var lastSeenStage = -1
     @State private var puff: CGFloat = 1
+    @Environment(\.modelContext) private var context
     @Query private var completions: [Completion]
+    /// Order the remaining tasks were left in after skips; completed tasks drop out of it on their own.
+    /// Reloaded whenever Home appears so a reset from Settings or Track takes effect.
+    @State private var savedOrder = TaskQueueStorage.load()
     private let store = ChallengeStore.shared
 
     private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
     private var now: Date { AppClock.now(offsetDays: dayOffset) }
-    private var doneToday: Bool { DailyGoal.isDoneToday(completions, now: now) }
-    private var streak: Int { DailyGoal.streak(completions, now: now) }
     private var stage: Int { BraveProgress.stage(completions) }
     /// The stage currently drawn; it steps toward `stage` so changes animate.
     private var shownStage: Int { lastSeenStage >= 0 ? lastSeenStage : stage }
-    private var name: String { Username.clean(username) }
+    private var queue: TaskQueue {
+        TaskQueue(catalog: store.all.map(\.id), completed: completedIDs, saved: savedOrder)
+    }
+    private var current: Challenge? { queue.current.flatMap(store.challenge(id:)) }
 
     var body: some View {
         ScrollView {
@@ -35,45 +40,53 @@ struct HomeView: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel("Settings")
                     Button { path.append(.progress) } label: {
-                        Text("🎈 \(doneToday ? 1 : 0) / 1")
-                            .font(Theme.font(15, relativeTo: .subheadline))
-                            .padding(.horizontal, 12)
-                            .frame(minHeight: 44)
-                            .roughCard(fill: palette.sun)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Brave-o-Meter, \(doneToday ? 1 : 0) of 1 done today")
-                }
-
-                VStack(spacing: 8) {
-                    Text(Greeting.text(name: username))
-                        .font(Theme.font(20, relativeTo: .title3))
-                        .accessibilityIdentifier("greeting")
-                    BraveMeterView(puffs: shownStage, puff: puff)
-                    Text(subtitle)
-                        .font(Theme.font(15, relativeTo: .subheadline))
-                        .opacity(0.7)
-                    Text(streak > 0 ? "🔥 \(DailyGoal.streakText(streak))" : "Start a streak today")
+                        HStack(spacing: 6) {
+                            Image(systemName: "chart.bar.fill").accessibilityHidden(true)
+                            Text("Track")
+                        }
                         .font(Theme.font(15, relativeTo: .subheadline))
                         .padding(.horizontal, 12)
-                        .frame(minHeight: 32)
-                        .roughCard(fill: streak > 0 ? palette.sunSoft : nil)
-                        .padding(.top, 6)
-                        .accessibilityIdentifier("streak")
+                        .frame(minHeight: 44)
+                        .roughCard(fill: palette.sun)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Track")
+                }
+
+                Text(Greeting.text(name: username))
+                    .font(Theme.font(20, relativeTo: .title3))
+                    .accessibilityIdentifier("greeting")
+
+                BraveMeterView(puffs: shownStage, puff: puff)
+
+                if let current {
+                    TaskCardView(challenge: current, day: min(stage + 1, BraveProgress.goal))
+                    Text("Do it out in the world. Then come back.")
+                        .font(Theme.font(15, relativeTo: .subheadline))
+                        .opacity(0.7)
+                    VStack(spacing: 10) {
+                        Button(action: complete) {
+                            HStack(spacing: 8) {
+                                Text("yep. did brave thing.")
+                                Image(systemName: "checkmark").font(.system(size: 18, weight: .bold)).accessibilityHidden(true)
+                            }
+                        }
+                        .buttonStyle(BigButtonStyle())
+                        .accessibilityLabel("yep. did brave thing.")
+                        Button("not this brave. give other.", action: skip)
+                            .buttonStyle(BigButtonStyle(dashed: true))
+                    }
+                } else {
+                    allDoneCard
                 }
 
                 VStack(spacing: 10) {
-                    ForEach(Level.allCases) { level in levelCard(level) }
+                    linkRow("Track my brave", detail: "balloon, debris, certificates, the whole saga", route: .progress)
+                    linkRow("All 30 braves", detail: "browse the library and replay any of them", route: .library)
                 }
+                .padding(.top, 6)
 
-                HStack(spacing: 10) {
-                    Button("🎲 Surprise me") { start(nil) }
-                        .buttonStyle(BigButtonStyle(fill: palette.skySoft))
-                    Button("Library") { path.append(.library) }
-                        .buttonStyle(BigButtonStyle(dashed: true))
-                }
-
-                // Testing aid: pretends a day has passed so streaks and balloon stages can be checked.
+                // Testing aid: pretends a day has passed so streaks and day counts can be checked.
                 Button("⏭ Next day (\(now.formatted(.dateTime.month(.abbreviated).day())))") { dayOffset += 1 }
                     .buttonStyle(BigButtonStyle(fill: palette.skySoft))
                     .accessibilityLabel("Next day")
@@ -83,6 +96,41 @@ struct HomeView: View {
         .screenBackground()
         .toolbar(.hidden, for: .navigationBar)
         .task(id: stage) { await animateBalloon() }
+        .onAppear { savedOrder = TaskQueueStorage.load() }
+    }
+
+    private var allDoneCard: some View {
+        VStack(spacing: 6) {
+            Text("all 30 done.").font(Theme.font(26, relativeTo: .title))
+            Text("The balloon has left the building.")
+                .font(.system(.subheadline, design: .rounded))
+                .opacity(0.75)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .roughCard()
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("allDone")
+    }
+
+    private func linkRow(_ title: String, detail: String, route: Route) -> some View {
+        Button { path.append(route) } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title).font(Theme.font(18, relativeTo: .headline))
+                    Text(detail).font(.system(.footnote, design: .rounded)).opacity(0.7)
+                }
+                Spacer()
+                Image(systemName: "arrow.right").font(.system(size: 18, weight: .semibold)).accessibilityHidden(true)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
+            .roughCard()
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(.isButton)
     }
 
     /// Steps the balloon one stage at a time from where the user last saw it to where it is now.
@@ -100,35 +148,18 @@ struct HomeView: View {
         }
     }
 
-    private var subtitle: String {
-        if doneToday { return "Today's goal is done. Extra ones still add a puff." }
-        return name.isEmpty ? "Pick today's tiny thing." : "Pick today's tiny thing, \(name)."
+    private func complete() {
+        guard let current else { return }
+        let debris = Debris.random()
+        context.insert(Completion(challengeID: current.id, debrisKey: debris.id, date: AppClock.now))
+        path.append(.reward(challengeID: current.id, debris: debris.id))
     }
 
-    private func levelCard(_ level: Level) -> some View {
-        Button { start(level) } label: {
-            HStack(spacing: 12) {
-                Text(level.symbol)
-                    .font(.system(size: 20))
-                    .frame(width: 44, height: 44)
-                    .background(Circle().fill(level.color(in: palette)))
-                    .overlay(Circle().stroke(palette.ink, lineWidth: 3))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(level.title).font(Theme.font(20, relativeTo: .title3))
-                    Text(level.blurb).font(.system(.footnote, design: .rounded)).opacity(0.75)
-                }
-                Spacer()
-            }
-            .padding(12)
-            .frame(minHeight: 64)
-            .roughCard()
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func start(_ level: Level?) {
-        if let challenge = store.pick(level: level, completed: completedIDs) {
-            path.append(.challenge(challenge.id))
-        }
+    /// Sends today's task to the back of the list so the next one in order comes up.
+    private func skip() {
+        var next = queue
+        next.skip()
+        TaskQueueStorage.save(next)
+        withAnimation { savedOrder = next.ids }
     }
 }

@@ -69,6 +69,7 @@ struct SettingsView: View {
         username = ""
         dayOffset = 0
         UserDefaults.standard.removeObject(forKey: BraveProgress.lastSeenStageKey)
+        TaskQueueStorage.clear()
         themeKey = AppTheme.sunny.rawValue
     }
 
