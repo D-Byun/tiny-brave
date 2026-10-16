@@ -14,11 +14,4 @@ struct ChallengeStore {
     }
 
     func challenge(id: Int) -> Challenge? { all.first { $0.id == id } }
-
-    /// Prefers challenges the student hasn't done yet; falls back to replays.
-    func pick(level: Level? = nil, excluding: Int? = nil, completed: Set<Int>) -> Challenge? {
-        let pool = all.filter { (level == nil || $0.level == level) && $0.id != excluding }
-        let fresh = pool.filter { !completed.contains($0.id) }
-        return (fresh.isEmpty ? pool : fresh).randomElement()
-    }
 }

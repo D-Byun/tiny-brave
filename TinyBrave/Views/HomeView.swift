@@ -4,19 +4,16 @@ import SwiftData
 struct HomeView: View {
     @Binding var path: [Route]
     @Environment(\.palette) private var palette
-    @AppStorage(Username.storageKey) private var username = ""
-    @AppStorage(AppClock.offsetKey) private var dayOffset = 0
     @AppStorage(BraveProgress.lastSeenStageKey) private var lastSeenStage = -1
     @State private var puff: CGFloat = 1
     @Environment(\.modelContext) private var context
     @Query private var completions: [Completion]
     /// Order the remaining tasks were left in after skips; completed tasks drop out of it on their own.
-    /// Reloaded whenever Home appears so a reset from Settings or Track takes effect.
+    /// Reloaded whenever Home appears so a reset from Track takes effect.
     @State private var savedOrder = TaskQueueStorage.load()
     private let store = ChallengeStore.shared
 
     private var completedIDs: Set<Int> { Set(completions.map(\.challengeID)) }
-    private var now: Date { AppClock.now(offsetDays: dayOffset) }
     private var stage: Int { BraveProgress.stage(completions) }
     /// The stage currently drawn; it steps toward `stage` so changes animate.
     private var shownStage: Int { lastSeenStage >= 0 ? lastSeenStage : stage }
@@ -31,14 +28,6 @@ struct HomeView: View {
                 HStack {
                     Text("tiny brave").font(Theme.font(24, relativeTo: .title2))
                     Spacer()
-                    Button { path.append(.settings) } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 20))
-                            .frame(width: 44, height: 44)
-                            .roughCard()
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Settings")
                     Button { path.append(.progress) } label: {
                         HStack(spacing: 6) {
                             Image(systemName: "chart.bar.fill").accessibilityHidden(true)
@@ -53,17 +42,10 @@ struct HomeView: View {
                     .accessibilityLabel("Track")
                 }
 
-                Text(Greeting.text(name: username))
-                    .font(Theme.font(20, relativeTo: .title3))
-                    .accessibilityIdentifier("greeting")
-
                 BraveMeterView(puffs: shownStage, puff: puff)
 
                 if let current {
                     TaskCardView(challenge: current, day: min(stage + 1, BraveProgress.goal))
-                    Text("Do it out in the world. Then come back.")
-                        .font(Theme.font(15, relativeTo: .subheadline))
-                        .opacity(0.7)
                     VStack(spacing: 10) {
                         Button(action: complete) {
                             HStack(spacing: 8) {
@@ -80,16 +62,8 @@ struct HomeView: View {
                     allDoneCard
                 }
 
-                VStack(spacing: 10) {
-                    linkRow("Track my brave", detail: "balloon, debris, certificates, the whole saga", route: .progress)
-                    linkRow("All 30 braves", detail: "browse the library and replay any of them", route: .library)
-                }
-                .padding(.top, 6)
-
-                // Testing aid: pretends a day has passed so streaks and day counts can be checked.
-                Button("⏭ Next day (\(now.formatted(.dateTime.month(.abbreviated).day())))") { dayOffset += 1 }
-                    .buttonStyle(BigButtonStyle(fill: palette.skySoft))
-                    .accessibilityLabel("Next day")
+                linkRow("Track my brave", detail: "your balloon, streaks, the whole saga", route: .progress)
+                    .padding(.top, 6)
             }
             .padding(20)
         }
@@ -150,9 +124,8 @@ struct HomeView: View {
 
     private func complete() {
         guard let current else { return }
-        let debris = Debris.random()
-        context.insert(Completion(challengeID: current.id, debrisKey: debris.id, date: AppClock.now))
-        path.append(.reward(challengeID: current.id, debris: debris.id))
+        context.insert(Completion(challengeID: current.id))
+        path.append(.reward(challengeID: current.id))
     }
 
     /// Sends today's task to the back of the list so the next one in order comes up.

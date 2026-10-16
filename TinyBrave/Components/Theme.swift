@@ -20,43 +20,16 @@ struct Palette: Equatable {
     var sunSoft: Color
 }
 
-enum AppTheme: String, CaseIterable, Identifiable {
-    case sunny, dark, ocean, forest, bubblegum
-
-    static let storageKey = "theme"
-
-    var id: String { rawValue }
-    var title: String { rawValue.capitalized }
-    var isDark: Bool { self == .dark }
-
-    var palette: Palette {
-        switch self {
-        case .sunny:
-            Palette(background: Color(hex: 0xFFF8E7), surface: .white, ink: Color(hex: 0x14213D),
-                    sky: Color(hex: 0x8ECAE6), skySoft: Color(hex: 0xD6ECF7),
-                    sun: Color(hex: 0xFFC93C), sunSoft: Color(hex: 0xFFE9A8))
-        case .dark:
-            Palette(background: Color(hex: 0x10162B), surface: Color(hex: 0x1F2847), ink: Color(hex: 0xF3EEDC),
-                    sky: Color(hex: 0x2F6F8F), skySoft: Color(hex: 0x2A4A63),
-                    sun: Color(hex: 0x8A6B0E), sunSoft: Color(hex: 0x4A4020))
-        case .ocean:
-            Palette(background: Color(hex: 0xE8F7F5), surface: .white, ink: Color(hex: 0x0B3C49),
-                    sky: Color(hex: 0x7FD1E0), skySoft: Color(hex: 0xCFEFF5),
-                    sun: Color(hex: 0x3DDBC0), sunSoft: Color(hex: 0xB8F2E6))
-        case .forest:
-            Palette(background: Color(hex: 0xF1F7E9), surface: .white, ink: Color(hex: 0x1F3D2B),
-                    sky: Color(hex: 0x9CCB86), skySoft: Color(hex: 0xD9EBCB),
-                    sun: Color(hex: 0xF4A259), sunSoft: Color(hex: 0xFAD9B0))
-        case .bubblegum:
-            Palette(background: Color(hex: 0xFFF0F5), surface: .white, ink: Color(hex: 0x4A1942),
-                    sky: Color(hex: 0xC8A2F0), skySoft: Color(hex: 0xE9D9FA),
-                    sun: Color(hex: 0xFF8FB1), sunSoft: Color(hex: 0xFFD0DF))
-        }
-    }
+extension Palette {
+    static let standard = Palette(
+        background: Color(hex: 0xFFF8E7), surface: .white, ink: Color(hex: 0x14213D),
+        sky: Color(hex: 0x8ECAE6), skySoft: Color(hex: 0xD6ECF7),
+        sun: Color(hex: 0xFFC93C), sunSoft: Color(hex: 0xFFE9A8)
+    )
 }
 
 private struct PaletteKey: EnvironmentKey {
-    static let defaultValue = AppTheme.sunny.palette
+    static let defaultValue = Palette.standard
 }
 
 extension EnvironmentValues {
@@ -72,28 +45,14 @@ enum Theme {
     }
 }
 
-extension Level {
-    func color(in palette: Palette) -> Color {
-        switch self {
-        case .warmUp: palette.skySoft
-        case .tinyStretch: palette.sky
-        case .quietBrave: palette.sunSoft
-        case .mediumBrave: palette.sun
-        case .boldish: palette.ink.opacity(0.3)
-        }
-    }
-}
-
 extension BraveCategory {
-    /// Connect is blue, Speak pink, Try green and Reset lavender. The dark theme gets deeper
-    /// shades so its light ink stays readable on top of them.
-    func color(in palette: Palette) -> Color {
-        let dark = palette == AppTheme.dark.palette
+    /// Connect is blue, Speak pink, Try green and Reset lavender.
+    var color: Color {
         switch self {
-        case .connect: return Color(hex: dark ? 0x2F6F8F : 0xBCE3E9)
-        case .speak: return Color(hex: dark ? 0x8F4A5A : 0xF1A7AA)
-        case .try: return Color(hex: dark ? 0x4C7A47 : 0xAFD5A2)
-        case .reset: return Color(hex: dark ? 0x5E4F8A : 0xC9B9E7)
+        case .connect: Color(hex: 0xBCE3E9)
+        case .speak: Color(hex: 0xF1A7AA)
+        case .try: Color(hex: 0xAFD5A2)
+        case .reset: Color(hex: 0xC9B9E7)
         }
     }
 }
@@ -157,26 +116,5 @@ struct BigButtonStyle: ButtonStyle {
                 if !dashed { roughRect().fill(palette.ink).offset(x: 3, y: 4) }
             }
             .offset(x: configuration.isPressed ? 2 : 0, y: configuration.isPressed ? 3 : 0)
-    }
-}
-
-struct Chip: View {
-    @Environment(\.palette) private var palette
-    let title: String
-    let selected: Bool
-    var tint: Color?
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(Theme.font(15, relativeTo: .subheadline))
-                .foregroundStyle(palette.ink)
-                .padding(.horizontal, 12)
-                .frame(minHeight: 44)
-                .roughCard(fill: selected ? (tint ?? palette.sun) : palette.surface)
-        }
-        .buttonStyle(.plain)
-        .accessibilityAddTraits(selected ? .isSelected : [])
     }
 }

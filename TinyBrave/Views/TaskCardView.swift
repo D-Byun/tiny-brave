@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The taped-paper card showing one challenge, shared by Home and the challenge screen.
+/// The taped-paper card showing the current challenge.
 struct TaskCardView: View {
     let challenge: Challenge
     let day: Int
@@ -15,7 +15,7 @@ struct TaskCardView: View {
                     .tracking(1)
                     .padding(.horizontal, 12)
                     .frame(minHeight: 28)
-                    .roughCard(fill: challenge.category.color(in: palette))
+                    .roughCard(fill: challenge.category.color)
                 Spacer()
                 Text(challenge.level.rawValue)
                     .font(Theme.font(15, relativeTo: .subheadline))

@@ -4,24 +4,16 @@ import SwiftData
 struct RewardView: View {
     @Binding var path: [Route]
     let challengeID: Int
-    let debrisKey: String
 
     @Environment(\.palette) private var palette
     @Query(sort: \Completion.date, order: .reverse) private var completions: [Completion]
     @State private var revealed = false
     @State private var puff: CGFloat = 1
-    @AppStorage(Username.storageKey) private var username = ""
     @State private var line = ["Tiny brave acquired.", "That counted."].randomElement()!
 
-    /// True when this completion is the day's first, the only one that extends the streak.
-    private var isFirstToday: Bool { DailyGoal.completedToday(completions) == 1 }
-    private var activeDays: Int { DailyGoal.activeDays(completions) }
     /// The balloon stays at its previous stage here; the home screen animates the change.
     private var balloonInflation: Double {
         BraveProgress.inflation(completed: BraveProgress.stage(Array(completions.dropFirst())))
-    }
-    private var milestone: Certificate? {
-        isFirstToday ? Certificate.all.first { $0.count == activeDays } : nil
     }
     private var selectedAwkwardness: Int? { completions.first?.awkwardness }
 
@@ -30,30 +22,9 @@ struct RewardView: View {
             BalloonView(inflation: balloonInflation, happy: revealed, puff: puff, size: 0.62)
 
             Text(line).font(Theme.font(24, relativeTo: .title2))
-            Text(Username.clean(username).isEmpty ? "Nobody exploded." : "Nobody exploded, \(Username.clean(username)).")
+            Text("Nobody exploded.")
                 .font(Theme.font(15, relativeTo: .subheadline))
                 .opacity(0.7)
-
-            if let debris = Debris.find(debrisKey) {
-                VStack(spacing: 4) {
-                    Text(debris.emoji)
-                        .font(.system(size: 30))
-                        .frame(width: 60, height: 60)
-                        .roughCard()
-                        .rotationEffect(.degrees(-4))
-                    Text("You found \(debris.name).")
-                        .font(.system(.footnote, design: .rounded))
-                        .opacity(0.75)
-                }
-            }
-
-            if let milestone {
-                Text("🏅 \(milestone.title)")
-                    .font(Theme.font(16, relativeTo: .body))
-                    .padding(.horizontal, 12)
-                    .frame(minHeight: 40)
-                    .roughCard(fill: palette.sunSoft)
-            }
 
             awkwardnessCheck
 

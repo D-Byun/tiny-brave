@@ -21,7 +21,7 @@ final class FlowUITests: XCTestCase {
 
     private func openProgress() {
         app.buttons["Track"].tap()
-        XCTAssertTrue(app.navigationBars["Brave-o-Meter"].waitForExistence(timeout: 5), "Progress did not open")
+        XCTAssertTrue(app.navigationBars["Track"].waitForExistence(timeout: 5), "Track did not open")
     }
 
     private func closeScreen() {
@@ -33,12 +33,16 @@ final class FlowUITests: XCTestCase {
         app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Brave-o-Meter, \(count) of 30 tiny braves")).firstMatch
     }
 
-    /// Always resets through Settings so earlier days' completions and the simulated-day offset never leak between tests.
+    private func resetProgress() {
+        app.buttons["Reset progress"].tap()
+        app.buttons["Reset"].tap()
+    }
+
+    /// Always resets through Track so earlier tests' completions never leak between tests.
     private func resetIfNeeded() {
-        app.buttons["Settings"].tap()
-        app.buttons["Reset all data"].tap()
-        app.buttons["Reset everything"].tap()
-        app.navigationBars.buttons.firstMatch.tap()
+        openProgress()
+        resetProgress()
+        closeScreen()
         XCTAssertTrue(meter(0).waitForExistence(timeout: 5))
     }
 
@@ -53,6 +57,10 @@ final class FlowUITests: XCTestCase {
     }
 
     private var taskText: XCUIElement { app.staticTexts["challengeText"] }
+
+    private func balloon(stage: Int) -> XCUIElement {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Yellow balloon, stage \(stage) of 30")).firstMatch
+    }
 
     func testCompleteChallengeFlowUpdatesCount() {
         shot("1-home")
@@ -73,6 +81,14 @@ final class FlowUITests: XCTestCase {
         completeOne()
         XCTAssertEqual(taskText.label, "Ask one question in class.")
         XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 2 · ROUND 1")
+    }
+
+    func testHomeHasNoExtrasBeyondTheMock() {
+        for label in ["Settings", "All 30 braves", "Next day"] {
+            XCTAssertFalse(app.buttons[label].exists, "\(label) should be gone")
+        }
+        XCTAssertFalse(app.staticTexts["greeting"].exists)
+        XCTAssertFalse(app.staticTexts["Do it out in the world. Then come back."].exists)
     }
 
     func testSkippedTaskGoesToTheEndAndStaysSkippedAfterRelaunch() {
@@ -104,22 +120,14 @@ final class FlowUITests: XCTestCase {
 
         openProgress()
         shot("7-progress-three")
-        app.buttons["Reset progress"].tap()
-        app.buttons["Reset"].tap()
+        XCTAssertFalse(app.staticTexts["BRAVERY MUSCLES"].exists)
+        XCTAssertFalse(app.staticTexts["BRAVE DEBRIS"].exists)
+        XCTAssertFalse(app.staticTexts["CERTIFICATES"].exists)
+        resetProgress()
         XCTAssertTrue(app.staticTexts["0 of 30"].waitForExistence(timeout: 5), "Reset did not clear progress")
-    }
-
-    func testLibraryFiltersAndReplay() {
-        app.buttons["All 30 braves"].tap()
-        XCTAssertTrue(app.navigationBars["Library"].waitForExistence(timeout: 5), "Library did not open")
-        app.buttons["Reset"].tap()
-        let trusted = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Write down one thing'")).firstMatch
-        XCTAssertTrue(trusted.waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'Ask one question in class'")).firstMatch.exists)
-        shot("6-library-reset")
-
-        trusted.tap()
-        XCTAssertTrue(app.buttons["yep. did brave thing."].waitForExistence(timeout: 5), "Library row did not open the challenge")
+        closeScreen()
+        XCTAssertTrue(meter(0).waitForExistence(timeout: 8))
+        XCTAssertEqual(taskText.label, "Give someone a specific compliment.", "Reset should restore the original task order")
     }
 
     func testExtraChallengesSameDayAddPuffsButNotStreak() {
@@ -131,113 +139,15 @@ final class FlowUITests: XCTestCase {
         XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
     }
 
-    private func balloon(stage: Int) -> XCUIElement {
-        app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Yellow balloon, stage \(stage) of 30")).firstMatch
-    }
-
-    private func nextDay() {
-        app.buttons["Next day"].tap()
-    }
-
-    func testNextDayAdvancesStreakAndGapHidesStreakButNeverDeflatesBalloon() {
-        completeOne()
-        nextDay()
-        completeOne()
-        XCTAssertTrue(meter(2).waitForExistence(timeout: 8))
-        openProgress()
-        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 2 day streak")
-        closeScreen()
-
-        nextDay()
-        nextDay()
-        XCTAssertTrue(balloon(stage: 2).waitForExistence(timeout: 8), "A broken streak should not deflate the balloon")
-        openProgress()
-        XCTAssertFalse(app.staticTexts["streak"].exists, "A broken streak should simply not be shown")
-        XCTAssertFalse(app.staticTexts["No streak yet. Do one today!"].exists)
-        closeScreen()
-        completeOne()
-        XCTAssertTrue(balloon(stage: 3).waitForExistence(timeout: 8))
-        openProgress()
-        XCTAssertEqual(app.staticTexts["streak"].label, "🔥 1 day streak")
-        closeScreen()
-
-        app.buttons["Settings"].tap()
-        app.buttons["Reset all data"].tap()
-        app.buttons["Reset everything"].tap()
-    }
-
-    func testSettingsUsernameAndTheme() {
-        app.buttons["Settings"].tap()
-        let field = app.textFields["usernameField"]
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap()
-        field.clearAndType("Sam")
-        app.buttons["Dark theme"].tap()
-        XCTAssertTrue(app.buttons["Dark theme"].isSelected)
-        app.navigationBars.buttons.firstMatch.tap()
-        XCTAssertTrue(app.staticTexts["greeting"].label.hasSuffix(", Sam"))
-        app.buttons["Settings"].tap()
-        app.buttons["Sunny theme"].tap()
-    }
-
-    func testResetAllDataClearsProgressNameAndTheme() {
-        completeOne()
-        app.buttons["Settings"].tap()
-        let field = app.textFields["usernameField"]
-        field.tap()
-        field.clearAndType("Sam")
-        app.buttons["Ocean theme"].tap()
-        app.buttons["Reset all data"].tap()
-        app.buttons["Reset everything"].tap()
-        XCTAssertTrue(app.buttons["Sunny theme"].waitForExistence(timeout: 5))
-        expectation(for: NSPredicate(format: "isSelected == true"), evaluatedWith: app.buttons["Sunny theme"])
-        waitForExpectations(timeout: 3)
-        app.navigationBars.buttons.firstMatch.tap()
-        XCTAssertTrue(meter(0).waitForExistence(timeout: 8))
-        XCTAssertEqual(taskText.label, "Give someone a specific compliment.", "Reset should restore the original task order")
-        XCTAssertEqual(app.staticTexts["greeting"].label.contains(","), false)
-    }
-
-    func testThemeCanChangeFromAnyTheme() {
-        app.buttons["Settings"].tap()
-        for name in ["Dark", "Ocean", "Dark", "Forest", "Bubblegum", "Sunny", "Dark", "Sunny"] {
-            let card = app.buttons["\(name) theme"]
-            card.tap()
-            expectation(for: NSPredicate(format: "isSelected == true"), evaluatedWith: card)
-            waitForExpectations(timeout: 3)
-        }
-    }
-
-    func testGreetingShowsUsername() {
-        app.buttons["Settings"].tap()
-        let field = app.textFields["usernameField"]
-        field.tap()
-        field.clearAndType("Sam")
-        app.navigationBars.buttons.firstMatch.tap()
-        let greeting = app.staticTexts["greeting"]
-        XCTAssertTrue(greeting.waitForExistence(timeout: 5))
-        XCTAssertTrue(greeting.label.hasPrefix("Good "))
-        XCTAssertTrue(greeting.label.hasSuffix(", Sam"))
-    }
-
     func testWelcomeScreenOpensHome() {
         app.terminate()
         app.launchArguments = []
         app.launch()
         XCTAssertTrue(app.staticTexts["welcomeHeadline"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons["Settings"].isHittable)
+        XCTAssertFalse(app.buttons["Track"].isHittable)
         app.buttons["open carefully"].tap()
-        XCTAssertTrue(app.buttons["Settings"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Track"].waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: app.staticTexts["welcomeHeadline"])
         waitForExpectations(timeout: 5)
-    }
-}
-
-private extension XCUIElement {
-    func clearAndType(_ text: String) {
-        if let current = value as? String, !current.isEmpty {
-            typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
-        }
-        typeText(text)
     }
 }
