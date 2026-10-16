@@ -20,6 +20,8 @@ struct Debris: Identifiable, Hashable {
 /// The balloon has `goal` puffs, one per distinct task completed, and it never deflates.
 enum BraveProgress {
     static let goal = 30
+    /// Only the first set of 30 tasks exists so far.
+    static let round = 1
 
     static func done(_ completed: Int) -> Int { min(max(completed, 0), goal) }
     /// UserDefaults key for the stage the home screen last showed; lets it animate from there to the current stage.

@@ -37,7 +37,7 @@ final class FlowUITests: XCTestCase {
         let card = pill(level)
         XCTAssertTrue(card.waitForExistence(timeout: 5), "\(level) card missing")
         card.tap()
-        let done = app.buttons["I did the brave thing"]
+        let done = app.buttons["yep. did brave thing."]
         XCTAssertTrue(done.waitForExistence(timeout: 5), "Challenge screen did not appear")
         done.tap()
         XCTAssertTrue(app.buttons["Done"].waitForExistence(timeout: 5), "Reward screen did not appear")
@@ -49,7 +49,7 @@ final class FlowUITests: XCTestCase {
         shot("1-home")
         pill("Tiny stretch").tap()
         shot("2-challenge")
-        app.buttons["I did the brave thing"].tap()
+        app.buttons["yep. did brave thing."].tap()
         XCTAssertTrue(app.buttons["Another one"].waitForExistence(timeout: 5))
         Thread.sleep(forTimeInterval: 1.5)
         shot("4-reward")
@@ -58,12 +58,21 @@ final class FlowUITests: XCTestCase {
         shot("5-home-after")
     }
 
+    func testChallengeCardShowsDayAndRoundThatAdvanceWithPuffs() {
+        pill("Tiny stretch").tap()
+        XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 1 · ROUND 1")
+        app.navigationBars.buttons.firstMatch.tap()
+        completeOne(level: "Tiny stretch")
+        pill("Medium brave").tap()
+        XCTAssertEqual(app.staticTexts["dayRound"].label, "DAY 2 · ROUND 1")
+    }
+
     func testSwapChangesChallenge() {
         pill("Medium brave").tap()
         let text = app.staticTexts["challengeText"]
         XCTAssertTrue(text.waitForExistence(timeout: 5))
         let before = text.label
-        app.buttons["Not this one"].tap()
+        app.buttons["not this brave. give other."].tap()
         expectation(for: NSPredicate(format: "label != %@", before), evaluatedWith: text)
         waitForExpectations(timeout: 5)
     }
@@ -92,7 +101,7 @@ final class FlowUITests: XCTestCase {
         shot("6-library-reset")
 
         trusted.tap()
-        XCTAssertTrue(app.buttons["I did the brave thing"].waitForExistence(timeout: 5), "Library row did not open the challenge")
+        XCTAssertTrue(app.buttons["yep. did brave thing."].waitForExistence(timeout: 5), "Library row did not open the challenge")
     }
 
     func testExtraChallengesSameDayAddPuffsButNotStreak() {
