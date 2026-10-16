@@ -126,7 +126,7 @@ struct ProgressScreen: View {
             Capsule().fill(palette.surface)
                 .frame(width: 44, height: 10)
                 .overlay(alignment: .leading) {
-                    Capsule().fill(palette.sun)
+                    Capsule().fill(category.color(in: palette))
                         .frame(width: 44 * Double(done) / Double(max(all.count, 1)), height: 10)
                 }
                 .overlay(Capsule().stroke(palette.ink, lineWidth: 2))

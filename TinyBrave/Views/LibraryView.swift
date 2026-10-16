@@ -19,7 +19,7 @@ struct LibraryView: View {
                 HStack(spacing: 8) {
                     Chip(title: "All", selected: selected == nil) { selected = nil }
                     ForEach(BraveCategory.allCases) { category in
-                        Chip(title: category.title, selected: selected == category) { selected = category }
+                        Chip(title: category.title, selected: selected == category, tint: category.color(in: palette)) { selected = category }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -50,9 +50,12 @@ struct LibraryView: View {
                     .overlay(Circle().stroke(palette.ink, lineWidth: 2.5))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(challenge.category.title.uppercased())
-                        .font(.system(.caption2, design: .rounded))
+                        .font(.system(.caption2, design: .rounded, weight: .bold))
                         .tracking(1)
-                        .opacity(0.55)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(challenge.category.color(in: palette)))
+                        .overlay(Capsule().stroke(palette.ink, lineWidth: 1.5))
                     Text(challenge.text)
                         .font(Theme.font(16, relativeTo: .callout))
                         .multilineTextAlignment(.leading)

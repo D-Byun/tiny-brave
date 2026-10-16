@@ -84,6 +84,20 @@ extension Level {
     }
 }
 
+extension BraveCategory {
+    /// Connect is blue, Speak pink, Try green and Reset lavender. The dark theme gets deeper
+    /// shades so its light ink stays readable on top of them.
+    func color(in palette: Palette) -> Color {
+        let dark = palette == AppTheme.dark.palette
+        switch self {
+        case .connect: return Color(hex: dark ? 0x2F6F8F : 0xBCE3E9)
+        case .speak: return Color(hex: dark ? 0x8F4A5A : 0xF1A7AA)
+        case .try: return Color(hex: dark ? 0x4C7A47 : 0xAFD5A2)
+        case .reset: return Color(hex: dark ? 0x5E4F8A : 0xC9B9E7)
+        }
+    }
+}
+
 func roughRect() -> UnevenRoundedRectangle {
     UnevenRoundedRectangle(
         topLeadingRadius: 16, bottomLeadingRadius: 22,
@@ -150,6 +164,7 @@ struct Chip: View {
     @Environment(\.palette) private var palette
     let title: String
     let selected: Bool
+    var tint: Color?
     let action: () -> Void
 
     var body: some View {
@@ -159,7 +174,7 @@ struct Chip: View {
                 .foregroundStyle(palette.ink)
                 .padding(.horizontal, 12)
                 .frame(minHeight: 44)
-                .roughCard(fill: selected ? palette.sun : palette.surface)
+                .roughCard(fill: selected ? (tint ?? palette.sun) : palette.surface)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])

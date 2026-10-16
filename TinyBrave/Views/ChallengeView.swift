@@ -58,7 +58,7 @@ struct ChallengeView: View {
                     .tracking(1)
                     .padding(.horizontal, 12)
                     .frame(minHeight: 28)
-                    .roughCard(fill: palette.sky)
+                    .roughCard(fill: challenge.category.color(in: palette))
                 Spacer()
                 Text(challenge.level.rawValue)
                     .font(Theme.font(15, relativeTo: .subheadline))
