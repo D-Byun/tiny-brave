@@ -28,6 +28,25 @@ final class BalloonSceneTests: XCTestCase {
         }
     }
 
+    func testGlideStartsAndEndsAtRest() {
+        for scene in [BalloonScene.sway, .lift, .dance, .zip] {
+            XCTAssertEqual(scene.glideOffset(phase: 0), BalloonScene.Offset(x: 0, y: 0, tilt: 0))
+            let end = scene.glideOffset(phase: 0.9999)
+            XCTAssertEqual(end.x, 0, accuracy: 0.01)
+            XCTAssertEqual(end.y, 0, accuracy: 0.01)
+            let peak = scene.glideOffset(phase: 0.24)
+            XCTAssertEqual(peak.x, scene.glide.right, accuracy: 0.0001)
+        }
+    }
+
+    func testSkyDarkensAndSaturatesWithPuffs() {
+        let empty = BalloonScene.sky(puffs: 0)
+        let full = BalloonScene.sky(puffs: 30)
+        XCTAssertEqual(empty.top.0, 184, accuracy: 0.001)
+        XCTAssertEqual(full.top.0, 57, accuracy: 0.001)
+        XCTAssertEqual(full.bottom.2, 238, accuracy: 0.001)
+    }
+
     func testFullBalloonStopsDrifting() {
         XCTAssertEqual(BalloonScene.motion(puffs: 30).drift, 0)
         XCTAssertNotEqual(BalloonScene.motion(puffs: 29).drift, 0)

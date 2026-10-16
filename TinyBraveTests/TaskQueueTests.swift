@@ -77,7 +77,7 @@ final class TaskQueueTests: XCTestCase {
     }
 
     func testRealCatalogQueuesAllThirtyTasks() {
-        let ids = ChallengeStore.shared.all.map(\.id)
+        let ids = Rounds.catalog(round: 1, all: ChallengeStore.shared.all)
         let queue = TaskQueue(catalog: ids, completed: [])
         XCTAssertEqual(queue.ids, ids)
         XCTAssertEqual(queue.count, 30)

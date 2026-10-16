@@ -1,101 +1,56 @@
 import SwiftUI
 
-/// Proportions of the balloon body for a given fullness (0 = limp, 1 = fully inflated).
-private enum BalloonShape {
-    static func width(_ f: CGFloat) -> CGFloat { 0.78 + 0.22 * f }
-    static func height(_ f: CGFloat) -> CGFloat { 0.72 + 0.28 * f }
-}
-
-/// Anchored at the knot: a limp balloon is a short, narrow, floppy pear that fills out into a round balloon.
-private struct BalloonBody: Shape {
-    var fullness: CGFloat
+/// A balloon body whose corners get rounder as it fills: a lumpy, squarish blob at 0, a plump round one at 1.
+private struct BlobShape: Shape {
+    var progress: CGFloat
     var animatableData: CGFloat {
-        get { fullness }
-        set { fullness = newValue }
+        get { progress }
+        set { progress = newValue }
     }
 
     func path(in r: CGRect) -> Path {
-        let f = fullness, slack = 1 - f
-        let w = r.width * BalloonShape.width(f)
-        let h = r.height * BalloonShape.height(f)
-        let minX = r.midX - w / 2, maxX = r.midX + w / 2
-        let top = r.maxY - h
-        let widest = top + h * (0.42 + 0.26 * slack)
-        let tipX = r.midX + w * 0.22 * slack
-        let shoulderY = h * (0.12 + 0.22 * slack)
-        let shoulderX = w * (0.25 + 0.2 * slack)
-        let lowerY = widest + (r.maxY - widest) * 0.57
-
+        let w = r.width, h = r.height, k: CGFloat = 0.5523
+        let tl = 0.38 + 0.11 * progress, tr = 0.43 + 0.08 * progress, br: CGFloat = 0.48, bl: CGFloat = 0.51
         var p = Path()
-        p.move(to: CGPoint(x: r.midX, y: r.maxY))
+        p.move(to: CGPoint(x: r.minX + tl * w, y: r.minY))
+        p.addLine(to: CGPoint(x: r.minX + w - tr * w, y: r.minY))
         p.addCurve(
-            to: CGPoint(x: minX, y: widest),
-            control1: CGPoint(x: minX + w * 0.15, y: r.maxY - h * 0.05),
-            control2: CGPoint(x: minX, y: lowerY))
+            to: CGPoint(x: r.maxX, y: r.minY + tr * h),
+            control1: CGPoint(x: r.minX + w - tr * w + k * tr * w, y: r.minY),
+            control2: CGPoint(x: r.maxX, y: r.minY + tr * h - k * tr * h))
+        p.addLine(to: CGPoint(x: r.maxX, y: r.minY + h - br * h))
         p.addCurve(
-            to: CGPoint(x: tipX, y: top),
-            control1: CGPoint(x: minX, y: top + shoulderY),
-            control2: CGPoint(x: minX + shoulderX, y: top))
+            to: CGPoint(x: r.minX + w - br * w, y: r.maxY),
+            control1: CGPoint(x: r.maxX, y: r.minY + h - br * h + k * br * h),
+            control2: CGPoint(x: r.minX + w - br * w + k * br * w, y: r.maxY))
+        p.addLine(to: CGPoint(x: r.minX + bl * w, y: r.maxY))
         p.addCurve(
-            to: CGPoint(x: maxX, y: widest),
-            control1: CGPoint(x: maxX - shoulderX, y: top),
-            control2: CGPoint(x: maxX, y: top + shoulderY))
+            to: CGPoint(x: r.minX, y: r.minY + h - bl * h),
+            control1: CGPoint(x: r.minX + bl * w - k * bl * w, y: r.maxY),
+            control2: CGPoint(x: r.minX, y: r.minY + h - bl * h + k * bl * h))
+        p.addLine(to: CGPoint(x: r.minX, y: r.minY + tl * h))
         p.addCurve(
-            to: CGPoint(x: r.midX, y: r.maxY),
-            control1: CGPoint(x: maxX, y: lowerY),
-            control2: CGPoint(x: maxX - w * 0.15, y: r.maxY - h * 0.05))
+            to: CGPoint(x: r.minX + tl * w, y: r.minY),
+            control1: CGPoint(x: r.minX, y: r.minY + tl * h - k * tl * h),
+            control2: CGPoint(x: r.minX + tl * w - k * tl * w, y: r.minY))
         p.closeSubpath()
         return p
     }
 }
 
-/// Creases across a limp balloon; fewer of them as it fills up.
-private struct WrinkleShape: Shape {
-    var count: Int
-
+private struct ArcShine: Shape {
     func path(in r: CGRect) -> Path {
         var p = Path()
-        let rows: [(y: CGFloat, dx: CGFloat, half: CGFloat)] = [(0.17, -0.04, 0.17), (0.25, 0.06, 0.14), (0.33, -0.08, 0.11)]
-        for row in rows.prefix(count) {
-            let y = r.minY + r.height * row.y
-            let cx = r.midX + r.width * row.dx
-            let half = r.width * row.half
-            p.move(to: CGPoint(x: cx - half, y: y))
-            p.addQuadCurve(to: CGPoint(x: cx + half, y: y), control: CGPoint(x: cx, y: y + r.height * 0.035))
-        }
+        p.addArc(center: CGPoint(x: r.maxX, y: r.midY), radius: r.height / 2, startAngle: .degrees(270), endAngle: .degrees(90), clockwise: true)
         return p
     }
 }
 
-private struct MouthShape: Shape {
-    /// -1 frown ... 1 smile
-    var curve: CGFloat
-    var animatableData: CGFloat {
-        get { curve }
-        set { curve = newValue }
-    }
-
+private struct SmileShape: Shape {
     func path(in r: CGRect) -> Path {
         var p = Path()
-        p.move(to: CGPoint(x: r.minX, y: r.midY))
-        p.addQuadCurve(
-            to: CGPoint(x: r.maxX, y: r.midY),
-            control: CGPoint(x: r.midX, y: r.midY + r.height * curve))
-        return p
-    }
-}
-
-private struct CrownShape: Shape {
-    func path(in r: CGRect) -> Path {
-        var p = Path()
-        p.move(to: CGPoint(x: r.minX, y: r.maxY))
-        p.addLine(to: CGPoint(x: r.minX, y: r.minY + r.height * 0.2))
-        p.addLine(to: CGPoint(x: r.minX + r.width * 0.25, y: r.minY + r.height * 0.55))
-        p.addLine(to: CGPoint(x: r.midX, y: r.minY))
-        p.addLine(to: CGPoint(x: r.minX + r.width * 0.75, y: r.minY + r.height * 0.55))
-        p.addLine(to: CGPoint(x: r.maxX, y: r.minY + r.height * 0.2))
-        p.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
-        p.closeSubpath()
+        p.move(to: CGPoint(x: r.minX, y: r.minY))
+        p.addQuadCurve(to: CGPoint(x: r.maxX, y: r.minY), control: CGPoint(x: r.midX, y: r.maxY * 2 - r.minY))
         return p
     }
 }
@@ -114,129 +69,154 @@ private struct KnotShape: Shape {
 private struct StringShape: Shape {
     func path(in r: CGRect) -> Path {
         var p = Path()
-        p.move(to: CGPoint(x: r.midX, y: r.minY))
+        p.move(to: CGPoint(x: r.maxX, y: r.minY))
         p.addCurve(
-            to: CGPoint(x: r.midX, y: r.maxY),
-            control1: CGPoint(x: r.minX, y: r.height * 0.3),
-            control2: CGPoint(x: r.maxX, y: r.height * 0.7))
+            to: CGPoint(x: r.minX + r.width * 0.1, y: r.maxY),
+            control1: CGPoint(x: r.maxX + r.width * 0.1, y: r.height * 0.45),
+            control2: CGPoint(x: r.width * 0.55, y: r.height * 0.95))
         return p
     }
 }
 
-/// The balloon fill and crown stay the same whatever theme is selected; outline, face and creases follow the theme's ink color.
-private enum BalloonColors {
-    static let yellow = Color(hex: 0xFFC93C)
-    static let sky = Color(hex: 0x8ECAE6)
+private struct TriangleShape: Shape {
+    func path(in r: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: r.midX, y: r.minY))
+        p.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
+        p.addLine(to: CGPoint(x: r.minX, y: r.maxY))
+        p.closeSubpath()
+        return p
+    }
 }
 
-/// `inflation` runs 0...1 in `BraveProgress.goal` steps; the balloon is drawn at a fixed 220x320 and scaled by `size`.
+/// The striped party hat the balloon earns at 30.
+struct PartyHat: View {
+    @Environment(\.palette) private var palette
+    var width: CGFloat = 64
+
+    private var height: CGFloat { width * 0.95 }
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            TriangleShape()
+                .fill(LinearGradient(stops: [
+                    .init(color: Color(hex: 0xE65345), location: 0), .init(color: Color(hex: 0xE65345), location: 0.18),
+                    .init(color: palette.surface, location: 0.18), .init(color: palette.surface, location: 0.36),
+                    .init(color: Color(hex: 0x6FC7DC), location: 0.36), .init(color: Color(hex: 0x6FC7DC), location: 0.54),
+                    .init(color: Color(hex: 0xE65345), location: 0.54), .init(color: Color(hex: 0xE65345), location: 0.72),
+                    .init(color: palette.surface, location: 0.72), .init(color: palette.surface, location: 0.9),
+                    .init(color: Color(hex: 0x6FC7DC), location: 0.9), .init(color: Color(hex: 0x6FC7DC), location: 1),
+                ], startPoint: UnitPoint(x: 0, y: 0.35), endPoint: UnitPoint(x: 1, y: 0.65)))
+                .background(TriangleShape().fill(palette.ink).offset(x: 2, y: 2))
+                .frame(width: width, height: height)
+            Circle()
+                .fill(palette.sun)
+                .overlay(Circle().strokeBorder(palette.ink, lineWidth: 2))
+                .frame(width: width * 0.22, height: width * 0.22)
+                .offset(y: -width * 0.1)
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+/// `inflation` runs 0...1 in `BraveProgress.goal` steps. The balloon is laid out at 176 by 266 and scaled by `size`.
 struct BalloonView: View {
     var inflation: Double
-    var crown = false
-    var happy = false
     var puff: CGFloat = 1
     var size: CGFloat = 1
+    var hat = false
+    /// Flattens a barely inflated balloon the way the Home scene does.
+    var squash = false
 
     @Environment(\.palette) private var palette
-    @State private var sway = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var stage: Int { Int((min(max(inflation, 0), 1) * Double(BraveProgress.goal)).rounded()) }
     /// Snapped to one of the discrete stages so each completed task is a visible step.
-    private var level: Double { Double(stage) / Double(BraveProgress.goal) }
-    private var fullness: CGFloat { CGFloat(level) }
-    private var scale: CGFloat { (0.92 + 0.08 * fullness) * puff }
-    private var bodyHeight: CGFloat { 240 * scale * BalloonShape.height(fullness) }
-    /// Vertical offset from the frame's center to the center of the (bottom-anchored) body.
-    private var bodyCenterY: CGFloat { (240 * scale - bodyHeight) / 2 }
-    private var wrinkleCount: Int { level >= 0.8 ? 0 : level >= 0.6 ? 1 : level >= 0.3 ? 2 : 3 }
+    private var level: CGFloat { CGFloat(stage) / CGFloat(BraveProgress.goal) }
+    private var squashScale: CGSize {
+        guard squash else { return CGSize(width: 1, height: 1) }
+        let eased = 1 - pow(1 - level, 3)
+        return CGSize(width: 0.78 + 0.30 * level, height: 0.48 + 0.60 * eased)
+    }
+
+    private let yellow = Color(hex: 0xFFD846)
 
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack(alignment: .top) {
+            string
+            knot
             balloonBody
-            KnotShape()
-                .fill(BalloonColors.yellow)
-                .overlay(KnotShape().stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineJoin: .round)))
-                .frame(width: 16, height: 12)
-            StringShape()
-                .stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                .frame(width: 24, height: 50)
+            if hat {
+                PartyHat()
+                    .rotationEffect(.degrees(-6), anchor: .bottom)
+                    .offset(y: -42)
+                    .transition(.scale(scale: 0.75, anchor: .bottom).combined(with: .opacity))
+            }
         }
-        .frame(width: 220, height: 320, alignment: .bottom)
-        .rotationEffect(.degrees(reduceMotion ? 0 : (sway ? 3 : -3)), anchor: .bottom)
-        .scaleEffect(size)
-        .frame(width: 220 * size, height: 320 * size)
-        .onAppear {
-            guard !reduceMotion else { return }
-            withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) { sway = true }
-        }
+        .frame(width: 176, height: 266, alignment: .top)
+        .scaleEffect(x: squashScale.width * puff, y: squashScale.height * puff, anchor: UnitPoint(x: 0.5, y: 0.82))
+        .scaleEffect(size, anchor: .topLeading)
+        .frame(width: 176 * size, height: 266 * size, alignment: .topLeading)
+        .animation(.spring(response: 0.7, dampingFraction: 0.55), value: stage)
+        .animation(.spring(response: 0.5, dampingFraction: 0.45), value: puff)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Yellow balloon, stage \(stage) of \(BraveProgress.goal)\(stage == BraveProgress.goal ? ", wearing a crown" : "")")
+        .accessibilityLabel("Yellow balloon, stage \(stage) of \(BraveProgress.goal)\(stage == BraveProgress.goal ? ", wearing a party hat" : "")")
     }
 
     private var balloonBody: some View {
-        ZStack {
-            BalloonBody(fullness: fullness).fill(BalloonColors.yellow)
-            BalloonBody(fullness: fullness).stroke(palette.ink, style: StrokeStyle(lineWidth: 4.5, lineJoin: .round))
+        let blob = BlobShape(progress: level)
+        return ZStack(alignment: .topLeading) {
+            blob.fill(palette.ink.opacity(0.92)).offset(x: 6, y: 8)
+            blob.fill(yellow)
+            blob.fill(palette.sunDeep.opacity(0.18))
+                .mask {
+                    Rectangle().overlay { blob.offset(x: -16, y: -15).blendMode(.destinationOut) }.compositingGroup()
+                }
+            blob.stroke(palette.ink, lineWidth: 3)
 
-            WrinkleShape(count: wrinkleCount)
-                .stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                .frame(width: 200 * scale * BalloonShape.width(fullness), height: bodyHeight)
-                .offset(y: bodyCenterY)
-                .opacity(wrinkleCount > 0 ? 1 : 0)
-
-            Capsule()
-                .fill(Color.white.opacity(0.6))
-                .frame(width: 10 * scale, height: 50 * scale * BalloonShape.height(fullness))
-                .rotationEffect(.degrees(20))
-                .offset(x: -62 * scale * BalloonShape.width(fullness), y: bodyCenterY - 48 * scale * BalloonShape.height(fullness))
+            ArcShine()
+                .stroke(Color.white.opacity(0.6), style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                .frame(width: 22, height: 43)
+                .offset(x: 37, y: 34)
+                .opacity(0.35 + 0.65 * level)
 
             face
-
-            if level < 0.3 && !happy {
-                Image(systemName: "drop.fill")
-                    .font(.system(size: 18 * scale))
-                    .foregroundStyle(BalloonColors.sky)
-                    .offset(x: 72 * scale * BalloonShape.width(fullness), y: bodyCenterY - 10 * scale)
-            }
         }
-        .frame(width: 200 * scale, height: 240 * scale)
-        .overlay(alignment: .top) {
-            if crown || stage == BraveProgress.goal {
-                CrownShape()
-                    .fill(BalloonColors.sky)
-                    .overlay(CrownShape().stroke(palette.ink, style: StrokeStyle(lineWidth: 3.5, lineJoin: .round)))
-                    .frame(width: 70 * scale, height: 36 * scale)
-                    .offset(y: -18 * scale)
-                    .transition(.scale.combined(with: .opacity))
-            }
-        }
-        .rotationEffect(.degrees((1 - level) * -9), anchor: .bottom)
-        .animation(.spring(response: 0.7, dampingFraction: 0.5), value: inflation)
-        .animation(.spring(response: 0.5, dampingFraction: 0.4), value: puff)
-        .animation(.spring(response: 0.5, dampingFraction: 0.6), value: stage == BraveProgress.goal)
-        .animation(.easeInOut(duration: 0.3), value: happy)
+        .frame(width: 176, height: 206)
     }
 
     private var face: some View {
-        VStack(spacing: 14 * scale) {
-            HStack(spacing: 40 * scale * BalloonShape.width(fullness)) {
-                Circle().fill(palette.ink).frame(width: 13 * scale, height: 13 * scale)
-                Circle().fill(palette.ink).frame(width: 13 * scale, height: 13 * scale)
-            }
-            MouthShape(curve: happy ? 1.0 : -0.5 + 1.5 * level)
-                .stroke(palette.ink, style: StrokeStyle(lineWidth: 4, lineCap: .round))
-                .frame(width: 44 * scale * BalloonShape.width(fullness), height: 24 * scale)
+        ZStack(alignment: .topLeading) {
+            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 56, y: 92)
+            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 113, y: 92)
+            SmileShape()
+                .stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                .frame(width: 14 + 10 * level, height: (5 + 10 * level) * (0.35 + 0.65 * level))
+                .offset(x: 88 - (14 + 10 * level) / 2, y: 132)
         }
-        .offset(y: bodyCenterY + 12 * scale)
+    }
+
+    private var knot: some View {
+        KnotShape()
+            .fill(palette.sunDeep)
+            .overlay(KnotShape().stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineJoin: .round)))
+            .frame(width: 28, height: 25)
+            .offset(y: 194)
+    }
+
+    private var string: some View {
+        StringShape()
+            .stroke(palette.ink, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+            .frame(width: 38, height: 59)
+            .offset(x: 10, y: 216)
     }
 }
 
 #Preview {
     HStack {
-        BalloonView(inflation: 0, size: 0.5)
+        BalloonView(inflation: 0, size: 0.5, squash: true)
         BalloonView(inflation: 0.5, size: 0.5)
-        BalloonView(inflation: 1, crown: true, size: 0.5)
+        BalloonView(inflation: 1, size: 0.5, hat: true)
     }
     .padding()
     .screenBackground()

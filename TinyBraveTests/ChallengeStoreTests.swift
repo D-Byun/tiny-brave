@@ -2,12 +2,12 @@ import XCTest
 @testable import TinyBrave
 
 final class ChallengeStoreTests: XCTestCase {
-    func testThirtyChallengesAcrossFourCategories() {
+    func testSixtyChallengesAcrossFourCategories() {
         let all = ChallengeStore.shared.all
-        XCTAssertEqual(all.count, 30)
+        XCTAssertEqual(all.count, 60)
         XCTAssertEqual(BraveCategory.allCases.count, 4)
         let counts = Dictionary(grouping: all, by: \.category).mapValues(\.count)
-        XCTAssertEqual(counts, [.connect: 8, .speak: 8, .try: 7, .reset: 7])
+        XCTAssertEqual(counts, [.connect: 16, .speak: 16, .try: 14, .reset: 14])
         XCTAssertTrue(all.allSatisfy { !$0.text.isEmpty && !$0.why.isEmpty })
     }
 
@@ -85,6 +85,31 @@ final class ChallengeStoreTests: XCTestCase {
         let old = (1...4).map { Completion(challengeID: $0, date: cal.date(byAdding: .day, value: -($0 + 10), to: now)!) }
         XCTAssertEqual(BraveProgress.stage(old), 4)
         XCTAssertEqual(DailyGoal.streak(old, now: now), 0, "The streak still breaks")
+    }
+
+    func testStageOnlyCountsTheCurrentRound() {
+        let now = Date()
+        let mixed = [Completion(challengeID: 1, date: now, round: 1), Completion(challengeID: 31, date: now, round: 2), Completion(challengeID: 32, date: now, round: 2)]
+        XCTAssertEqual(BraveProgress.stage(mixed, round: 1), 1)
+        XCTAssertEqual(BraveProgress.stage(mixed, round: 2), 2)
+    }
+
+    func testRoundsUseTheirOwnThirtyChallenges() {
+        let all = ChallengeStore.shared.all
+        XCTAssertEqual(Rounds.catalog(round: 1, all: all), Array(1...30))
+        XCTAssertEqual(Rounds.catalog(round: 2, all: all), Array(31...60))
+        XCTAssertEqual(Rounds.catalog(round: 3, all: all), Array(1...30))
+        XCTAssertTrue(Rounds.isAllNew(2))
+        XCTAssertFalse(Rounds.isAllNew(1))
+    }
+
+    func testOnlyLaterRoundsStartShuffled() {
+        let all = ChallengeStore.shared.all
+        var rng = SystemRandomNumberGenerator()
+        XCTAssertEqual(Rounds.startingOrder(round: 1, all: all, using: &rng), Array(1...30))
+        XCTAssertEqual(Rounds.startingOrder(round: 2, all: all, using: &rng), Array(31...60))
+        let third = Rounds.startingOrder(round: 3, all: all, using: &rng)
+        XCTAssertEqual(Set(third), Set(1...30))
     }
 
     func testBalloonStageCapsAtGoal() {
