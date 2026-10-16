@@ -19,7 +19,6 @@ struct HomeView: View {
     /// The stage currently drawn; it steps toward `stage` so changes animate.
     private var shownStage: Int { lastSeenStage >= 0 ? lastSeenStage : stage }
     private var name: String { Username.clean(username) }
-    private var inflation: Double { BraveProgress.inflation(completed: shownStage) }
 
     var body: some View {
         ScrollView {
@@ -46,13 +45,11 @@ struct HomeView: View {
                     .accessibilityLabel("Brave-o-Meter, \(doneToday ? 1 : 0) of 1 done today")
                 }
 
-                VStack(spacing: 2) {
+                VStack(spacing: 8) {
                     Text(Greeting.text(name: username))
                         .font(Theme.font(20, relativeTo: .title3))
                         .accessibilityIdentifier("greeting")
-                    BalloonView(inflation: inflation, puff: puff, size: 0.6)
-                    Text(BalloonCaption.text(puffs: shownStage))
-                        .font(Theme.font(24, relativeTo: .title2))
+                    BraveMeterView(puffs: shownStage, puff: puff)
                     Text(subtitle)
                         .font(Theme.font(15, relativeTo: .subheadline))
                         .opacity(0.7)

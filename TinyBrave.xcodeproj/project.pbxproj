@@ -13,6 +13,7 @@
 		3A509A4860E5821D20E162F9 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD26160B9ECCA27949EF02 /* WelcomeView.swift */; };
 		3F09ECB40290D7E27115D7F4 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */; };
 		44BE6F673A280845AC23A73A /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC0FB48678900DC334EDEFF /* Challenge.swift */; };
+		4CE051BD6052BAB5BC4A538F /* BalloonSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */; };
 		4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE187F6D1F02F821C50ABF6A /* BalloonView.swift */; };
 		4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */; };
 		56C54403799969BE7DE61DA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6300817D6B87F6606CD59B45 /* SettingsView.swift */; };
@@ -24,10 +25,12 @@
 		A8C8DA2EA10E006A114FCAA4 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1781C8B4441CF36FD930D31 /* LibraryView.swift */; };
 		AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */; };
 		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
+		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
 		E333948A113D327F9F0F80D7 /* FlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */; };
 		E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */; };
 		EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B96B67CC3715075E4D897B0 /* Completion.swift */; };
+		F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11215797B499B0943D05F7D2 /* BraveMeterView.swift */; };
 		F585DC22989C0A8244BF5E37 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1FCF2CE6FDC7DF99B6B90D /* Greeting.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		0B96B67CC3715075E4D897B0 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
+		11215797B499B0943D05F7D2 /* BraveMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveMeterView.swift; sourceTree = "<group>"; };
 		1F3AD7B5E7216FBB867D1605 /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		59D0992C05E83B8804F73B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TinyBrave.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,8 +73,10 @@
 		C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC3863F65BFC6700345758E2 /* Username.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Username.swift; sourceTree = "<group>"; };
 		CECD26160B9ECCA27949EF02 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonSceneTests.swift; sourceTree = "<group>"; };
 		DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyBraveApp.swift; sourceTree = "<group>"; };
 		E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
+		E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonScene.swift; sourceTree = "<group>"; };
 		EE187F6D1F02F821C50ABF6A /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
 		EEC0FB48678900DC334EDEFF /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 		468BB348B4943D95BF1B519F /* TinyBraveTests */ = {
 			isa = PBXGroup;
 			children = (
+				D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */,
 				63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */,
 				69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */,
 			);
@@ -130,6 +137,7 @@
 		6B209F52CE18FF50A5CAAD2F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */,
 				EEC0FB48678900DC334EDEFF /* Challenge.swift */,
 				0B96B67CC3715075E4D897B0 /* Completion.swift */,
 				8E299955EB971965B0B555CE /* DailyGoal.swift */,
@@ -145,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				EE187F6D1F02F821C50ABF6A /* BalloonView.swift */,
+				11215797B499B0943D05F7D2 /* BraveMeterView.swift */,
 				59D0992C05E83B8804F73B62 /* Theme.swift */,
 			);
 			path = Components;
@@ -288,7 +297,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */,
 				4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */,
+				F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */,
 				44BE6F673A280845AC23A73A /* Challenge.swift in Sources */,
 				85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */,
 				AA947726AAEA0DE9A5743534 /* ChallengeView.swift in Sources */,
@@ -313,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE051BD6052BAB5BC4A538F /* BalloonSceneTests.swift in Sources */,
 				AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */,
 				E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */,
 			);
