@@ -15,6 +15,7 @@
 		3AFB0C5D370EA15AB369475E /* TrackSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F31693734A034395BD3FD0C /* TrackSheet.swift */; };
 		3F09ECB40290D7E27115D7F4 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */; };
 		44BE6F673A280845AC23A73A /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC0FB48678900DC334EDEFF /* Challenge.swift */; };
+		4609EB87FCC5265ACEA91724 /* AudioPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5A18CE484AF6F7D8BE6896 /* AudioPad.swift */; };
 		4CE051BD6052BAB5BC4A538F /* BalloonSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */; };
 		4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE187F6D1F02F821C50ABF6A /* BalloonView.swift */; };
 		4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */; };
@@ -37,7 +38,6 @@
 		E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */; };
 		EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B96B67CC3715075E4D897B0 /* Completion.swift */; };
 		F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11215797B499B0943D05F7D2 /* BraveMeterView.swift */; };
-		F1533ED89391E24FB5C71011 /* VideoPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC983DA85C2AF782D40851 /* VideoPad.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +66,7 @@
 		59D0992C05E83B8804F73B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TinyBrave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B436EB684C1189BB0E4A6EB /* CategoryColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryColorTests.swift; sourceTree = "<group>"; };
+		5D5A18CE484AF6F7D8BE6896 /* AudioPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPad.swift; sourceTree = "<group>"; };
 		5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskQueue.swift; sourceTree = "<group>"; };
 		5F31693734A034395BD3FD0C /* TrackSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSheet.swift; sourceTree = "<group>"; };
 		63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreTests.swift; sourceTree = "<group>"; };
@@ -87,7 +88,6 @@
 		E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPad.swift; sourceTree = "<group>"; };
 		E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
 		E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonScene.swift; sourceTree = "<group>"; };
-		E9FC983DA85C2AF782D40851 /* VideoPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPad.swift; sourceTree = "<group>"; };
 		EE187F6D1F02F821C50ABF6A /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
 		EEC0FB48678900DC334EDEFF /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		F10F1C7BF7CF15CE77F42505 /* FinaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinaleView.swift; sourceTree = "<group>"; };
@@ -166,13 +166,13 @@
 		850AA5A0911AA3F61D8D8AFA /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5D5A18CE484AF6F7D8BE6896 /* AudioPad.swift */,
 				EE187F6D1F02F821C50ABF6A /* BalloonView.swift */,
 				11215797B499B0943D05F7D2 /* BraveMeterView.swift */,
 				3E27B90C4270E4E7C1FD618B /* Confetti.swift */,
 				191ED519FD54D573ECC7BEAA /* Dialogs.swift */,
 				E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */,
 				59D0992C05E83B8804F73B62 /* Theme.swift */,
-				E9FC983DA85C2AF782D40851 /* VideoPad.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -315,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4609EB87FCC5265ACEA91724 /* AudioPad.swift in Sources */,
 				BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */,
 				4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */,
 				F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */,
@@ -337,7 +338,6 @@
 				1238BC7230FC06FB31811148 /* Theme.swift in Sources */,
 				8D64B3E8FAE7249837E9A15F /* TinyBraveApp.swift in Sources */,
 				3AFB0C5D370EA15AB369475E /* TrackSheet.swift in Sources */,
-				F1533ED89391E24FB5C71011 /* VideoPad.swift in Sources */,
 				3A509A4860E5821D20E162F9 /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,8 +534,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Tiny Brave uses the camera only when you tap wake camera, to record a short movie of your brave moment.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave records sound with your tiny movie only while the camera is recording.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -589,8 +588,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Tiny Brave uses the camera only when you tap wake camera, to record a short movie of your brave moment.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave records sound with your tiny movie only while the camera is recording.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (

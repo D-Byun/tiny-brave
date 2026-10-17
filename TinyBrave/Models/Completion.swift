@@ -14,7 +14,7 @@ final class Completion {
     }
 }
 
-/// A drawing or tiny movie kept as the receipt for a completed brave. It outlives resets and rounds.
+/// A drawing or tiny recording kept as the receipt for a completed brave. It outlives resets and rounds.
 @Model
 final class Response {
     var challengeID: Int
@@ -38,7 +38,9 @@ final class Response {
 }
 
 enum ResponseKind: String {
-    case drawing, video
+    case drawing, audio
+    /// Recorded by earlier versions; still kept and playable.
+    case video
 }
 
 /// Where response media lives on disk.
@@ -53,6 +55,11 @@ enum ResponseFiles {
     static func url(for filename: String) -> URL { directory.appendingPathComponent(filename) }
 
     static func newFilename(kind: ResponseKind) -> String {
-        "\(UUID().uuidString).\(kind == .drawing ? "png" : "mov")"
+        let ext = switch kind {
+        case .drawing: "png"
+        case .audio: "m4a"
+        case .video: "mov"
+        }
+        return "\(UUID().uuidString).\(ext)"
     }
 }

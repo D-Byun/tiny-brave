@@ -20,8 +20,7 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: Tiny Brave
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
-        INFOPLIST_KEY_NSCameraUsageDescription: Tiny Brave uses the camera only when you tap wake camera, to record a short movie of your brave moment.
-        INFOPLIST_KEY_NSMicrophoneUsageDescription: Tiny Brave records sound with your tiny movie only while the camera is recording.
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.
         TARGETED_DEVICE_FAMILY: "1"
   TinyBraveTests:
     type: bundle.unit-test

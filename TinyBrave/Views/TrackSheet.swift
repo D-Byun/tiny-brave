@@ -80,7 +80,7 @@ struct FlowLayout: Layout {
     }
 }
 
-/// A kept drawing or tiny movie; videos show their first frame.
+/// A kept drawing or tiny recording; videos show their first frame and audio shows a waveform.
 struct ResponseThumbnail: View {
     let response: Response
     var fit = false
@@ -88,7 +88,14 @@ struct ResponseThumbnail: View {
 
     var body: some View {
         Group {
-            if let image {
+            if response.kind == .audio {
+                ZStack {
+                    Color(hex: 0x25251F)
+                    Image(systemName: "waveform")
+                        .font(.system(size: fit ? 90 : 34, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+            } else if let image {
                 if fit {
                     Image(uiImage: image).resizable().scaledToFit()
                 } else {
@@ -106,6 +113,8 @@ struct ResponseThumbnail: View {
         switch response.kind {
         case .drawing:
             return UIImage(contentsOfFile: url.path)
+        case .audio:
+            return nil
         case .video:
             let generator = AVAssetImageGenerator(asset: AVURLAsset(url: url))
             generator.appliesPreferredTrackTransform = true
@@ -269,8 +278,8 @@ struct TrackSheet: View {
             .aspectRatio(1, contentMode: .fit)
             .overlay { ResponseThumbnail(response: response) }
             .overlay(alignment: .topLeading) {
-                if response.kind == .video {
-                    Text("VIDEO")
+                if response.kind != .drawing {
+                    Text(response.kind == .audio ? "AUDIO" : "VIDEO")
                         .font(Theme.body(8.5, weight: .black))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 6)
@@ -295,7 +304,7 @@ struct TrackSheet: View {
             .overlay(shape.strokeBorder(palette.ink, lineWidth: 2))
             .background(shape.fill(palette.ink).offset(x: 2, y: 3))
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(response.kind == .video ? "Video" : "Drawing"), \(response.label)")
+            .accessibilityLabel("\(response.kind == .video ? "Video" : response.kind == .audio ? "Audio" : "Drawing"), \(response.label)")
     }
 
     private var completed: some View {

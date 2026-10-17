@@ -1,7 +1,7 @@
 import SwiftUI
 import AVKit
 
-/// Plays the kept drawings and movies one after another, oldest first, 2.5 seconds each.
+/// Plays the kept drawings and recordings one after another, oldest first, 2.5 seconds each.
 struct ReelView: View {
     let responses: [Response]
     var onClose: () -> Void
@@ -120,7 +120,7 @@ struct ReelView: View {
     }
 
     private func prepare(_ response: Response) {
-        guard response.kind == .video else {
+        guard response.kind != .drawing else {
             player?.pause()
             player = nil
             return

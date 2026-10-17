@@ -34,7 +34,7 @@ struct CircleSheet: View {
 
     private var setup: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("A circle is a few friends watching each other's balloons rise. They see counts, streaks and pings. Drawings and movies never leave your phone.")
+            Text("A circle is a few friends watching each other's balloons rise. They see counts, streaks and pings. Drawings and recordings never leave your phone.")
                 .font(Theme.body(13.4, weight: .regular))
                 .foregroundStyle(palette.muted)
                 .lineSpacing(4)

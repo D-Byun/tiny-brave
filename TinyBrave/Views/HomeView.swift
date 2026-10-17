@@ -216,7 +216,7 @@ struct HomeView: View {
             isFinal: isFinal,
             status: status,
             onDrawing: { saveDrawing($0, for: completing) },
-            onVideo: { saveVideo($0, for: completing) },
+            onAudio: { saveAudio($0, for: completing) },
             onNext: nextBrave,
             onFinale: { showFinale = true },
             onNewRound: { showRound = true }
@@ -245,7 +245,7 @@ struct HomeView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Track my brave").font(Theme.body(13.6, weight: .heavy))
-                    Text("drawings, videos, streaks, the whole saga")
+                    Text("drawings, recordings, streaks, the whole saga")
                         .font(Theme.body(10.7, weight: .semibold))
                         .foregroundStyle(palette.muted)
                 }
@@ -341,14 +341,14 @@ struct HomeView: View {
         kept(Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: .drawing, filename: name), message: "drawing tucked into Track.")
     }
 
-    private func saveVideo(_ url: URL, for completing: Completing) {
-        status = "keeping tiny movie…"
-        let name = ResponseFiles.newFilename(kind: .video)
+    private func saveAudio(_ url: URL, for completing: Completing) {
+        status = "keeping tiny recording…"
+        let name = ResponseFiles.newFilename(kind: .audio)
         do { try FileManager.default.moveItem(at: url, to: ResponseFiles.url(for: name)) } catch {
             status = "couldn't keep that one. try again?"
             return
         }
-        kept(Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: .video, filename: name), message: "tiny movie tucked into Track.")
+        kept(Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: .audio, filename: name), message: "tiny recording tucked into Track.")
     }
 
     private func kept(_ response: Response, message: String) {

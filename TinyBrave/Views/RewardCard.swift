@@ -7,7 +7,7 @@ struct RewardCard: View {
     let isFinal: Bool
     let status: String
     var onDrawing: (Data) -> Void
-    var onVideo: (URL) -> Void
+    var onAudio: (URL) -> Void
     var onNext: () -> Void
     var onFinale: () -> Void
     var onNewRound: () -> Void
@@ -15,7 +15,7 @@ struct RewardCard: View {
     @Environment(\.palette) private var palette
     @State private var tab = Tab.draw
 
-    enum Tab { case draw, video }
+    enum Tab { case draw, audio }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -28,7 +28,7 @@ struct RewardCard: View {
                 .font(Theme.font(27, relativeTo: .title2))
                 .multilineTextAlignment(.center)
                 .accessibilityIdentifier("rewardMessage")
-            Text("want to keep a receipt? draw it or film it. totally optional.")
+            Text("want to keep a receipt? draw it or say it. totally optional.")
                 .font(Theme.body(12.8, weight: .regular))
                 .foregroundStyle(palette.muted)
                 .multilineTextAlignment(.center)
@@ -78,11 +78,8 @@ struct RewardCard: View {
                 tabButton("Draw", tab: .draw) {
                     Image(systemName: "scribble").font(.system(size: 14, weight: .bold)).accessibilityHidden(true)
                 }
-                tabButton("Video", tab: .video) {
-                    Circle().fill(Color(hex: 0xE65345))
-                        .overlay(Circle().strokeBorder(lineWidth: 2))
-                        .frame(width: 11, height: 11)
-                        .accessibilityHidden(true)
+                tabButton("Audio", tab: .audio) {
+                    Image(systemName: "mic.fill").font(.system(size: 13, weight: .bold)).accessibilityHidden(true)
                 }
             }
             .padding(.horizontal, 15)
@@ -91,7 +88,7 @@ struct RewardCard: View {
             Group {
                 switch tab {
                 case .draw: DrawingPad(onSave: onDrawing)
-                case .video: VideoPad(onSave: onVideo)
+                case .audio: AudioPad(onSave: onAudio)
                 }
             }
             .padding(.horizontal, 15)

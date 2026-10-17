@@ -70,7 +70,7 @@ final class FlowUITests: XCTestCase {
         app.buttons["yep. did brave thing."].tap()
         XCTAssertTrue(el("rewardMessage").waitForExistence(timeout: 5))
         XCTAssertTrue(el("tabDraw").exists)
-        XCTAssertTrue(el("tabVideo").exists)
+        XCTAssertTrue(el("tabAudio").exists)
         XCTAssertTrue(app.buttons["Track"].exists, "The reward stays on Home")
         Thread.sleep(forTimeInterval: 1)
         shot("2-reward")
