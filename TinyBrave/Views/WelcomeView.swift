@@ -50,7 +50,7 @@ struct WelcomeView: View {
                     HStack {
                         Text("open carefully")
                         Spacer()
-                        SkewedArrow()
+                        RightArrow()
                             .stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineCap: .square, lineJoin: .miter))
                             .frame(width: 36, height: 20)
                             .accessibilityHidden(true)
@@ -85,15 +85,16 @@ struct WelcomeView: View {
     }
 }
 
-private struct SkewedArrow: Shape {
+private struct RightArrow: Shape {
     func path(in r: CGRect) -> Path {
         var p = Path()
-        p.move(to: CGPoint(x: r.minX + 4, y: r.maxY - 3))
-        p.addLine(to: CGPoint(x: r.maxX - 8, y: r.maxY - 3))
-        p.move(to: CGPoint(x: r.maxX - 16, y: r.minY + 2))
-        p.addLine(to: CGPoint(x: r.maxX - 6, y: r.maxY - 3))
-        p.addLine(to: CGPoint(x: r.maxX - 16, y: r.maxY + 3))
-        return p.applying(CGAffineTransform(a: 1, b: 0, c: -0.53, d: 1, tx: 0, ty: 0))
+        let tip = CGPoint(x: r.maxX - 2, y: r.midY)
+        p.move(to: CGPoint(x: r.minX + 2, y: r.midY))
+        p.addLine(to: tip)
+        p.move(to: CGPoint(x: tip.x - 10, y: r.midY - 8))
+        p.addLine(to: tip)
+        p.addLine(to: CGPoint(x: tip.x - 10, y: r.midY + 8))
+        return p
     }
 }
 
