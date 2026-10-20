@@ -1,0 +1,92 @@
+rules_version = '2';
+
+// Circles: friends (up to 6), a feed of their braves, and preset emoji reactions.
+// Clients write only their own profile, posts, reactions, mutes and devices. Everything shared
+// (friendships, requests, feed copies, codes) is written by Cloud Functions.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isUser(uid) { return signedIn() && request.auth.uid == uid; }
+    // Set by the setAgeBand function: 13 and over, or under 13 with parent consent.
+    function social() { return signedIn() && request.auth.token.social == true; }
+    function owner(uid) { return isUser(uid) && social(); }
+
+    function incoming() { return request.resource.data; }
+    function keysExactly(keys) { return incoming().keys().hasOnly(keys) && incoming().keys().hasAll(keys); }
+    function expiresSoon(value) {
+      return value is timestamp && value > request.time && value <= request.time + duration.value(31, 'd');
+    }
+
+    // Mirrors PingMessage and Reaction in the app.
+    function messages() { return ['lookAtYou', 'tinyTask', 'courageLouder', 'balloonSaw', 'fearInconvenienced', 'allThirty']; }
+    function reactions() { return ['balloon', 'clap', 'strong', 'fire', 'heart', 'star']; }
+
+    function validProfile() {
+      let d = incoming();
+      return d.keys().hasOnly(['nickname', 'count', 'streak', 'tz', 'pushes', 'updatedAt'])
+        && d.keys().hasAll(['nickname', 'count', 'streak'])
+        && d.nickname is string && d.nickname.matches('^[\\p{L}\\p{N} ]{1,12}$')
+        && d.count is int && d.count >= 0 && d.count <= 30
+        && d.streak is int && d.streak >= 0 && d.streak <= 100000
+        && (!('tz' in d) || (d.tz is string && d.tz.size() <= 64))
+        && (!('pushes' in d) || d.pushes is bool)
+        && (!('updatedAt' in d) || d.updatedAt == request.time);
+    }
+
+    match /users/{uid} {
+      allow read: if owner(uid);
+      allow create, update: if owner(uid) && validProfile();
+
+      match /friends/{friendUid} {
+        allow read: if owner(uid);
+        allow update: if owner(uid)
+          && incoming().diff(resource.data).affectedKeys().hasOnly(['muted'])
+          && incoming().muted is bool;
+      }
+
+      match /requests/{fromUid} {
+        allow read, delete: if owner(uid);
+      }
+
+      match /blocks/{otherUid} {
+        allow read, delete: if owner(uid);
+      }
+
+      match /devices/{token} {
+        allow read, delete: if isUser(uid);
+        allow create, update: if owner(uid)
+          && keysExactly(['platform', 'updatedAt'])
+          && incoming().platform == 'ios'
+          && incoming().updatedAt == request.time;
+      }
+
+      match /feed/{postId} {
+        allow read: if owner(uid);
+      }
+
+      match /posts/{postId} {
+        allow read: if owner(uid);
+        allow create: if owner(uid)
+          && keysExactly(['message', 'stage', 'createdAt', 'expireAt'])
+          && incoming().message in messages()
+          && incoming().stage is int && incoming().stage >= 1 && incoming().stage <= 30
+          && incoming().createdAt == request.time
+          && expiresSoon(incoming().expireAt);
+
+        // One reaction per friend per post, keyed by the reactor's uid.
+        match /reactions/{reactorUid} {
+          allow read, delete: if isUser(reactorUid);
+          allow create, update: if isUser(reactorUid) && social()
+            && reactorUid != uid
+            && keysExactly(['emoji', 'expireAt'])
+            && incoming().emoji in reactions()
+            && expiresSoon(incoming().expireAt)
+            && exists(/databases/$(database)/documents/users/$(uid)/friends/$(reactorUid));
+        }
+      }
+    }
+
+    // codes/{code} and private/{uid} are server-only, as is everything not matched above.
+  }
+}

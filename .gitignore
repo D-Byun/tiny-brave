@@ -20,3 +20,12 @@ Carthage/Build/
 # Fastlane
 fastlane/report.xml
 fastlane/test_output/
+
+# Firebase
+functions/node_modules/
+functions/lib/
+firebase-debug*.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+node_modules/
