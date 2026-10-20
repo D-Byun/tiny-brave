@@ -6,7 +6,7 @@ final class FlowUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments = ["-skipWelcome", "-round", "1"]
+        app.launchArguments = ["-skipWelcome", "-round", "1", "-localCircles", "-resetArchive"]
         app.launch()
         resetIfNeeded()
     }
@@ -106,8 +106,10 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(canvas.waitForExistence(timeout: 5))
         let from = canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.2, dy: 0.3))
         from.press(forDuration: 0.1, thenDragTo: canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.6)))
-        el("saveDrawing").tap()
-        XCTAssertTrue(meter(1).waitForExistence(timeout: 10), "Keeping a receipt should open the next brave")
+        let saved = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == %@", "drawing saved to Track."), object: el("saveStatus"))
+        XCTAssertEqual(XCTWaiter().wait(for: [saved], timeout: 5), .completed, "The drawing should be kept as soon as the pen pauses")
+        el("nextBrave").tap()
+        XCTAssertTrue(meter(1).waitForExistence(timeout: 10))
 
         openTrack()
         XCTAssertFalse(el("archiveEmpty").exists)
@@ -159,7 +161,7 @@ final class FlowUITests: XCTestCase {
 
     func testWelcomeScreenOpensHome() {
         app.terminate()
-        app.launchArguments = ["-round", "1"]
+        app.launchArguments = ["-round", "1", "-localCircles", "-resetArchive"]
         app.launch()
         XCTAssertTrue(el("welcomeHeadline").waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["Track"].isHittable)

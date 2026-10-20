@@ -8,6 +8,7 @@ struct CircleSheet: View {
 
     @Environment(\.palette) private var palette
     @State private var joinCode = ""
+    @State private var nickname = ""
     @State private var status = ""
     @State private var busy = false
 
@@ -30,6 +31,8 @@ struct CircleSheet: View {
             .padding(.top, 20)
             .padding(.bottom, 30)
         }
+        .onAppear { nickname = service.nickname == CircleService.defaultNickname ? "" : service.nickname }
+        .task { await service.refresh() }
     }
 
     private var setup: some View {
@@ -38,6 +41,27 @@ struct CircleSheet: View {
                 .font(Theme.body(13.4, weight: .regular))
                 .foregroundStyle(palette.muted)
                 .lineSpacing(4)
+                .padding(.bottom, 20)
+            Text("YOUR NICKNAME")
+                .font(Theme.body(10.4, weight: .black))
+                .tracking(0.8)
+                .padding(.bottom, 7)
+            TextField("friend", text: $nickname)
+                .autocorrectionDisabled()
+                .font(Theme.body(16, weight: .black))
+                .padding(.horizontal, 12)
+                .frame(minHeight: 48)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
+                .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(palette.ink, lineWidth: 2))
+                .onChange(of: nickname) { _, new in
+                    let cleaned = String(new.filter { $0.isLetter || $0.isNumber || $0 == " " }.prefix(CircleService.maxNicknameLength))
+                    if cleaned != new { nickname = cleaned }
+                }
+                .accessibilityIdentifier("nickname")
+            Text("a nickname, not your real name. friends see it next to your balloon.")
+                .font(Theme.body(10.7, weight: .regular))
+                .foregroundStyle(palette.muted)
+                .padding(.top, 6)
                 .padding(.bottom, 20)
             Button { create() } label: { Text("create circle") }
                 .buttonStyle(BigButtonStyle())
@@ -157,7 +181,7 @@ struct CircleSheet: View {
                 .background(Circle().fill(colors[index % colors.count]))
                 .overlay(Circle().strokeBorder(palette.ink, lineWidth: 2))
             VStack(alignment: .leading, spacing: 2) {
-                Text(member.name).font(Theme.body(13.5, weight: .heavy))
+                Text(member.isYou ? "\(member.name) (you)" : member.name).font(Theme.body(13.5, weight: .heavy))
                 Text(member.count > 0 ? "balloon in motion" : "warming up")
                     .font(Theme.body(10.5, weight: .regular))
                     .foregroundStyle(palette.muted)
@@ -175,26 +199,37 @@ struct CircleSheet: View {
     }
 
     private func create() {
+        guard !busy else { return }
         busy = true
         status = "inflating a new circle…"
+        service.setNickname(nickname)
         Task {
-            try? await Task.sleep(for: .milliseconds(500))
-            service.create(count: count, streak: streak)
-            status = "circle made. invite someone brave-ish."
+            do {
+                try await service.create(count: count, streak: streak)
+                status = "circle made. invite someone brave-ish."
+            } catch {
+                status = (error as? CircleError)?.message ?? CircleError.unavailable.message
+            }
             busy = false
         }
     }
 
     private func join() {
+        guard !busy else { return }
         guard CircleService.normalize(joinCode) != nil else {
-            status = "that code needs six letters."
+            status = CircleError.invalidCode.message
             return
         }
         busy = true
         status = "looking for that circle…"
+        service.setNickname(nickname)
         Task {
-            try? await Task.sleep(for: .milliseconds(600))
-            status = service.join(code: joinCode) ? "you're in. media stays yours alone." : "couldn't find that circle."
+            do {
+                try await service.join(code: joinCode, count: count, streak: streak)
+                status = "you're in. media stays yours alone."
+            } catch {
+                status = (error as? CircleError)?.message ?? CircleError.unavailable.message
+            }
             busy = false
         }
     }

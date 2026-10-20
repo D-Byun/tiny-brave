@@ -39,9 +39,11 @@ enum DrawingExport {
     }
 }
 
-/// The Draw tab: a 4:3 sheet to scribble on, a few pen colors, an eraser, clear and save.
+/// The Draw tab: a 4:3 sheet to scribble on, a few pen colors, an eraser and clear.
+/// The drawing is kept in Track a moment after the pen pauses; clearing it removes it.
 struct DrawingPad: View {
-    var onSave: (Data) -> Void
+    /// Called with the PNG of the current drawing, or nil when the sheet was cleared.
+    var onSave: (Data?) -> Void
 
     @Environment(\.palette) private var palette
     @State private var strokes: [DrawnStroke] = []
@@ -54,12 +56,31 @@ struct DrawingPad: View {
         Color(hex: 0x171713), Color(hex: 0xE65345), Color(hex: 0xF6CF45), Color(hex: 0x4F9D69), Color(hex: 0x3F8FC7), Color(hex: 0x8B6BC6),
     ]
     private let paper = Color(hex: 0xFFFAF0)
-    private var canSave: Bool { !strokes.isEmpty }
+    @State private var hasSaved = false
+    @State private var dirty = false
 
     var body: some View {
         VStack(spacing: 0) {
             canvas
             tools
+        }
+        .task(id: strokes.count) {
+            guard dirty else { return }
+            do { try await Task.sleep(for: .milliseconds(800)) } catch { return }
+            keep()
+        }
+        .onDisappear { if dirty { keep() } }
+    }
+
+    private func keep() {
+        dirty = false
+        if strokes.isEmpty {
+            guard hasSaved else { return }
+            hasSaved = false
+            onSave(nil)
+        } else if let data = DrawingExport.png(strokes: strokes, size: size, background: paper) {
+            hasSaved = true
+            onSave(data)
         }
     }
 
@@ -88,7 +109,10 @@ struct DrawingPad: View {
                         }
                     }
                     .onEnded { _ in
-                        if let current { strokes.append(current) }
+                        if let current {
+                            strokes.append(current)
+                            dirty = true
+                        }
                         current = nil
                     }
             )
@@ -124,30 +148,25 @@ struct DrawingPad: View {
                 toolButton("clear") {
                     strokes = []
                     current = nil
+                    dirty = hasSaved
                 }
-                toolButton("save", fill: palette.blue, disabled: !canSave) {
-                    if let data = DrawingExport.png(strokes: strokes, size: size, background: paper) { onSave(data) }
-                }
-                .accessibilityIdentifier("saveDrawing")
             }
             .padding(.vertical, 15)
             .padding(.horizontal, 6)
         }
     }
 
-    private func toolButton(_ title: String, selected: Bool = false, fill: Color? = nil, disabled: Bool = false, action: @escaping () -> Void) -> some View {
+    private func toolButton(_ title: String, selected: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
                 .font(Theme.body(10.7, weight: .heavy))
                 .foregroundStyle(selected ? Color.white : palette.ink)
                 .padding(.horizontal, 9)
                 .frame(minHeight: 44)
-                .background(RoundedRectangle(cornerRadius: 8).fill(selected ? palette.ink : (fill ?? Color.white)))
+                .background(RoundedRectangle(cornerRadius: 8).fill(selected ? palette.ink : Color.white))
                 .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(palette.ink, lineWidth: 1.5))
-                .opacity(disabled ? 0.45 : 1)
         }
         .buttonStyle(.plain)
-        .disabled(disabled)
         .accessibilityLabel(title)
     }
 }

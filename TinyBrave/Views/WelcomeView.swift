@@ -20,7 +20,7 @@ struct WelcomeView: View {
                 let glide = reduceMotion
                     ? BalloonScene.Offset(x: 0, y: 0, tilt: 0)
                     : BalloonScene.sway.glideOffset(phase: timeline.date.timeIntervalSinceReferenceDate / 7.8)
-                BalloonView(inflation: 1)
+                BalloonView(inflation: 0)
                     .rotationEffect(.degrees(glide.tilt), anchor: UnitPoint(x: 0.5, y: 0.82))
                     .offset(x: glide.x, y: glide.y)
             }

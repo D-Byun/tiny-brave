@@ -119,7 +119,7 @@ struct PartyHat: View {
     }
 }
 
-/// `inflation` runs 0...1 in `BraveProgress.goal` steps. The balloon is laid out at 176 by 292 and scaled by `size`.
+/// `inflation` runs 0...1 in `BraveProgress.goal` steps. The balloon is laid out at 176 by 266 and scaled by `size`.
 struct BalloonView: View {
     var inflation: Double
     var puff: CGFloat = 1
@@ -136,10 +136,11 @@ struct BalloonView: View {
     private var squashScale: CGSize {
         guard squash else { return CGSize(width: 1, height: 1) }
         let eased = 1 - pow(1 - level, 3)
-        return CGSize(width: 0.80 + 0.28 * level, height: 0.64 + 0.44 * eased)
+        return CGSize(width: 0.78 + 0.30 * level, height: 0.48 + 0.60 * eased)
     }
 
-    private let yellow = Color(hex: 0xFFD846)
+    private let yellow = Color(hex: 0xFADE74)
+    private let knotYellow = Color(hex: 0xD9B64A)
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -153,10 +154,10 @@ struct BalloonView: View {
                     .transition(.scale(scale: 0.75, anchor: .bottom).combined(with: .opacity))
             }
         }
-        .frame(width: 176, height: 292, alignment: .top)
+        .frame(width: 176, height: 266, alignment: .top)
         .scaleEffect(x: squashScale.width * puff, y: squashScale.height * puff, anchor: UnitPoint(x: 0.5, y: 0.82))
         .scaleEffect(size, anchor: .topLeading)
-        .frame(width: 176 * size, height: 292 * size, alignment: .topLeading)
+        .frame(width: 176 * size, height: 266 * size, alignment: .topLeading)
         .animation(.spring(response: 0.7, dampingFraction: 0.55), value: stage)
         .animation(.spring(response: 0.5, dampingFraction: 0.45), value: puff)
         .accessibilityElement(children: .ignore)
@@ -168,7 +169,7 @@ struct BalloonView: View {
         return ZStack(alignment: .topLeading) {
             blob.fill(palette.ink.opacity(0.92)).offset(x: 6, y: 8)
             blob.fill(yellow)
-            blob.fill(palette.sunDeep.opacity(0.18))
+            blob.fill(palette.sunDeep.opacity(0.12))
                 .mask {
                     Rectangle().overlay { blob.offset(x: -16, y: -15).blendMode(.destinationOut) }.compositingGroup()
                 }
@@ -177,38 +178,38 @@ struct BalloonView: View {
             ArcShine()
                 .stroke(Color.white.opacity(0.6), style: StrokeStyle(lineWidth: 6, lineCap: .round))
                 .frame(width: 22, height: 43)
-                .offset(x: 37, y: 38)
+                .offset(x: 37, y: 34)
                 .opacity(0.35 + 0.65 * level)
 
             face
         }
-        .frame(width: 176, height: 232)
+        .frame(width: 176, height: 206)
     }
 
     private var face: some View {
         ZStack(alignment: .topLeading) {
-            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 56, y: 105)
-            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 113, y: 105)
+            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 56, y: 92)
+            Ellipse().fill(palette.ink).frame(width: 7, height: 9).offset(x: 113, y: 92)
             SmileShape()
                 .stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                 .frame(width: 14 + 10 * level, height: (5 + 10 * level) * (0.35 + 0.65 * level))
-                .offset(x: 88 - (14 + 10 * level) / 2, y: 150)
+                .offset(x: 88 - (14 + 10 * level) / 2, y: 132)
         }
     }
 
     private var knot: some View {
         KnotShape()
-            .fill(palette.sunDeep)
+            .fill(knotYellow)
             .overlay(KnotShape().stroke(palette.ink, style: StrokeStyle(lineWidth: 3, lineJoin: .round)))
             .frame(width: 28, height: 25)
-            .offset(y: 220)
+            .offset(y: 194)
     }
 
     private var string: some View {
         StringShape()
             .stroke(palette.ink, style: StrokeStyle(lineWidth: 2, lineCap: .round))
             .frame(width: 38, height: 59)
-            .offset(x: 10, y: 242)
+            .offset(x: 10, y: 216)
     }
 }
 

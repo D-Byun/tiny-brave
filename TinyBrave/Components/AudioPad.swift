@@ -150,9 +150,10 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     }
 }
 
-/// The Audio tab: wake the microphone, get fifteen seconds, then keep the clip or do it over.
+/// The Audio tab: wake the microphone, get fifteen seconds. The clip is kept as soon as recording ends; retaking removes it.
 struct AudioPad: View {
-    var onSave: (URL) -> Void
+    /// Called with the finished clip, or nil when the clip was thrown away to retake.
+    var onSave: (URL?) -> Void
 
     @Environment(\.palette) private var palette
     @StateObject private var recorder = AudioRecorder()
@@ -162,13 +163,14 @@ struct AudioPad: View {
             frame
             Group {
                 switch recorder.state {
-                case .recorded(let url):
+                case .recorded:
                     HStack(spacing: 10) {
-                        Button("retake") { recorder.retake() }
-                            .buttonStyle(BigButtonStyle(fill: palette.surface))
-                        Button("keep") { onSave(url) }
-                            .buttonStyle(BigButtonStyle())
-                            .accessibilityIdentifier("keepAudio")
+                        Button("retake") {
+                            recorder.retake()
+                            onSave(nil)
+                        }
+                        .buttonStyle(BigButtonStyle())
+                        .accessibilityIdentifier("retakeAudio")
                     }
                 case .recording:
                     Button("stop recording") { recorder.stop() }
@@ -193,12 +195,21 @@ struct AudioPad: View {
                 .padding(.vertical, 14)
                 .padding(.horizontal, 4)
         }
-        .onDisappear { recorder.shutDown() }
+        .onChange(of: recorder.state) { _, new in
+            if case .recorded(let url) = new { onSave(url) }
+        }
+        .onDisappear {
+            if recorder.state == .recording {
+                recorder.stop()
+                if case .recorded(let url) = recorder.state { onSave(url) }
+            }
+            recorder.shutDown()
+        }
     }
 
     private var note: String {
         switch recorder.state {
-        case .recorded: "tiny recording done. keep or do over."
+        case .recorded: "tiny recording saved to Track. listen, or do it over."
         case .unavailable: recorder.unavailableMessage
         default: "tell story. say it loud. fifteen seconds plenty."
         }

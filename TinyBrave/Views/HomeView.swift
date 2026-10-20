@@ -16,6 +16,8 @@ struct HomeView: View {
     /// The brave just marked done. The card holds still on it while the reward is showing.
     @State private var completing: Completing?
     @State private var status = ""
+    /// Responses saved so far for each brave, so a changed drawing or retake replaces its entry instead of adding another.
+    @State private var keptResponses: [String: Response] = [:]
     @State private var toastMessage: String?
     @State private var burst = 0
     @State private var finaleToken = 0
@@ -49,8 +51,6 @@ struct HomeView: View {
             .reduce(into: [Int]()) { if !$0.contains($1.challengeID) { $0.append($1.challengeID) } }
             .compactMap { store.challenge(id: $0)?.text }
     }
-
-    private static let messages = ["look at you.", "tiny task. real puff.", "courage got louder.", "balloon definitely saw that.", "fear found this inconvenient."]
 
     var body: some View {
         VStack(spacing: 0) {
@@ -101,8 +101,18 @@ struct HomeView: View {
             try? await Task.sleep(for: .seconds(5))
             if !Task.isCancelled, stage >= BraveProgress.goal, !showRound, !showTrack { showFinale = true }
         }
-        .onAppear { circle.updateYou(count: stage, streak: streak) }
+        .onAppear {
+            // UI tests start from an empty archive; nothing else ever clears it.
+            if ProcessInfo.processInfo.arguments.contains("-resetArchive") { try? context.delete(model: Response.self) }
+            circle.updateYou(count: stage, streak: streak)
+        }
         .onChange(of: stage) { _, _ in circle.updateYou(count: stage, streak: streak) }
+        .task(id: circle.state?.code) {
+            while !Task.isCancelled, circle.state != nil {
+                try? await Task.sleep(for: .seconds(15))
+                await circle.refresh()
+            }
+        }
     }
 
     // MARK: Top bar
@@ -311,8 +321,9 @@ struct HomeView: View {
         guard let current else { return }
         let newStage = min(stage + 1, BraveProgress.goal)
         context.insert(Completion(challengeID: current.id, round: round))
-        let message = newStage >= BraveProgress.goal ? "thirty. whole. braves." : Self.messages[newStage % Self.messages.count]
-        completing = Completing(challenge: current, day: newStage, message: message)
+        let ping = PingMessage.forStage(newStage, goal: BraveProgress.goal)
+        completing = Completing(challenge: current, day: newStage, message: ping.text)
+        Task { await circle.sendPing(ping) }
         status = ""
         burst += 1
         if newStage >= BraveProgress.goal { finaleToken += 1 }
@@ -331,36 +342,43 @@ struct HomeView: View {
         status = ""
     }
 
-    private func saveDrawing(_ data: Data, for completing: Completing) {
-        status = "keeping brave marks…"
-        let name = ResponseFiles.newFilename(kind: .drawing)
-        do { try data.write(to: ResponseFiles.url(for: name)) } catch {
+    /// Keeps, replaces or (with nil) removes the one drawing or recording for a brave, so Track updates right away.
+    private func keepResponse(_ kind: ResponseKind, for completing: Completing, write: (URL) throws -> Void, hasContent: Bool) {
+        let key = "\(round)-\(completing.challenge.id)-\(kind.rawValue)"
+        let existing = keptResponses[key]
+        guard hasContent else {
+            guard let existing else { return }
+            try? FileManager.default.removeItem(at: ResponseFiles.url(for: existing.filename))
+            context.delete(existing)
+            keptResponses[key] = nil
+            status = ""
+            return
+        }
+        let name = ResponseFiles.newFilename(kind: kind)
+        do { try write(ResponseFiles.url(for: name)) } catch {
             status = "couldn't keep that one. try again?"
             return
         }
-        kept(Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: .drawing, filename: name), message: "drawing tucked into Track.")
+        if let existing {
+            try? FileManager.default.removeItem(at: ResponseFiles.url(for: existing.filename))
+            existing.filename = name
+            existing.date = .now
+        } else {
+            let response = Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: kind, filename: name)
+            context.insert(response)
+            keptResponses[key] = response
+        }
+        status = kind == .drawing ? "drawing saved to Track." : "tiny recording saved to Track."
     }
 
-    private func saveAudio(_ url: URL, for completing: Completing) {
-        status = "keeping tiny recording…"
-        let name = ResponseFiles.newFilename(kind: .audio)
-        do { try FileManager.default.moveItem(at: url, to: ResponseFiles.url(for: name)) } catch {
-            status = "couldn't keep that one. try again?"
-            return
-        }
-        kept(Response(challengeID: completing.challenge.id, title: completing.challenge.text, round: round, kind: .audio, filename: name), message: "tiny recording tucked into Track.")
+    private func saveDrawing(_ data: Data?, for completing: Completing) {
+        keepResponse(.drawing, for: completing, write: { try data?.write(to: $0) }, hasContent: data != nil)
     }
 
-    private func kept(_ response: Response, message: String) {
-        context.insert(response)
-        toastMessage = message
-        let isFinal = stage >= BraveProgress.goal || shownStage >= BraveProgress.goal
-        status = isFinal ? "kept." : "kept. opening next brave…"
-        guard !isFinal else { return }
-        Task {
-            try? await Task.sleep(for: .milliseconds(900))
-            if completing?.challenge.id == response.challengeID { nextBrave() }
-        }
+    private func saveAudio(_ url: URL?, for completing: Completing) {
+        keepResponse(.audio, for: completing, write: { destination in
+            if let url { try FileManager.default.copyItem(at: url, to: destination) }
+        }, hasContent: url != nil)
     }
 
     private func startNextRound() {

@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// What replaces the buttons under the card once a brave is done: a message, an optional drawing or tiny movie, and the way on.
+/// What replaces the buttons under the card once a brave is done: a message, an optional drawing or tiny recording, kept as soon as it is made, and the way on.
 struct RewardCard: View {
     let kicker: String
     let message: String
     let isFinal: Bool
     let status: String
-    var onDrawing: (Data) -> Void
-    var onAudio: (URL) -> Void
+    var onDrawing: (Data?) -> Void
+    var onAudio: (URL?) -> Void
     var onNext: () -> Void
     var onFinale: () -> Void
     var onNewRound: () -> Void

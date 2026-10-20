@@ -10,6 +10,7 @@
 		0101EE298A65AAC40996F1E9 /* CircleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9384EBB5BB84982EA4950DAB /* CircleService.swift */; };
 		0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5163541750D7B0C746363 /* challenges.json */; };
 		1238BC7230FC06FB31811148 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0992C05E83B8804F73B62 /* Theme.swift */; };
+		3A1F10FD73C8A52EF55A296F /* PingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215EBEC8F53D96F9FF74EB20 /* PingMessage.swift */; };
 		3A2D3EA86703DE292A33113D /* DailyGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E299955EB971965B0B555CE /* DailyGoal.swift */; };
 		3A509A4860E5821D20E162F9 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD26160B9ECCA27949EF02 /* WelcomeView.swift */; };
 		3AFB0C5D370EA15AB369475E /* TrackSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F31693734A034395BD3FD0C /* TrackSheet.swift */; };
@@ -29,6 +30,7 @@
 		9C070A21D58C0193D7A1B6ED /* CircleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF93CD4B60B419E4EA3FA5B1 /* CircleSheet.swift */; };
 		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
 		B3CFC5C9924506610FFD5990 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */; };
+		BA1E3860637280EFB841F1B6 /* CircleBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7353F0760F9CDE8899AF0 /* CircleBackend.swift */; };
 		BA4E1A0F1FB9243D4E15E4E1 /* RewardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17651D3E8D3F092803D4F0FC /* RewardCard.swift */; };
 		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
@@ -62,6 +64,7 @@
 		11215797B499B0943D05F7D2 /* BraveMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveMeterView.swift; sourceTree = "<group>"; };
 		17651D3E8D3F092803D4F0FC /* RewardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCard.swift; sourceTree = "<group>"; };
 		191ED519FD54D573ECC7BEAA /* Dialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialogs.swift; sourceTree = "<group>"; };
+		215EBEC8F53D96F9FF74EB20 /* PingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PingMessage.swift; sourceTree = "<group>"; };
 		3E27B90C4270E4E7C1FD618B /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		59D0992C05E83B8804F73B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TinyBrave.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +74,7 @@
 		5F31693734A034395BD3FD0C /* TrackSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSheet.swift; sourceTree = "<group>"; };
 		63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreTests.swift; sourceTree = "<group>"; };
 		69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskQueueTests.swift; sourceTree = "<group>"; };
+		6EA7353F0760F9CDE8899AF0 /* CircleBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleBackend.swift; sourceTree = "<group>"; };
 		72A17FD556399EB6B99059B0 /* TinyBraveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EC3D1439079F89E1A7FA9C3 /* CircleServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleServiceTests.swift; sourceTree = "<group>"; };
 		8E299955EB971965B0B555CE /* DailyGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoal.swift; sourceTree = "<group>"; };
@@ -154,9 +158,11 @@
 			children = (
 				E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */,
 				EEC0FB48678900DC334EDEFF /* Challenge.swift */,
+				6EA7353F0760F9CDE8899AF0 /* CircleBackend.swift */,
 				9384EBB5BB84982EA4950DAB /* CircleService.swift */,
 				0B96B67CC3715075E4D897B0 /* Completion.swift */,
 				8E299955EB971965B0B555CE /* DailyGoal.swift */,
+				215EBEC8F53D96F9FF74EB20 /* PingMessage.swift */,
 				B49991146C4F067FB02166EE /* Rewards.swift */,
 				5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */,
 			);
@@ -321,6 +327,7 @@
 				F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */,
 				44BE6F673A280845AC23A73A /* Challenge.swift in Sources */,
 				85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */,
+				BA1E3860637280EFB841F1B6 /* CircleBackend.swift in Sources */,
 				0101EE298A65AAC40996F1E9 /* CircleService.swift in Sources */,
 				9C070A21D58C0193D7A1B6ED /* CircleSheet.swift in Sources */,
 				EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */,
@@ -330,6 +337,7 @@
 				E2184CB1FFF38D2D479472CF /* DrawingPad.swift in Sources */,
 				501C52B9BAC189D094FE05F2 /* FinaleView.swift in Sources */,
 				4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */,
+				3A1F10FD73C8A52EF55A296F /* PingMessage.swift in Sources */,
 				6CEE9767727EBDEA76DAE362 /* ReelView.swift in Sources */,
 				BA4E1A0F1FB9243D4E15E4E1 /* RewardCard.swift in Sources */,
 				C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */,
