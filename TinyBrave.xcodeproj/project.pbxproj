@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		0101EE298A65AAC40996F1E9 /* CircleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9384EBB5BB84982EA4950DAB /* CircleService.swift */; };
 		0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5163541750D7B0C746363 /* challenges.json */; };
+		0355274AC3E5B48F2CCBF05B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3CF9012D5E1AE4A300945CC2 /* FirebaseMessaging */; };
+		0C0C53EF68E6DBA2E93FE5B6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F72C81BE86E662C82FE8DEB2 /* FirebaseFirestore */; };
 		1238BC7230FC06FB31811148 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0992C05E83B8804F73B62 /* Theme.swift */; };
+		1E3B2854182BEB8BB6E8A1FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EC58B6F2A6876A46117F7C /* AppDelegate.swift */; };
 		3A1F10FD73C8A52EF55A296F /* PingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215EBEC8F53D96F9FF74EB20 /* PingMessage.swift */; };
 		3A2D3EA86703DE292A33113D /* DailyGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E299955EB971965B0B555CE /* DailyGoal.swift */; };
 		3A509A4860E5821D20E162F9 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD26160B9ECCA27949EF02 /* WelcomeView.swift */; };
@@ -17,15 +20,20 @@
 		3F09ECB40290D7E27115D7F4 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */; };
 		44BE6F673A280845AC23A73A /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC0FB48678900DC334EDEFF /* Challenge.swift */; };
 		4609EB87FCC5265ACEA91724 /* AudioPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5A18CE484AF6F7D8BE6896 /* AudioPad.swift */; };
+		491E80E5450D1C1BEABDC9BD /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = E7037A780D0F9F7A9490EAC8 /* FirebaseAppCheck */; };
 		4CE051BD6052BAB5BC4A538F /* BalloonSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */; };
 		4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE187F6D1F02F821C50ABF6A /* BalloonView.swift */; };
 		4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */; };
 		501C52B9BAC189D094FE05F2 /* FinaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10F1C7BF7CF15CE77F42505 /* FinaleView.swift */; };
 		5544DC73684521C29DAFB3AB /* CircleServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC3D1439079F89E1A7FA9C3 /* CircleServiceTests.swift */; };
+		5F50DEE3C6BAEC256A2F21F4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 00532CFD48C11268FA48D752 /* FirebaseAuth */; };
+		5FB2583A456A08D33161E2E5 /* FirestoreCircleBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF0B85907436B9889B1AE04 /* FirestoreCircleBackend.swift */; };
+		6A27E389239ECB7C75A5E3C7 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 95CD9FC9074A02F79D7BC05C /* FirebaseFunctions */; };
 		6CEE9767727EBDEA76DAE362 /* ReelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B251C05BEF58283ABD331427 /* ReelView.swift */; };
 		83969427243B1F06A93CC6FD /* CategoryColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B436EB684C1189BB0E4A6EB /* CategoryColorTests.swift */; };
 		85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AECA15DE4B062B87ADAD19 /* ChallengeStore.swift */; };
 		8D64B3E8FAE7249837E9A15F /* TinyBraveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */; };
+		95FF8663B7F4E6A7A14693A2 /* CircleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23AE2E5B80A1F997BC20A1 /* CircleModels.swift */; };
 		9C01FDF55987AD0D108623A0 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27B90C4270E4E7C1FD618B /* Confetti.swift */; };
 		9C070A21D58C0193D7A1B6ED /* CircleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF93CD4B60B419E4EA3FA5B1 /* CircleSheet.swift */; };
 		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
@@ -35,6 +43,7 @@
 		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
 		D663278D89D4C9F3B603416D /* Dialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191ED519FD54D573ECC7BEAA /* Dialogs.swift */; };
+		E05FBD650242BE41F9B03F05 /* FirestoreEmulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */; };
 		E2184CB1FFF38D2D479472CF /* DrawingPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */; };
 		E333948A113D327F9F0F80D7 /* FlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */; };
 		E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */; };
@@ -61,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		0B96B67CC3715075E4D897B0 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
+		0F23AE2E5B80A1F997BC20A1 /* CircleModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleModels.swift; sourceTree = "<group>"; };
 		11215797B499B0943D05F7D2 /* BraveMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveMeterView.swift; sourceTree = "<group>"; };
 		17651D3E8D3F092803D4F0FC /* RewardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCard.swift; sourceTree = "<group>"; };
 		191ED519FD54D573ECC7BEAA /* Dialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialogs.swift; sourceTree = "<group>"; };
@@ -80,6 +90,8 @@
 		8E299955EB971965B0B555CE /* DailyGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoal.swift; sourceTree = "<group>"; };
 		9384EBB5BB84982EA4950DAB /* CircleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleService.swift; sourceTree = "<group>"; };
 		9AB5163541750D7B0C746363 /* challenges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = challenges.json; sourceTree = "<group>"; };
+		9EF0B85907436B9889B1AE04 /* FirestoreCircleBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCircleBackend.swift; sourceTree = "<group>"; };
+		A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreEmulatorTests.swift; sourceTree = "<group>"; };
 		A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		B251C05BEF58283ABD331427 /* ReelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelView.swift; sourceTree = "<group>"; };
 		B49991146C4F067FB02166EE /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
@@ -87,6 +99,7 @@
 		C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CECD26160B9ECCA27949EF02 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonSceneTests.swift; sourceTree = "<group>"; };
+		D8EC58B6F2A6876A46117F7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyBraveApp.swift; sourceTree = "<group>"; };
 		DF93CD4B60B419E4EA3FA5B1 /* CircleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleSheet.swift; sourceTree = "<group>"; };
 		E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPad.swift; sourceTree = "<group>"; };
@@ -97,6 +110,21 @@
 		F10F1C7BF7CF15CE77F42505 /* FinaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinaleView.swift; sourceTree = "<group>"; };
 		F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0EC437302C3ED5A21576959A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F50DEE3C6BAEC256A2F21F4 /* FirebaseAuth in Frameworks */,
+				0C0C53EF68E6DBA2E93FE5B6 /* FirebaseFirestore in Frameworks */,
+				6A27E389239ECB7C75A5E3C7 /* FirebaseFunctions in Frameworks */,
+				0355274AC3E5B48F2CCBF05B /* FirebaseMessaging in Frameworks */,
+				491E80E5450D1C1BEABDC9BD /* FirebaseAppCheck in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		040F4A02C32C9CDD8D844AED /* Data */ = {
@@ -148,6 +176,7 @@
 				5B436EB684C1189BB0E4A6EB /* CategoryColorTests.swift */,
 				63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */,
 				7EC3D1439079F89E1A7FA9C3 /* CircleServiceTests.swift */,
+				A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */,
 				69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */,
 			);
 			path = TinyBraveTests;
@@ -159,9 +188,11 @@
 				E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */,
 				EEC0FB48678900DC334EDEFF /* Challenge.swift */,
 				6EA7353F0760F9CDE8899AF0 /* CircleBackend.swift */,
+				0F23AE2E5B80A1F997BC20A1 /* CircleModels.swift */,
 				9384EBB5BB84982EA4950DAB /* CircleService.swift */,
 				0B96B67CC3715075E4D897B0 /* Completion.swift */,
 				8E299955EB971965B0B555CE /* DailyGoal.swift */,
+				9EF0B85907436B9889B1AE04 /* FirestoreCircleBackend.swift */,
 				215EBEC8F53D96F9FF74EB20 /* PingMessage.swift */,
 				B49991146C4F067FB02166EE /* Rewards.swift */,
 				5DB7869525AB1DDB91C70C00 /* TaskQueue.swift */,
@@ -196,6 +227,7 @@
 		CFBA98ACF827BC613195858A /* TinyBrave */ = {
 			isa = PBXGroup;
 			children = (
+				D8EC58B6F2A6876A46117F7C /* AppDelegate.swift */,
 				DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */,
 				850AA5A0911AA3F61D8D8AFA /* Components */,
 				040F4A02C32C9CDD8D844AED /* Data */,
@@ -250,6 +282,7 @@
 			buildPhases = (
 				D6325F34B68645E47C4849F8 /* Sources */,
 				6F0560845CD268964C38BA14 /* Resources */,
+				0EC437302C3ED5A21576959A /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -257,6 +290,11 @@
 			);
 			name = TinyBrave;
 			packageProductDependencies = (
+				00532CFD48C11268FA48D752 /* FirebaseAuth */,
+				F72C81BE86E662C82FE8DEB2 /* FirebaseFirestore */,
+				95CD9FC9074A02F79D7BC05C /* FirebaseFunctions */,
+				3CF9012D5E1AE4A300945CC2 /* FirebaseMessaging */,
+				E7037A780D0F9F7A9490EAC8 /* FirebaseAppCheck */,
 			);
 			productName = TinyBrave;
 			productReference = 5A1E25761BD9AC375B3E2F0A /* TinyBrave.app */;
@@ -285,6 +323,9 @@
 			);
 			mainGroup = 86206FDF7840C9BE87323E59;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 386028893EDF9B289DE34434 /* Products */;
 			projectDirPath = "";
@@ -321,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E3B2854182BEB8BB6E8A1FE /* AppDelegate.swift in Sources */,
 				4609EB87FCC5265ACEA91724 /* AudioPad.swift in Sources */,
 				BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */,
 				4E11ACF35C4A3C8A8F92C566 /* BalloonView.swift in Sources */,
@@ -328,6 +370,7 @@
 				44BE6F673A280845AC23A73A /* Challenge.swift in Sources */,
 				85DA1A1F1E8939C546F34C1B /* ChallengeStore.swift in Sources */,
 				BA1E3860637280EFB841F1B6 /* CircleBackend.swift in Sources */,
+				95FF8663B7F4E6A7A14693A2 /* CircleModels.swift in Sources */,
 				0101EE298A65AAC40996F1E9 /* CircleService.swift in Sources */,
 				9C070A21D58C0193D7A1B6ED /* CircleSheet.swift in Sources */,
 				EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */,
@@ -336,6 +379,7 @@
 				D663278D89D4C9F3B603416D /* Dialogs.swift in Sources */,
 				E2184CB1FFF38D2D479472CF /* DrawingPad.swift in Sources */,
 				501C52B9BAC189D094FE05F2 /* FinaleView.swift in Sources */,
+				5FB2583A456A08D33161E2E5 /* FirestoreCircleBackend.swift in Sources */,
 				4F168AFFDE0526B7EF5D006A /* HomeView.swift in Sources */,
 				3A1F10FD73C8A52EF55A296F /* PingMessage.swift in Sources */,
 				6CEE9767727EBDEA76DAE362 /* ReelView.swift in Sources */,
@@ -358,6 +402,7 @@
 				83969427243B1F06A93CC6FD /* CategoryColorTests.swift in Sources */,
 				AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */,
 				5544DC73684521C29DAFB3AB /* CircleServiceTests.swift in Sources */,
+				E05FBD650242BE41F9B03F05 /* FirestoreEmulatorTests.swift in Sources */,
 				E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -522,7 +567,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -539,6 +584,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBrave.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
@@ -593,6 +639,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBrave.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
@@ -649,6 +696,45 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		00532CFD48C11268FA48D752 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		3CF9012D5E1AE4A300945CC2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		95CD9FC9074A02F79D7BC05C /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		E7037A780D0F9F7A9490EAC8 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		F72C81BE86E662C82FE8DEB2 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22B906C17B4067E7CFEAF130 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 22C872DB403243D795E8A9F7 /* Project object */;
 }

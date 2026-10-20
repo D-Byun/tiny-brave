@@ -1,74 +1,139 @@
 import Foundation
 
-struct CircleMember: Codable, Identifiable, Equatable {
-    var id: String
-    var name: String
-    var count: Int
-    var streak: Int
-    var isYou: Bool
-}
-
-struct CirclePing: Codable, Identifiable, Equatable {
-    var id = UUID()
-    var name: String
-    var message: String
-    var date = Date()
-    /// Who sent it; nil for pings saved before circles had identities.
-    var fromID: String?
-}
-
-struct CircleState: Codable, Equatable {
-    var code: String
-    var members: [CircleMember]
-    var pings: [CirclePing]
-}
-
-/// Who you are in a circle: a random ID that never leaves the app's control, and a nickname instead of a real name.
-struct CircleIdentity: Codable, Equatable {
-    var userID: String
-    var nickname: String
-}
-
-/// A circle of friends sharing progress, never media. The service owns this device's view of the circle
-/// (cached so it opens instantly) and talks to a `CircleBackend` for everything shared.
+/// A circle of up to six friends sharing progress, never media or free text. The service owns this
+/// device's view of it: who you are, whether circles are allowed for you, and the live friends,
+/// requests and feed coming from a `CircleBackend`.
 @MainActor
 final class CircleService: ObservableObject {
-    static let shared = CircleService()
-    static let storageKey = "circle"
-    static let identityKey = "circleIdentity"
-    static let defaultNickname = "friend"
+    static let shared: CircleService = {
+        // UI tests start from no circle at all.
+        if ProcessInfo.processInfo.arguments.contains("-localCircles") {
+            UserDefaults.standard.removeObject(forKey: ageBandKey)
+            UserDefaults.standard.removeObject(forKey: nicknameKey)
+        }
+        return CircleService(backend: defaultBackend(), onReady: PushSetup.requestPermission)
+    }()
+    static let nicknameKey = "circleNickname"
+    static let ageBandKey = "circleAgeBand"
+    nonisolated static let defaultNickname = "friend"
     static let maxNicknameLength = 12
     private static let letters = Array("ABCDEFGHJKLMNPQRSTUVWXYZ")
 
-    @Published private(set) var state: CircleState?
+    @Published private(set) var access: CircleAccess
+    @Published private(set) var snapshot = CircleSnapshot()
+    @Published private(set) var code: String?
     @Published private(set) var nickname: String
+    @Published private(set) var userID: String?
     @Published var banner: CirclePing?
 
-    let userID: String
     private let defaults: UserDefaults
-    private let backend: CircleBackend
+    private let backend: CircleBackend?
+    private let onReady: (() -> Void)?
+    private var observation: CircleObservation?
+    private var starting = false
+    private var hasSnapshot = false
+    private var profile = CircleProfile(nickname: defaultNickname, count: 0, streak: 0)
+    private var sentProfile: CircleProfile?
+    private var deviceToken: String?
 
-    init(defaults: UserDefaults = .standard, backend: CircleBackend? = nil, userID: String? = nil) {
+    init(defaults: UserDefaults = .standard, backend: CircleBackend?, onReady: (() -> Void)? = nil) {
         self.defaults = defaults
-        self.backend = backend ?? LocalCircleBackend(defaults: defaults)
+        self.backend = backend
+        self.onReady = onReady
+        let savedNickname = defaults.string(forKey: Self.nicknameKey) ?? Self.defaultNickname
+        nickname = savedNickname
+        let band = defaults.string(forKey: Self.ageBandKey).flatMap(AgeBand.init(rawValue:))
+        access = backend == nil ? .unavailable : Self.access(for: band)
+        profile.nickname = savedNickname
+    }
 
-        var identity = defaults.data(forKey: Self.identityKey).flatMap { try? JSONDecoder().decode(CircleIdentity.self, from: $0) }
-            ?? CircleIdentity(userID: UUID().uuidString, nickname: Self.defaultNickname)
-        if let userID { identity.userID = userID }
-        if let data = try? JSONEncoder().encode(identity) { defaults.set(data, forKey: Self.identityKey) }
-        self.userID = identity.userID
-        self.nickname = identity.nickname
+    /// Local circles for UI tests and for debug builds without a Firebase config; Firebase otherwise.
+    static func defaultBackend(arguments: [String] = ProcessInfo.processInfo.arguments) -> CircleBackend? {
+        if arguments.contains("-localCircles") { return LocalCircleBackend() }
+        if FirebaseSetup.configure(arguments: arguments) { return FirestoreCircleBackend() }
+        #if DEBUG
+        return LocalCircleBackend()
+        #else
+        return nil
+        #endif
+    }
 
-        if let data = defaults.data(forKey: Self.storageKey), var cached = try? JSONDecoder().decode(CircleState.self, from: data) {
-            for index in cached.members.indices where cached.members[index].isYou {
-                cached.members[index].id = identity.userID
-                cached.members[index].name = identity.nickname
-            }
-            state = cached
+    private static func access(for band: AgeBand?) -> CircleAccess {
+        switch band {
+        case nil: .needsAge
+        case .under13: .needsConsent
+        default: .ready
         }
     }
 
-    var memberCount: Int? { state?.members.count }
+    private var storedBand: AgeBand? {
+        get { defaults.string(forKey: Self.ageBandKey).flatMap(AgeBand.init(rawValue:)) }
+        set { defaults.set(newValue?.rawValue, forKey: Self.ageBandKey) }
+    }
+
+    /// Friends plus you, or nil before you have any friends.
+    var memberCount: Int? { snapshot.friends.isEmpty ? nil : snapshot.friends.count + 1 }
+
+    var isFull: Bool { snapshot.friends.count >= CircleLimits.maxFriends }
+
+    /// Signs in and rechecks the age band with the server (a grown-up may have said yes since last time).
+    func start() async {
+        guard let backend, !starting, userID == nil else { return }
+        starting = true
+        defer { starting = false }
+        do {
+            userID = try await backend.signIn()
+        } catch {
+            return
+        }
+        guard let band = storedBand else { return }
+        let social = (try? await backend.setAgeBand(band)) ?? (band != .under13)
+        await settle(social: social)
+    }
+
+    /// Records the age band. Exact birthdays stay on the phone; the server only gets the band.
+    func setAge(_ band: AgeBand) async throws {
+        guard let backend else { throw CircleError.unavailable }
+        if userID == nil { userID = try await backend.signIn() }
+        let social = try await backend.setAgeBand(band)
+        storedBand = social ? band : .under13
+        await settle(social: social)
+    }
+
+    private func settle(social: Bool) async {
+        guard social else {
+            stopObserving()
+            access = .needsConsent
+            return
+        }
+        access = .ready
+        guard observation == nil, let backend else { return }
+        observation = backend.observe { [weak self] in self?.apply($0) }
+        code = try? await backend.code(reset: false)
+        pushProfile()
+        if let deviceToken { Task { try? await backend.registerDevice(token: deviceToken) } }
+        onReady?()
+    }
+
+    private func stopObserving() {
+        observation?.cancel()
+        observation = nil
+        hasSnapshot = false
+        snapshot = CircleSnapshot()
+        code = nil
+    }
+
+    /// Takes the latest snapshot and drops a banner for a friend's brave that wasn't there before.
+    private func apply(_ next: CircleSnapshot) {
+        let known = Set(snapshot.feed.map(\.id))
+        if hasSnapshot, let fresh = next.feed.first(where: { !$0.mine && !known.contains($0.id) }) {
+            banner = CirclePing(id: fresh.id, name: fresh.nickname, message: fresh.message.text)
+        }
+        hasSnapshot = true
+        snapshot = next
+    }
+
+    // MARK: You
 
     /// Letters, numbers and spaces only, trimmed and short enough to fit a row.
     static func cleanNickname(_ text: String) -> String {
@@ -81,14 +146,44 @@ final class CircleService: ObservableObject {
         let clean = Self.cleanNickname(text)
         guard clean != nickname else { return }
         nickname = clean
-        if let data = try? JSONEncoder().encode(CircleIdentity(userID: userID, nickname: clean)) {
-            defaults.set(data, forKey: Self.identityKey)
-        }
-        guard var current = state, let index = current.members.firstIndex(where: \.isYou) else { return }
-        current.members[index].name = clean
-        save(current)
-        push(current.members[index], code: current.code)
+        defaults.set(clean, forKey: Self.nicknameKey)
+        profile.nickname = clean
+        pushProfile()
     }
+
+    func updateYou(count: Int, streak: Int) {
+        profile.count = count
+        profile.streak = streak
+        pushProfile()
+    }
+
+    private func pushProfile() {
+        guard access == .ready, let backend, profile != sentProfile else { return }
+        let sending = profile
+        sentProfile = sending
+        Task {
+            do {
+                try await backend.updateProfile(sending, timeZone: TimeZone.current.identifier)
+            } catch {
+                if sentProfile == sending { sentProfile = nil }
+            }
+        }
+    }
+
+    /// Tells your circle you finished a brave. Failures are dropped; a missed post isn't worth a retry.
+    func sendPing(_ message: PingMessage, stage: Int) async {
+        guard access == .ready, let backend else { return }
+        try? await backend.post(message, stage: stage)
+    }
+
+    func setDeviceToken(_ token: String) {
+        guard token != deviceToken else { return }
+        deviceToken = token
+        guard access == .ready, let backend else { return }
+        Task { try? await backend.registerDevice(token: token) }
+    }
+
+    // MARK: Codes
 
     /// Six letters, upper-cased, or nil if the text doesn't have exactly six.
     static func normalize(_ text: String) -> String? {
@@ -100,106 +195,71 @@ final class CircleService: ObservableObject {
         String((0..<6).map { _ in letters.randomElement(using: &generator)! })
     }
 
-    private var me: CircleMember? { state?.members.first(where: \.isYou) }
-
-    private func member(count: Int, streak: Int) -> CircleMember {
-        CircleMember(id: userID, name: nickname, count: count, streak: streak, isYou: true)
+    func loadCode() async throws {
+        guard let backend else { throw CircleError.unavailable }
+        code = try await backend.code(reset: false)
     }
 
-    /// Starts a new circle with a fresh code, retrying if the backend says the code is taken.
-    func create(count: Int, streak: Int) async throws {
-        let you = member(count: count, streak: streak)
-        var generator = SystemRandomNumberGenerator()
-        for _ in 0..<5 {
-            do {
-                let circle = try await backend.create(code: Self.makeCode(using: &generator), me: you)
-                apply(circle, announce: false)
-                return
-            } catch CircleError.codeTaken {
-                continue
-            }
+    func resetCode() async throws {
+        guard let backend else { throw CircleError.unavailable }
+        code = try await backend.code(reset: true)
+    }
+
+    // MARK: Friends
+
+    func addFriend(code text: String) async throws -> AddOutcome {
+        guard let backend else { throw CircleError.unavailable }
+        guard let normalized = Self.normalize(text) else { throw CircleError.invalidCode }
+        guard normalized != code else { throw CircleError.ownCode }
+        return try await backend.sendRequest(code: normalized)
+    }
+
+    func respond(to request: CircleRequest, accept: Bool) async throws {
+        guard let backend else { throw CircleError.unavailable }
+        try await backend.respond(to: request.id, accept: accept)
+    }
+
+    func remove(_ friend: CircleFriend) async throws {
+        guard let backend else { throw CircleError.unavailable }
+        try await backend.removeFriend(friend.id)
+    }
+
+    func block(_ friend: CircleFriend) async throws {
+        guard let backend else { throw CircleError.unavailable }
+        try await backend.block(friend.id)
+    }
+
+    func setMuted(_ muted: Bool, friend: CircleFriend) async throws {
+        guard let backend else { throw CircleError.unavailable }
+        try await backend.setMuted(muted, friend: friend.id)
+    }
+
+    /// Picking the reaction you already sent takes it back. Shows the change right away.
+    func react(_ reaction: Reaction, to item: FeedItem) async throws {
+        guard let backend, let userID, !item.mine else { throw CircleError.unavailable }
+        let next: Reaction? = item.reaction(from: userID) == reaction ? nil : reaction
+        if let index = snapshot.feed.firstIndex(where: { $0.id == item.id }) {
+            snapshot.feed[index].reactions[userID] = next
         }
-        throw CircleError.unavailable
-    }
-
-    func join(code: String, count: Int, streak: Int) async throws {
-        guard let normalized = Self.normalize(code) else { throw CircleError.invalidCode }
-        let circle = try await backend.join(code: normalized, me: member(count: count, streak: streak))
-        apply(circle, announce: false)
-    }
-
-    func leave() {
-        guard let code = state?.code else { return }
-        save(nil)
-        banner = nil
-        let userID = self.userID
-        Task { try? await backend.leave(code: code, userID: userID) }
-    }
-
-    func updateYou(count: Int, streak: Int) {
-        guard var current = state, let index = current.members.firstIndex(where: \.isYou) else { return }
-        guard current.members[index].count != count || current.members[index].streak != streak else { return }
-        current.members[index].count = count
-        current.members[index].streak = streak
-        save(current)
-        push(current.members[index], code: current.code)
-    }
-
-    /// Tells the circle you finished a brave. Failures are dropped; a missed ping isn't worth a retry.
-    func sendPing(_ message: PingMessage) async {
-        guard let code = state?.code, let you = me else { return }
-        try? await backend.send(message, code: code, from: you)
-    }
-
-    /// Pulls the latest members and pings once, and drops a banner for anything new from a friend.
-    func refresh() async {
-        guard let code = state?.code else { return }
         do {
-            apply(try await backend.fetch(code: code), announce: true)
-        } catch CircleError.notFound {
-            save(nil)
+            try await backend.react(next, to: item)
         } catch {
-            return
+            if let index = snapshot.feed.firstIndex(where: { $0.id == item.id }) {
+                snapshot.feed[index].reactions[userID] = item.reaction(from: userID)
+            }
+            throw error
         }
     }
 
-    /// Shows a friend's ping and keeps the latest six in the feed. Also the entry point for a pushed ping.
-    func receive(_ ping: CirclePing) {
-        guard var current = state else { return }
-        current.pings = Array(([ping] + current.pings).prefix(CircleLimits.maxPings))
-        save(current)
-        banner = ping
-    }
-
-    private func push(_ you: CircleMember, code: String) {
-        Task { try? await backend.update(code: code, me: you) }
-    }
-
-    /// Takes the backend's view of the circle, but trusts this device for your own row and hides your own pings.
-    private func apply(_ circle: CircleState, announce: Bool) {
-        var next = circle
-        let local = me
-        next.members = circle.members.map { member in
-            if member.id == userID { return local ?? CircleMember(id: userID, name: member.name, count: member.count, streak: member.streak, isYou: true) }
-            var friend = member
-            friend.isYou = false
-            return friend
-        }
-        next.members.sort { $0.isYou && !$1.isYou }
-        next.pings = circle.pings.filter { $0.fromID != userID }
-
-        let known = Set(state?.pings.map(\.id) ?? [])
-        let fresh = announce && state?.code == next.code ? next.pings.filter { !known.contains($0.id) } : []
-        if next != state { save(next) }
-        if let latest = fresh.first { banner = latest }
-    }
-
-    private func save(_ new: CircleState?) {
-        state = new
-        if let new, let data = try? JSONEncoder().encode(new) {
-            defaults.set(data, forKey: Self.storageKey)
-        } else {
-            defaults.removeObject(forKey: Self.storageKey)
-        }
+    /// Removes everything circles stored about you, here and on the server. Solo progress stays.
+    func deleteData() async throws {
+        guard let backend else { throw CircleError.unavailable }
+        try await backend.deleteAccount()
+        stopObserving()
+        storedBand = nil
+        userID = nil
+        sentProfile = nil
+        banner = nil
+        access = .needsAge
     }
 }

@@ -149,12 +149,24 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(el("statCompleted").waitForExistence(timeout: 5))
     }
 
-    func testCircleCanBeCreatedLocally() {
+    func testCircleOpensAfterTheAgeGate() {
         app.buttons["Circle"].tap()
-        if el("createCircle").waitForExistence(timeout: 5) { el("createCircle").tap() }
+        XCTAssertTrue(el("birthMonth").waitForExistence(timeout: 5), "Circles ask for an age first")
+        XCTAssertFalse(el("ageContinue").isEnabled)
+        el("birthMonth").tap()
+        app.buttons["January"].tap()
+        let year = String(Calendar.current.component(.year, from: .now) - 14)
+        el("birthYear").tap()
+        app.buttons[year].tap()
+        el("ageContinue").tap()
         XCTAssertTrue(el("circleCode").waitForExistence(timeout: 5))
-        XCTAssertEqual(el("circleCode").label.filter(\.isLetter).count, 6)
+        let code = el("circleCode")
+        expectation(for: NSPredicate(format: "label MATCHES '[A-Z]{6}'"), evaluatedWith: code)
+        waitForExpectations(timeout: 5)
+        XCTAssertEqual(el("friendCount").label, "0/6")
         shot("5-circle")
+        el("feedTab").tap()
+        XCTAssertTrue(el("feedEmpty").waitForExistence(timeout: 5))
         app.buttons["Close"].tap()
         XCTAssertTrue(app.buttons["Track"].waitForExistence(timeout: 5))
     }

@@ -90,7 +90,7 @@ struct HomeView: View {
             )
         }
         .sheet(isPresented: $showCircle) {
-            CircleSheet(service: circle, count: stage, streak: streak) { showCircle = false }
+            CircleSheet(service: circle) { showCircle = false }
         }
         .fullScreenCover(isPresented: $showReel) {
             ReelView(responses: responses.filter { $0.round == round }.sorted { $0.date < $1.date }) { showReel = false }
@@ -107,12 +107,7 @@ struct HomeView: View {
             circle.updateYou(count: stage, streak: streak)
         }
         .onChange(of: stage) { _, _ in circle.updateYou(count: stage, streak: streak) }
-        .task(id: circle.state?.code) {
-            while !Task.isCancelled, circle.state != nil {
-                try? await Task.sleep(for: .seconds(15))
-                await circle.refresh()
-            }
-        }
+        .task { await circle.start() }
     }
 
     // MARK: Top bar
@@ -323,7 +318,7 @@ struct HomeView: View {
         context.insert(Completion(challengeID: current.id, round: round))
         let ping = PingMessage.forStage(newStage, goal: BraveProgress.goal)
         completing = Completing(challenge: current, day: newStage, message: ping.text)
-        Task { await circle.sendPing(ping) }
+        Task { await circle.sendPing(ping, stage: newStage) }
         status = ""
         burst += 1
         if newStage >= BraveProgress.goal { finaleToken += 1 }
