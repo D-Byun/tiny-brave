@@ -29,3 +29,21 @@ firestore-debug.log
 ui-debug.log
 .firebase/
 node_modules/
+
+# Xcode / Swift extras
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Secrets and private config
+.env
+.env.*
+!.env.example
+*.env
+GoogleService-Info.plist
+*.p8
+*.p12
+*.pem
+*.mobileprovision
