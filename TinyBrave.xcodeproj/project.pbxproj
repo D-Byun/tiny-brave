@@ -43,7 +43,6 @@
 		BA4E1A0F1FB9243D4E15E4E1 /* RewardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17651D3E8D3F092803D4F0FC /* RewardCard.swift */; };
 		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
-		CCF536C1A2D2BA183D2A2FA9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */; };
 		D663278D89D4C9F3B603416D /* Dialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191ED519FD54D573ECC7BEAA /* Dialogs.swift */; };
 		E05FBD650242BE41F9B03F05 /* FirestoreEmulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */; };
 		E2184CB1FFF38D2D479472CF /* DrawingPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */; };
@@ -95,7 +94,6 @@
 		9AB5163541750D7B0C746363 /* challenges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = challenges.json; sourceTree = "<group>"; };
 		9EF0B85907436B9889B1AE04 /* FirestoreCircleBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCircleBackend.swift; sourceTree = "<group>"; };
 		A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreEmulatorTests.swift; sourceTree = "<group>"; };
-		A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		B251C05BEF58283ABD331427 /* ReelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelView.swift; sourceTree = "<group>"; };
 		B49991146C4F067FB02166EE /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
@@ -235,7 +233,6 @@
 			children = (
 				D8EC58B6F2A6876A46117F7C /* AppDelegate.swift */,
 				BF4870F3C052FB31E5877F36 /* Assets.xcassets */,
-				A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */,
 				FDCEA813853C6CD018319332 /* PrivacyInfo.xcprivacy */,
 				DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */,
 				850AA5A0911AA3F61D8D8AFA /* Components */,
@@ -292,6 +289,7 @@
 				D6325F34B68645E47C4849F8 /* Sources */,
 				6F0560845CD268964C38BA14 /* Resources */,
 				0EC437302C3ED5A21576959A /* Frameworks */,
+				3C612D4F5B20653D7018FC9D /* Copy GoogleService-Info.plist if present */,
 			);
 			buildRules = (
 			);
@@ -322,7 +320,6 @@
 						TestTargetID = 7BCE0839F51E84DB565B8472;
 					};
 					7BCE0839F51E84DB565B8472 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -357,13 +354,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				F317B84A1FCB386C16AE3DC3 /* Assets.xcassets in Resources */,
-				CCF536C1A2D2BA183D2A2FA9 /* GoogleService-Info.plist in Resources */,
 				9E29A4A44AE5D7A74589EF83 /* PrivacyInfo.xcprivacy in Resources */,
 				0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C612D4F5B20653D7018FC9D /* Copy GoogleService-Info.plist if present */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy GoogleService-Info.plist if present";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PLIST=\"${SRCROOT}/TinyBrave/GoogleService-Info.plist\"\nif [ -f \"$PLIST\" ]; then\n  cp \"$PLIST\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		492FFEA57D308F0C980C1989 /* Sources */ = {
@@ -603,7 +621,6 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBrave.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -661,7 +678,6 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBraveRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;

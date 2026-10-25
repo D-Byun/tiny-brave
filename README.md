@@ -2,7 +2,10 @@
 
 A three-minute-a-day iOS app that helps middle school students practice social-emotional learning, one small brave thing at a time.
 
-[ADD SCREENSHOT HERE]
+<p>
+  <img src="screenshots/home.png" alt="Home screen with the Brave-o-Meter balloon and today's challenge" width="220">
+  <img src="screenshots/reflection.png" alt="After finishing a challenge: draw or record a private reflection" width="220">
+</p>
 
 ## What it does
 
@@ -23,7 +26,10 @@ The Track section keeps all your reflections and can play them back as a reel. A
 - **Brave Circles.** Add up to six friends with a code. Friends see each other's progress and streaks, and can send balloon pings and reactions. Drawings and recordings are never shared. You can remove or block a friend, or delete your circle data.
 - **Age check for Circles.** Circles ask for your age first. Students under 13 need a grown-up's OK before they can use Circles. Everything else in the app works without Circles.
 
-[ADD SCREENSHOT HERE]
+<p>
+  <img src="screenshots/track.png" alt="Track screen with stats, the reel button and saved drawings" width="220">
+  <img src="screenshots/circle.png" alt="Brave Circle screen with a friend code" width="220">
+</p>
 
 ### About the backend
 
@@ -59,13 +65,15 @@ You do **not** need a Firebase account, an Apple Developer account, or a `Google
 4. At the top of Xcode, pick the **TinyBrave** scheme and an iPhone simulator.
 5. Press **Cmd + R** to build and run.
 
+To run it on a real iPhone instead, select the **TinyBrave** target, open **Signing & Capabilities**, and pick your own team.
+
 To run the tests, press **Cmd + U**. The `FirestoreEmulatorTests` skip themselves unless the Firebase emulators are running. [BACKEND.md](BACKEND.md) explains how to run them.
 
 The project file is generated from [project.yml](project.yml) with [XcodeGen](https://github.com/yonaskolb/XcodeGen). You only need XcodeGen if you change `project.yml`.
 
 ## Demo
 
-[ADD VIDEO LINK HERE]
+Watch the demo video: https://canva.link/pe55yptc6ftomiq
 
 ## Future improvements
 

@@ -18,7 +18,17 @@ targets:
     platform: iOS
     sources:
       - path: TinyBrave
-        excludes: ["**/*.entitlements"]
+        excludes: ["**/*.entitlements", "GoogleService-Info.plist"]
+    # GoogleService-Info.plist is private and not in git, so it's copied only when it exists.
+    # Without it, Debug builds use local circles and Release builds turn circles off.
+    postBuildScripts:
+      - name: Copy GoogleService-Info.plist if present
+        basedOnDependencyAnalysis: false
+        script: |
+          PLIST="${SRCROOT}/TinyBrave/GoogleService-Info.plist"
+          if [ -f "$PLIST" ]; then
+            cp "$PLIST" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/"
+          fi
     dependencies:
       - package: Firebase
         product: FirebaseAuth
@@ -33,7 +43,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tinybrave.app
-        DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
         GENERATE_INFOPLIST_FILE: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

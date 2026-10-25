@@ -69,19 +69,19 @@ Use the same Google account for both CLIs (`firebase login`, `gcloud auth login`
    ```sh
    gcloud firestore backups schedules create --project=tiny-brave-app --database='(default)' --recurrence=daily --retention=7d
    ```
-7. **Register the iOS app** and drop its config into the app target:
+7. **Register the iOS app** and drop its config into the app folder:
    ```sh
    firebase apps:create IOS "Tiny Brave" --bundle-id com.tinybrave.app --project tiny-brave-app
    firebase apps:sdkconfig IOS APP_ID --project tiny-brave-app -o TinyBrave/GoogleService-Info.plist
-   xcodegen generate
    ```
+   The file is in `.gitignore`, so it never gets committed. A build step copies it into the app when it exists.
 
 ## Steps that need the Apple Developer account
 
 - **Signing.** Set `DEVELOPMENT_TEAM` in `project.yml`, then turn on Push Notifications, App Attest and Declared Age Range for `com.tinybrave.app`.
 - **Push.** Create an APNs auth key at developer.apple.com → Keys. Upload it in Firebase console → Project settings → Cloud Messaging.
 - **App Check.** In the Firebase console go to App Check → Apps, and register the iOS app with App Attest. For simulator runs, also add the debug token the app prints. Once real devices show verified requests:
-  - set `APP_CHECK_ENFORCED=true` in `functions/.env` and deploy again;
+  - copy `functions/.env.example` to `functions/.env`, set `APP_CHECK_ENFORCED=true` and deploy again;
   - turn on enforcement for Firestore in the console.
 - **Release builds.** Release builds already use `TinyBrave/TinyBraveRelease.entitlements`, which has the `production` push and App Attest environments. Debug device builds keep `TinyBrave.entitlements`.
 
