@@ -80,23 +80,23 @@ final class FlowUITests: XCTestCase {
     }
 
     func testHomeOffersOneTaskInListOrder() {
-        XCTAssertEqual(taskText.label, "Give someone a specific compliment.")
+        XCTAssertEqual(taskText.label, "Ask one question in class.")
         XCTAssertEqual(el("dayRound").label, "DAY 1 · ROUND 1")
         completeOne()
-        XCTAssertEqual(taskText.label, "Ask one question in class.")
+        XCTAssertEqual(taskText.label, "Give someone a specific compliment.")
         XCTAssertEqual(el("dayRound").label, "DAY 2 · ROUND 1")
     }
 
     func testSkippedTaskGoesToTheEndAndStaysSkippedAfterRelaunch() {
         app.buttons["not this brave. give other."].tap()
-        expectation(for: NSPredicate(format: "label == %@", "Ask one question in class."), evaluatedWith: taskText)
+        expectation(for: NSPredicate(format: "label == %@", "Give someone a specific compliment."), evaluatedWith: taskText)
         waitForExpectations(timeout: 5)
         XCTAssertEqual(el("dayRound").label, "DAY 1 · ROUND 1")
 
         app.terminate()
         app.launch()
         XCTAssertTrue(taskText.waitForExistence(timeout: 5))
-        XCTAssertEqual(taskText.label, "Ask one question in class.")
+        XCTAssertEqual(taskText.label, "Give someone a specific compliment.")
     }
 
     func testDrawingIsKeptAndShowsUpInTheTrackArchive() {
@@ -128,7 +128,7 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(el("playReel").exists)
         resetProgress()
         XCTAssertTrue(meter(0).waitForExistence(timeout: 8), "Reset should close Track and empty the balloon")
-        XCTAssertEqual(taskText.label, "Give someone a specific compliment.", "Reset should restore the original task order")
+        XCTAssertEqual(taskText.label, "Ask one question in class.", "Reset should restore the original task order")
     }
 
     func testEachTaskAddsAPuff() {

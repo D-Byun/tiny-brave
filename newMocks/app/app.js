@@ -1,6 +1,6 @@
 const challenges = [
-  { id: 1, category: "Connect", level: "tiny stretch", title: "Give someone a specific compliment.", why: "Not “nice shirt.” Tell them exactly what you noticed." },
-  { id: 2, category: "Speak", level: "tiny stretch", title: "Ask one question in class.", why: "Even if your voice does that weird squeak. Especially then." },
+  { id: 1, category: "Speak", level: "tiny stretch", title: "Ask one question in class.", why: "Even if your voice does that weird squeak. Especially then." },
+  { id: 2, category: "Connect", level: "tiny stretch", title: "Give someone a specific compliment.", why: "Not “nice shirt.” Tell them exactly what you noticed." },
   { id: 3, category: "Try", level: "warm-up", title: "Try one bite of something unfamiliar.", why: "Your taste buds deserve a plot twist." },
   { id: 4, category: "Connect", level: "tiny stretch", title: "Sit near someone new at lunch.", why: "You do not have to become best friends by dessert." },
   { id: 5, category: "Reset", level: "quiet brave", title: "Name the feeling you are actually having.", why: "Upgrade “fine” to one more honest word." },

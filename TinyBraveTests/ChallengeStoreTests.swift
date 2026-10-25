@@ -2,6 +2,8 @@ import XCTest
 @testable import TinyBrave
 
 final class ChallengeStoreTests: XCTestCase {
+    private let firstRoundIDs = Array(1...30)
+
     func testSixtyChallengesAcrossFourCategories() {
         let all = ChallengeStore.shared.all
         XCTAssertEqual(all.count, 60)
@@ -20,6 +22,50 @@ final class ChallengeStoreTests: XCTestCase {
     func testIDsAreUnique() {
         let ids = ChallengeStore.shared.all.map(\.id)
         XCTAssertEqual(Set(ids).count, ids.count)
+    }
+
+    func testFirstRoundOffersTheRequestedTaskList() {
+        let store = ChallengeStore.shared
+        let queue = TaskQueue(catalog: Rounds.catalog(round: 1, all: store.all), completed: [])
+        let tasks = queue.ids.compactMap(store.challenge(id:)).map(\.text)
+        XCTAssertEqual(tasks, [
+            "Ask one question in class.",
+            "Give someone a specific compliment.",
+            "Try one bite of something unfamiliar.",
+            "Sit near someone new at lunch.",
+            "Name the feeling you are actually having.",
+            "Say “I don’t understand yet.”",
+            "Text someone you have been meaning to check on.",
+            "Join something for ten minutes.",
+            "Take three slow breaths before replying.",
+            "Share an idea before it feels perfect.",
+            "Learn how to pronounce someone’s name.",
+            "Do one thing without asking if it looks cool.",
+            "Turn off your phone for twenty minutes.",
+            "Disagree without making it personal.",
+            "Invite someone who might be left out.",
+            "Attempt the hard version first.",
+            "Write down one thing you handled well.",
+            "Ask for help with one real thing.",
+            "Say thank you—and include the reason.",
+            "Start before you feel ready.",
+            "Replace one mean self-joke.",
+            "Tell a friend what you need.",
+            "Introduce yourself first.",
+            "Wear or carry something that feels like you.",
+            "Let one small mistake stay unhidden.",
+            "Say “no” to one thing you do not have room for.",
+            "Repair one awkward moment.",
+            "Show someone something you made.",
+            "Choose a second impression.",
+            "Stand up for someone in a small, safe way.",
+        ])
+    }
+
+    func testTaskNumbersFollowTheListOrder() {
+        let store = ChallengeStore.shared
+        XCTAssertEqual(store.challenge(id: 1)?.text, "Ask one question in class.")
+        XCTAssertEqual(store.challenge(id: 2)?.text, "Give someone a specific compliment.")
     }
 
     func testThereIsACaptionForEveryPuff() {
@@ -96,9 +142,9 @@ final class ChallengeStoreTests: XCTestCase {
 
     func testRoundsUseTheirOwnThirtyChallenges() {
         let all = ChallengeStore.shared.all
-        XCTAssertEqual(Rounds.catalog(round: 1, all: all), Array(1...30))
+        XCTAssertEqual(Rounds.catalog(round: 1, all: all), firstRoundIDs)
         XCTAssertEqual(Rounds.catalog(round: 2, all: all), Array(31...60))
-        XCTAssertEqual(Rounds.catalog(round: 3, all: all), Array(1...30))
+        XCTAssertEqual(Rounds.catalog(round: 3, all: all), firstRoundIDs)
         XCTAssertTrue(Rounds.isAllNew(2))
         XCTAssertFalse(Rounds.isAllNew(1))
     }
@@ -106,7 +152,7 @@ final class ChallengeStoreTests: XCTestCase {
     func testOnlyLaterRoundsStartShuffled() {
         let all = ChallengeStore.shared.all
         var rng = SystemRandomNumberGenerator()
-        XCTAssertEqual(Rounds.startingOrder(round: 1, all: all, using: &rng), Array(1...30))
+        XCTAssertEqual(Rounds.startingOrder(round: 1, all: all, using: &rng), firstRoundIDs)
         XCTAssertEqual(Rounds.startingOrder(round: 2, all: all, using: &rng), Array(31...60))
         let third = Rounds.startingOrder(round: 3, all: all, using: &rng)
         XCTAssertEqual(Set(third), Set(1...30))

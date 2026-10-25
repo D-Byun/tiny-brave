@@ -7,7 +7,7 @@ settings:
   base:
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "2"
 packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
@@ -33,14 +33,23 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tinybrave.app
-        # Device builds only, so simulator builds and tests don't need a signing team.
-        "CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]": TinyBrave/TinyBrave.entitlements
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGN_STYLE: Automatic
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         INFOPLIST_KEY_CFBundleDisplayName: Tiny Brave
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_NSMicrophoneUsageDescription: Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.
         TARGETED_DEVICE_FAMILY: "1"
+      # Entitlements apply to device builds only, so simulator builds and tests don't need a signing team.
+      # Release uses the production push and App Attest environments.
+      configs:
+        Debug:
+          "CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]": TinyBrave/TinyBrave.entitlements
+        Release:
+          "CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]": TinyBrave/TinyBraveRelease.entitlements
   TinyBraveTests:
     type: bundle.unit-test
     platform: iOS

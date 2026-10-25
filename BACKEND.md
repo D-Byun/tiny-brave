@@ -83,7 +83,7 @@ Use the same Google account for both CLIs (`firebase login`, `gcloud auth login`
 - **App Check.** In the Firebase console go to App Check → Apps, and register the iOS app with App Attest. For simulator runs, also add the debug token the app prints. Once real devices show verified requests:
   - set `APP_CHECK_ENFORCED=true` in `functions/.env` and deploy again;
   - turn on enforcement for Firestore in the console.
-- **Release builds.** Change `com.apple.developer.devicecheck.appattest-environment` in `TinyBrave/TinyBrave.entitlements` to `production`.
+- **Release builds.** Release builds already use `TinyBrave/TinyBraveRelease.entitlements`, which has the `production` push and App Attest environments. Debug device builds keep `TinyBrave.entitlements`.
 
 ## Later
 

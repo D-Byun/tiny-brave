@@ -36,12 +36,14 @@
 		95FF8663B7F4E6A7A14693A2 /* CircleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23AE2E5B80A1F997BC20A1 /* CircleModels.swift */; };
 		9C01FDF55987AD0D108623A0 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27B90C4270E4E7C1FD618B /* Confetti.swift */; };
 		9C070A21D58C0193D7A1B6ED /* CircleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF93CD4B60B419E4EA3FA5B1 /* CircleSheet.swift */; };
+		9E29A4A44AE5D7A74589EF83 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FDCEA813853C6CD018319332 /* PrivacyInfo.xcprivacy */; };
 		AD35396F256A318268C29B92 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC786DCF6D1EC047872403 /* ChallengeStoreTests.swift */; };
 		B3CFC5C9924506610FFD5990 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */; };
 		BA1E3860637280EFB841F1B6 /* CircleBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7353F0760F9CDE8899AF0 /* CircleBackend.swift */; };
 		BA4E1A0F1FB9243D4E15E4E1 /* RewardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17651D3E8D3F092803D4F0FC /* RewardCard.swift */; };
 		BD500927F7E1ECB13E5AFCFF /* BalloonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5347C63F1F8E5FB4D2815EE /* BalloonScene.swift */; };
 		C69902FA2D5588B1B43E8AC1 /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49991146C4F067FB02166EE /* Rewards.swift */; };
+		CCF536C1A2D2BA183D2A2FA9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */; };
 		D663278D89D4C9F3B603416D /* Dialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191ED519FD54D573ECC7BEAA /* Dialogs.swift */; };
 		E05FBD650242BE41F9B03F05 /* FirestoreEmulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */; };
 		E2184CB1FFF38D2D479472CF /* DrawingPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21ED47D5E22F6E2AD4D7032 /* DrawingPad.swift */; };
@@ -49,6 +51,7 @@
 		E3AFB52E4BA5B4EF6CE0ABBE /* TaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3C79D542F93F28A21DCD1 /* TaskQueueTests.swift */; };
 		EC2739B676C5B37A43B7C166 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B96B67CC3715075E4D897B0 /* Completion.swift */; };
 		F13626208D8D16B17028992A /* BraveMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11215797B499B0943D05F7D2 /* BraveMeterView.swift */; };
+		F317B84A1FCB386C16AE3DC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4870F3C052FB31E5877F36 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,10 +95,12 @@
 		9AB5163541750D7B0C746363 /* challenges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = challenges.json; sourceTree = "<group>"; };
 		9EF0B85907436B9889B1AE04 /* FirestoreCircleBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCircleBackend.swift; sourceTree = "<group>"; };
 		A00D6B79750D1555053BB7FD /* FirestoreEmulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreEmulatorTests.swift; sourceTree = "<group>"; };
+		A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A4EB6F92CDB36E5434EB852F /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		B251C05BEF58283ABD331427 /* ReelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelView.swift; sourceTree = "<group>"; };
 		B49991146C4F067FB02166EE /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		BB8E8D3D29EFA2894301DED7 /* FlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowUITests.swift; sourceTree = "<group>"; };
+		BF4870F3C052FB31E5877F36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C64C0333D04A1165588F9B5D /* TinyBraveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TinyBraveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CECD26160B9ECCA27949EF02 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D3B217CDE53BBB6BBC92769A /* BalloonSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonSceneTests.swift; sourceTree = "<group>"; };
@@ -109,6 +114,7 @@
 		EEC0FB48678900DC334EDEFF /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		F10F1C7BF7CF15CE77F42505 /* FinaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinaleView.swift; sourceTree = "<group>"; };
 		F6DD2D52AAE93C53C74E53B1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		FDCEA813853C6CD018319332 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +234,9 @@
 			isa = PBXGroup;
 			children = (
 				D8EC58B6F2A6876A46117F7C /* AppDelegate.swift */,
+				BF4870F3C052FB31E5877F36 /* Assets.xcassets */,
+				A40DD1EC558A8215B493B1DD /* GoogleService-Info.plist */,
+				FDCEA813853C6CD018319332 /* PrivacyInfo.xcprivacy */,
 				DEC48A924939CCF04BAA9148 /* TinyBraveApp.swift */,
 				850AA5A0911AA3F61D8D8AFA /* Components */,
 				040F4A02C32C9CDD8D844AED /* Data */,
@@ -312,6 +321,10 @@
 					3F1245F88AEB8DEAD4EE1239 = {
 						TestTargetID = 7BCE0839F51E84DB565B8472;
 					};
+					7BCE0839F51E84DB565B8472 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 475A73BDBFD7F85817250849 /* Build configuration list for PBXProject "TinyBrave" */;
@@ -343,6 +356,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F317B84A1FCB386C16AE3DC3 /* Assets.xcassets in Resources */,
+				CCF536C1A2D2BA183D2A2FA9 /* GoogleService-Info.plist in Resources */,
+				9E29A4A44AE5D7A74589EF83 /* PrivacyInfo.xcprivacy in Resources */,
 				0275FFA207DEBA9A0E4B9781 /* challenges.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +507,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -549,7 +565,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -586,8 +602,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBrave.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -639,10 +658,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBrave.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = TinyBrave/TinyBraveRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiny Brave";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tiny Brave uses the microphone only when you tap start recording, to keep a short recording of your brave moment.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;

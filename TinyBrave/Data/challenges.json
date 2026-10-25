@@ -1,6 +1,6 @@
 [
-  {"id":1,"category":"connect","level":"tiny stretch","text":"Give someone a specific compliment.","why":"Not “nice shirt.” Tell them exactly what you noticed."},
-  {"id":2,"category":"speak","level":"tiny stretch","text":"Ask one question in class.","why":"Even if your voice does that weird squeak. Especially then."},
+  {"id":1,"category":"speak","level":"tiny stretch","text":"Ask one question in class.","why":"Even if your voice does that weird squeak. Especially then."},
+  {"id":2,"category":"connect","level":"tiny stretch","text":"Give someone a specific compliment.","why":"Not “nice shirt.” Tell them exactly what you noticed."},
   {"id":3,"category":"try","level":"warm-up","text":"Try one bite of something unfamiliar.","why":"Your taste buds deserve a plot twist."},
   {"id":4,"category":"connect","level":"tiny stretch","text":"Sit near someone new at lunch.","why":"You do not have to become best friends by dessert."},
   {"id":5,"category":"reset","level":"quiet brave","text":"Name the feeling you are actually having.","why":"Upgrade “fine” to one more honest word."},
